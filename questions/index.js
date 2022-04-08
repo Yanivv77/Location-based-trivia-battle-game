@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 const express = require("express");
-const questions = require("./src/routes/questions");
+const questions = require("./routes/questions");
+
 const app = express();
+const cors = require("cors");
+
+app.use(cors());
+app.use(express.json());
 
 app.use("/api/questions",questions);
 

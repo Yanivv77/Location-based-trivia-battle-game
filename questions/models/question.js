@@ -1,16 +1,21 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const questionSchema = new mongoose.Schema({
   question: {
     type: String,
     required: true,
   },
-  answer: {
+  answers: {
     type: [],
     required: true,
   },
   correctAnswer: {
-    type: String,
+    type: Number,
+    range: {
+      min: { type: Number, min: 0 },
+      max: { type: Number, min: 3 },
+    },
     required: true,
   },
 });
@@ -21,7 +26,7 @@ function validateQuestion(question) {
   const joinSchema = Joi.object({
     question: Joi.string(),
     answers: Joi.array().items(Joi.string()),
-    correctAnswer: Joi.string,
+    correctAnswer: Joi.number().greater(-1).less(4),
   });
 
   return joinSchema.validate(question);
