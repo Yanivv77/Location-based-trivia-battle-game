@@ -11,9 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^6.2.10",
-    "express": "^4.17.3"
-
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "joi": "^17.6.0",
+    "mongoose": "^6.2.10"
   },
   "devDependencies": {
     "typescript": "^4.6.3"
