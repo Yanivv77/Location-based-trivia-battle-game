@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const express = require("express");
-
+const questions = require("./src/routes/questions");
 const app = express();
+
+app.use("/api/questions",questions);
 
 mongoose
   .connect(
@@ -15,11 +17,7 @@ mongoose
     console.log("could not connect to mongoDB", err);
   });
 
-app.get("/api/questions", (req, res) => {
-  res.send("hello from questions api");
-});
-
-const port = 5001 ;
+const port = 5001;
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
