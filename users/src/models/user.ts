@@ -4,7 +4,7 @@ import { Password } from '../services/password-hashing';
 // An interface that describes the properties
 // that are requried to create a new User
 interface UserAttrs {
-  user: string;
+  username: string;
   email: string;
   password: string;
   age: number;
@@ -19,7 +19,7 @@ interface UserModel extends mongoose.Model<UserDoc> {
 // An interface that describes the properties
 // that a User Document has
 interface UserDoc extends mongoose.Document {
-  user: string;
+  username: string;
   email: string;
   password: string;
   age: number;
