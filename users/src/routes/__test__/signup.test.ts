@@ -67,8 +67,10 @@ it('disallows duplicate emails', async () => {
   await request(app)
     .post('/api/users/signup')
     .send({
+      username : "test",
       email: 'test@test.com',
-      password: 'password'
+      password: 'password',
+      age : 14
     })
     .expect(400);
 });

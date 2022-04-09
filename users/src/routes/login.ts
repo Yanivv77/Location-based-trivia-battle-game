@@ -2,12 +2,13 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 
-import { Password } from '../services/password-hashing';
+import { Password } from '../utils/password-hashing';
 import { User } from '../models/user';
 import { validateRequest } from '../middlewares/validate-request';
 import { BadRequestError } from '../errors/bad-request-error';
 
 const router = express.Router();
+
 
 router.post(
   '/api/users/login',
@@ -55,4 +56,4 @@ router.post(
   }
 );
 
-export { router as signinRouter };
+export { router as loginRouter };

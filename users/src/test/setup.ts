@@ -34,7 +34,6 @@ afterAll(async () => {
 });
 
 
- 
 global.login = async () => {
   const username = 'test';
   const email = 'test@test.com';
