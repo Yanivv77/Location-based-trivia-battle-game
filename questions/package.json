@@ -16,7 +16,5 @@
     "joi": "^17.6.0",
     "mongoose": "^6.2.10"
   },
-  "devDependencies": {
-    "typescript": "^4.6.3"
-  }
+  "devDependencies": {}
 }
