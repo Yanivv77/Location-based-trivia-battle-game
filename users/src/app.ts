@@ -12,9 +12,6 @@ import { NotFoundError } from './errors/not-found-error';
 import 'dotenv/config' 
 import { userByNameRouter } from './routes/user-by-name';
 
-
-
-
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
