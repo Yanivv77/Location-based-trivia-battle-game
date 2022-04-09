@@ -2,7 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-
+import cors from 'cors' ;
 import { currentUserRouter } from './routes/current-user';
 import { loginRouter } from './routes/login';
 import { logoutRouter } from './routes/logout';
@@ -11,9 +11,6 @@ import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 import 'dotenv/config' 
 import { userByNameRouter } from './routes/user-by-name';
-const cors = require("cors");
-
-
 
 const app = express();
 app.set('trust proxy', true);
