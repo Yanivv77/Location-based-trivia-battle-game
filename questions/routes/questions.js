@@ -1,15 +1,18 @@
 const express = require("express");
-const { getAllQuestions, addQuestion, getTenQuestions } = require("../controllers/questions");
+const {
+  getAllQuestions,
+  getSingleRandomQuestion,
+  getTenRandomQuestions,
+  addQuestion,
+} = require("../controllers/questions");
 
 const router = express.Router();
 
 router.get("/", getAllQuestions);
 
-router.get("/randomQuestions", getTenQuestions);
+router.get("/randomQuestions/single", getSingleRandomQuestion);
 
-router.get("/:id", (req, res) => {
-  res.send("hello from single questions api");
-});
+router.get("/randomQuestions/many", getTenRandomQuestions);
 
 router.post("/", addQuestion);
 

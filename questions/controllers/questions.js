@@ -1,37 +1,37 @@
 const { validate, QuestionModel } = require("../models/question");
 
+// number of questions in each game
+const QUESTIONS_PER_GAME = 10;
+
+const getRandomQuestions = async (numberOfRandomQuestions) => {
+  let randomQuestions = await QuestionModel.aggregate([
+    { $sample: { size: numberOfRandomQuestions } },
+  ]);
+  return randomQuestions;
+};
+
 module.exports = {
   getAllQuestions: async (req, res) => {
     let questions = await QuestionModel.find();
     res.send(questions);
   },
-  getTenQuestions: async (req, res) => {
-    // for (let i = 0; i < 2; i++) {
-    //   // Get the count of all questions
-    //   await QuestionModel.count().exec(function (err, count) {
-    //     // Get a random entry
-    //     var random = Math.floor(Math.random() * count);
-
-    //     // Again query all questions but only fetch one offset by our random #
-    //     QuestionModel.findOne()
-    //       .skip(random)
-    //       .exec(function (err, result) {
-    //         // random question
-    //         res.send(result);
-    //       });
-    //   });
-    // }
+  getSingleRandomQuestion: async (req, res) => {
+    res.send(await getRandomQuestions(1));
+  },
+  getTenRandomQuestions: async (req, res) => {
+    res.send(await getRandomQuestions(QUESTIONS_PER_GAME));
   },
   addQuestion: async (req, res) => {
-    //Checking inputs validation, if error!=undefined(null) => meaning: 'error exist'
+    //Checking inputs validation with Joi, if error!=undefined(null) => meaning: 'error exist'
     let { error } = validate(req.body);
     if (error !== undefined && error.details !== undefined) {
       return res.status(400).send(error.details[0].message);
     }
     //Check if question already exist in DB
-    let _question = req.body.question;
+    let { location, question, options, correctAnswer } = req.body;
     let questionToFind = await QuestionModel.findOne({
-      question: _question,
+      location,
+      question,
     });
 
     // if questionToFind !==null => meaning: 'question exist'
@@ -40,12 +40,13 @@ module.exports = {
       return res.status(400).send({ message: "question already exist!" });
     }
     // if question not exist create new question model and save to DB
-    question = new QuestionModel({
-      question: req.body.question,
-      answers: req.body.answers,
-      correctAnswer: req.body.correctAnswer,
+    newQuestion = new QuestionModel({
+      location,
+      question,
+      options,
+      correctAnswer,
     });
-    let result = await question.save();
+    let result = await newQuestion.save();
     return res.send(result);
   },
 };
