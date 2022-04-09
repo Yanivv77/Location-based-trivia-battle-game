@@ -8,7 +8,7 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/questions",questions);
+app.use("/api/questions", questions);
 
 mongoose
   .connect(
@@ -22,6 +22,7 @@ mongoose
     console.log("could not connect to mongoDB", err);
   });
 
+// const port= process.env.QUESTIONS_PORT
 const port = 5001;
 
 app.listen(port, () => {

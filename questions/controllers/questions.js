@@ -1,4 +1,5 @@
-const { validate, QuestionModel } = require("../models/question");
+const { QuestionModel } = require("../models/question");
+const { validate } = require("../services/validation");
 
 // number of questions in each game
 const QUESTIONS_PER_GAME = 10;
