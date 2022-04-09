@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Password } from '../services/password-hashing';
+import { Password } from '../utils/password-hashing';
 
 // An interface that describes the properties
 // that are requried to create a new User

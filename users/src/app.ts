@@ -4,14 +4,13 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 
 import { currentUserRouter } from './routes/current-user';
-import { signinRouter } from './routes/login';
-import { signoutRouter } from './routes/logout';
+import { loginRouter } from './routes/login';
+import { logoutRouter } from './routes/logout';
 import { signupRouter } from './routes/signup';
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 import 'dotenv/config' 
-
-
+import { userByNameRouter } from './routes/user-by-name';
 
 const app = express();
 app.set('trust proxy', true);
@@ -23,9 +22,11 @@ app.use(
 );
 
 app.use(currentUserRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
+app.use(loginRouter);
+app.use(logoutRouter);
 app.use(signupRouter);
+app.use(userByNameRouter)
+
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();

@@ -8,7 +8,11 @@ const start = async () => {
   }
 
   try {
-    await mongoose.connect('mongodb+srv://admin:admin@usercluster.lb38v.mongodb.net/users');
+    if (!process.env.USERS_MONGO_URI) {
+      throw new Error('USERS_MONGO_URI must be defined');
+    }
+
+    await mongoose.connect(process.env.USERS_MONGO_URI);
     console.log('Connected to MongoDb');
   } catch (err) {
     console.error(err);
