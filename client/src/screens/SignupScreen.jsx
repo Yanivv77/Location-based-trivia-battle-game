@@ -1,14 +1,14 @@
 import React from 'react'
 import Header from '../components/Header'
-import Login from '../components/Login'
+import Signup from '../components/Signup'
 
-const MainMenu = () => {
+function SignupScreen() {
   return (
     <>
       <Header />
-      <Login />
+      <Signup />
     </>
   )
 }
 
-export default MainMenu
+export default SignupScreen
