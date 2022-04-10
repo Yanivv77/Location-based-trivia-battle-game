@@ -1,8 +1,32 @@
 import React from 'react'
+import { useState } from 'react'
+import useRequest from '../hooks/use-request'
+
 import { Grid, Paper, Avatar, Typography, TextField, Button } from '@material-ui/core'
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined'
 
 const Signup = () => {
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [age, setAge] = useState('')
+  const { doRequest, errors } = useRequest({
+    url: 'http://localhost:5000/api/users/signup',
+    method: 'post',
+    body: {
+      username,
+      email,
+      password,
+      age,
+    },
+  })
+
+  const onSubmit = async (event) => {
+    event.preventDefault()
+
+    await doRequest()
+  }
+
   const paperStyle = { padding: '30px 20px', width: 300, margin: '-20px auto' }
   const headerStyle = { margin: 0 }
   const avatarStyle = { backgroundColor: '#1bbd7e' }
@@ -18,12 +42,24 @@ const Signup = () => {
             Please fill this form to create an account !
           </Typography>
         </Grid>
-        <form>
-          <TextField fullWidth label="Username" placeholder="Enter your username" />
-          <TextField fullWidth label="Email" placeholder="Enter your email" />
-          <TextField fullWidth label="Password" placeholder="Enter your password" />
-          <TextField fullWidth label="Confirm Password" placeholder="Confirm your password" />
-
+        <form onSubmit={onSubmit}>
+          <TextField
+            fullWidth
+            label="Username"
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField fullWidth label="Email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <TextField fullWidth label="age" placeholder="Enter your age" value={age} onChange={(e) => setAge(e.target.value)} />
+          <TextField
+            fullWidth
+            label="Password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {errors}
           <Button className="my-3" type="submit" variant="contained" color="primary">
             Sign up
           </Button>
