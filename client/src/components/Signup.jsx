@@ -1,11 +1,13 @@
 import React from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useRequest from '../hooks/use-request'
 
 import { Grid, Paper, Avatar, Typography, TextField, Button } from '@material-ui/core'
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined'
 
 const Signup = () => {
+  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -19,6 +21,7 @@ const Signup = () => {
       password,
       age,
     },
+    onSuccess: () => navigate('/'),
   })
 
   const onSubmit = async (event) => {
@@ -58,6 +61,7 @@ const Signup = () => {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            type="password"
           />
           {errors}
           <Button className="my-3" type="submit" variant="contained" color="primary">

@@ -1,8 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import * as React from "react";
-import MainMenu from "./screens/MainMenu";
-import SignupScreen from "./screens/SignupScreen";
-import GameLobbyScreen from "./screens/GameLobbyScreen";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import * as React from 'react'
+import MainMenu from './screens/MainMenu'
+import SignupScreen from './screens/SignupScreen'
 
 function App() {
   return (
@@ -12,12 +11,11 @@ function App() {
           <Routes>
             <Route path="/" element={<MainMenu />} />
             <Route path="/signup" element={<SignupScreen />} />
-            <Route path="/gamelobby" element={<GameLobbyScreen />} />
           </Routes>
         </div>
       </Router>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
