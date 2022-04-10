@@ -50,4 +50,13 @@ module.exports = {
     let result = await newQuestion.save();
     return res.send(result);
   },
+  deleteQuestion: async (req, res) => {
+    let result = await QuestionModel.deleteOne({ _id: req.params.id });
+    res.send(result);
+  },
+  deleteAllQuestion: async (req, res) => {
+    let result = await QuestionModel.collection.drop();
+    console.log(result);
+    res.send(result);
+  },
 };
