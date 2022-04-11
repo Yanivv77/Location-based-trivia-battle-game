@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {logger}  from './logger';
 
 import { app } from './app';
 
@@ -18,8 +19,9 @@ const start = async () => {
     console.error(err);
   }
 
-  app.listen(5000, () => {
-    console.log('Listening on port 5000');
+  app.listen(process.env.PORT || 5000,  () => {
+    logger.info('Listening on port 5000', process.env.NODE_ENV)
+    
   });
 };
 
