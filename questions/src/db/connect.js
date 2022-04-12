@@ -1,5 +1,6 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
-require('dotenv').config()
+const logger = require("../services/logger");
 
 function connect() {
   const dbUri = process.env.QUESTIONS_MONGO_URI;
@@ -7,10 +8,10 @@ function connect() {
   return mongoose
     .connect(dbUri)
     .then(() => {
-      console.log("connected to mongoDB");
+      logger.info("connected to mongoDB");
     })
     .catch((err) => {
-      console.log("could not connect to mongoDB", err);
+      logger.error("could not connect to mongoDB", err);
       process.exit(1);
     });
 }
