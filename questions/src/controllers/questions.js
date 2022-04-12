@@ -1,8 +1,6 @@
 const { QuestionModel } = require("../models/question");
 const { validate } = require("../services/validation");
-
-// number of questions in each game
-const QUESTIONS_PER_GAME = 10;
+require("dotenv").config();
 
 const getRandomQuestions = async (numberOfRandomQuestions) => {
   let randomQuestions = await QuestionModel.aggregate([
@@ -20,7 +18,10 @@ module.exports = {
     res.send(await getRandomQuestions(1));
   },
   getTenRandomQuestions: async (req, res) => {
-    res.send(await getRandomQuestions(QUESTIONS_PER_GAME));
+    // number of questions in each game
+    res.send(
+      await getRandomQuestions(parseInt(process.env.QUESTIONS_PER_GAME))
+    );
   },
   addQuestion: async (req, res) => {
     //Checking inputs validation with Joi, if error!=undefined(null) => meaning: 'error exist'

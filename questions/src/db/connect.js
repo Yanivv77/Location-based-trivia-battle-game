@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+require('dotenv').config()
 
 function connect() {
-  const dbUri = "mongodb+srv://admin:admin@usercluster.lb38v.mongodb.net/questions";
-  
+  const dbUri = process.env.QUESTIONS_MONGO_URI;
+
   return mongoose
     .connect(dbUri)
     .then(() => {
@@ -10,8 +11,8 @@ function connect() {
     })
     .catch((err) => {
       console.log("could not connect to mongoDB", err);
-      process.exit(1)
+      process.exit(1);
     });
-};
+}
 
 module.exports = connect;
