@@ -1,7 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
 
 import useRequest from '../hooks/use-request'
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link } from '@material-ui/core'
