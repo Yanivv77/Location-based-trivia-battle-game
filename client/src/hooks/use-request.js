@@ -19,7 +19,7 @@ export default ({ url, method, body, onSuccess }) => {
     } catch (err) {
       setErrors(
         <div className="alert alert-danger">
-          <h5>Ooops....</h5>
+          <h5>Error...</h5>
           <ul className="my-0">
             {err.response.data.errors?.map((err) => (
               <li key={err.message}>{err.message}</li>

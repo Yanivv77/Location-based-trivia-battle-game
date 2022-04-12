@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import * as React from "react";
 import MainMenu from "./screens/MainMenu";
@@ -6,7 +7,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 
 function App() {
   return (
-    <>
+    <Suspense fallback={null}>
       <Router>
         <div className="container">
           <Routes>
@@ -16,7 +17,7 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </>
+    </Suspense>
   );
 }
 
