@@ -5,18 +5,24 @@ import { app } from './app';
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
+    logger.info('JWT_KEY must be defined', process.env.NODE_ENV)
     throw new Error('JWT_KEY must be defined');
   }
 
   try {
     if (!process.env.USERS_MONGO_URI) {
+      
+      logger.info('USERS_MONGO_URI must be defined', process.env.NODE_ENV)
       throw new Error('USERS_MONGO_URI must be defined');
     }
 
     await mongoose.connect(process.env.USERS_MONGO_URI);
-    console.log('Connected to MongoDb');
+    logger.info('Connected to MongoDb', process.env.NODE_ENV)
+    
   } catch (err) {
-    console.error(err);
+    const { message } = err as Error;
+    logger.info(message, process.env.NODE_ENV)
+    
   }
 
   app.listen(process.env.PORT || 5000,  () => {
