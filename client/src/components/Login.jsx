@@ -1,5 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 import useRequest from '../hooks/use-request'
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link } from '@material-ui/core'
@@ -8,6 +10,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 
 const Login = () => {
+  const { t } = useTranslation(["login"]);
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { doRequest, errors } = useRequest({
@@ -35,12 +39,12 @@ const Login = () => {
           <Avatar style={avatarStyle}>
             <LockOutlinedIcon />
           </Avatar>
-          <h2>Sign In</h2>
+          <h2>{t("sign in")}</h2>
         </Grid>
         <form onSubmit={onSubmit}>
           <TextField
             className="my-3"
-            label="Email"
+            label={t("email")}
             placeholder="Enter email"
             fullWidth
             required
@@ -48,7 +52,7 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
-            label="Password"
+            label={t("password")}
             placeholder="Enter password"
             type="password"
             fullWidth
@@ -56,14 +60,14 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <FormControlLabel control={<Checkbox name="checkedB" color="primary" />} label="Remember me" />
+          <FormControlLabel control={<Checkbox name="checkedB" color="primary" />} label={t("remember me")} />
           {errors}
           <Button type="submit" color="primary" variant="contained" style={btnStyle} fullWidth>
-            Sign in
+          {t("sign in")}
           </Button>
         </form>
         <Typography>
-          Don't have an account yet?<Link href="signup"> Sign Up</Link>
+         {t("don't have an account yet")}<Link href="signup">  {t("sign up")}</Link>
         </Typography>
       </Paper>
     </Grid>
