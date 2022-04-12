@@ -2,11 +2,14 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useRequest from '../hooks/use-request'
+import { useTranslation } from "react-i18next";
 
 import { Grid, Paper, Avatar, Typography, TextField, Button } from '@material-ui/core'
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined'
 
 const Signup = () => {
+  const { t } = useTranslation(["signup"]);
+
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -40,24 +43,24 @@ const Signup = () => {
           <Avatar style={avatarStyle}>
             <AddCircleOutlineOutlinedIcon />
           </Avatar>
-          <h2 style={headerStyle}>Sign Up</h2>
+          <h2 style={headerStyle}>{t("sign up")}</h2>
           <Typography variant="caption" gutterBottom>
-            Please fill this form to create an account !
+            {t("please fill this form to create an account")}
           </Typography>
         </Grid>
         <form onSubmit={onSubmit}>
           <TextField
             fullWidth
-            label="Username"
+            label={t("username")}
             placeholder="Enter your username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <TextField fullWidth label="Email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <TextField fullWidth label="age" placeholder="Enter your age" value={age} onChange={(e) => setAge(e.target.value)} />
+          <TextField fullWidth label={t("email")} placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <TextField fullWidth label={t("age")} placeholder="Enter your age" value={age} onChange={(e) => setAge(e.target.value)} />
           <TextField
             fullWidth
-            label="Password"
+            label={t("password")}
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -65,7 +68,7 @@ const Signup = () => {
           />
           {errors}
           <Button className="my-3" type="submit" variant="contained" color="primary">
-            Sign up
+          {t("sign up")}
           </Button>
         </form>
       </Paper>
