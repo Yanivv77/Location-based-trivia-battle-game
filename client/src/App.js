@@ -4,6 +4,7 @@ import * as React from "react";
 import MainMenu from "./screens/MainMenu";
 import SignupScreen from "./screens/SignupScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import GameLobbyScreen from "./screens/GameLobbyScreen";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<MainMenu />} />
             <Route path="/signup" element={<SignupScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
+            <Route path="/gamelobby" element={<GameLobbyScreen />} />
           </Routes>
         </div>
       </Router>
