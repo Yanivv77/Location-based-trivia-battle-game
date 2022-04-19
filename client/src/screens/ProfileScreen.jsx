@@ -18,6 +18,10 @@ function ProfileScreen() {
   );
   user = user || { id: 5, name: "John" };
 
+  const handleStartGame = () => {
+    navigate("/gamelobby");
+  };
+
   useEffect(() => {
     if (isError) {
       console.log(message);
@@ -54,6 +58,7 @@ function ProfileScreen() {
               size="large"
               color="secondary"
               sx={{ borderRadius: 10, mt: 5 }}
+              onClick={() => handleStartGame()}
             >
               Start New Game
             </Button>
