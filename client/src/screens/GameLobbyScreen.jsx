@@ -1,11 +1,11 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Grid, Button, Typography, Box, Paper } from "@mui/material";
-import TriviaLocation from "../components/Game/TriviaLocation";
-import OnlineUsers from "../components/Game/OnlineUsers";
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Button, Typography, Box, Paper } from '@mui/material'
+import TriviaLocation from '../components/Game/TriviaLocation'
+//import OnlineUsers from '../components/Game/OnlineUsers'
 
 const GameLobbyScreen = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <>
@@ -14,8 +14,8 @@ const GameLobbyScreen = () => {
         component="div"
         sx={{
           flexGrow: 1,
-          color: "##eeeeee",
-          textAlign: "center",
+          color: '##eeeeee',
+          textAlign: 'center',
           mt: 3,
           mb: 3,
         }}
@@ -25,9 +25,9 @@ const GameLobbyScreen = () => {
       <Paper
         elevation={3}
         sx={{
-          width: "100%",
-          height: "100%",
-          background: "#ffecb3",
+          width: '100%',
+          height: '100%',
+          background: '#ffecb3',
           p: 3,
         }}
       >
@@ -37,17 +37,17 @@ const GameLobbyScreen = () => {
           size="large"
           sx={{ borderRadius: 10, mt: 5 }}
           onClick={() => {
-            navigate("/profile");
+            navigate('/profile')
           }}
         >
           Go Back
         </Button>
-        <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
+        <Box sx={{ maxWidth: '400px', m: '0 auto' }}>
           <TriviaLocation />
         </Box>
       </Paper>
     </>
-  );
-};
+  )
+}
 
-export default GameLobbyScreen;
+export default GameLobbyScreen
