@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Grid, Button, Typography, Box, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -73,11 +74,12 @@ const TriviaLocation = () => {
               Location from list
             </Button>
           </Grid>
+
         </Grid>
         <NearByModal open={open} handleClose={handleClose} />
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default TriviaLocation;
+export default TriviaLocation

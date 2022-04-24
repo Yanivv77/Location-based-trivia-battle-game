@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button, Typography, Box, Paper } from "@mui/material";
@@ -18,6 +19,7 @@ import {
 
 const GameLobbyScreen = () => {
   const currentStage = useSelector((state) => state.game.stage);
+
 
   let gameStage;
   switch (currentStage) {
@@ -46,8 +48,8 @@ const GameLobbyScreen = () => {
         component="div"
         sx={{
           flexGrow: 1,
-          color: "##eeeeee",
-          textAlign: "center",
+          color: '##eeeeee',
+          textAlign: 'center',
           mt: 3,
           mb: 3,
         }}
@@ -57,16 +59,19 @@ const GameLobbyScreen = () => {
       <Paper
         elevation={3}
         sx={{
-          width: "100%",
-          height: "100%",
-          background: "#ffecb3",
+          width: '100%',
+          height: '100%',
+          background: '#ffecb3',
           p: 3,
         }}
       >
+
         {gameStage}
+
+
       </Paper>
     </>
-  );
-};
+  )
+}
 
-export default GameLobbyScreen;
+export default GameLobbyScreen
