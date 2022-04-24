@@ -1,12 +1,46 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Button, Typography, Box, Paper } from '@mui/material'
-import TriviaLocation from '../components/Game/TriviaLocation'
-//import OnlineUsers from '../components/Game/OnlineUsers'
+
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Grid, Button, Typography, Box, Paper } from "@mui/material";
+import TriviaLocationOptions from "../components/Game/TriviaLocation";
+import GameOptions from "../components/Game/GameOptions";
+import LoadingGame from "../components/Game/LoadingGame";
+import Game from "../components/Game/Game";
+import EndGame from "../components/Game/EndGame";
+
+import { useSelector } from "react-redux";
+import {
+  INIT_GAME,
+  LOADING_GAME,
+  GAME_OPTIONS,
+  GAME,
+  END_GAME,
+} from "../utils/gameConstants";
 
 const GameLobbyScreen = () => {
-  const navigate = useNavigate()
+  const currentStage = useSelector((state) => state.game.stage);
 
+
+  let gameStage;
+  switch (currentStage) {
+    case INIT_GAME:
+      gameStage = <TriviaLocationOptions />;
+      break;
+    case GAME_OPTIONS:
+      gameStage = <GameOptions />;
+      break;
+    case LOADING_GAME:
+      gameStage = <LoadingGame />;
+      break;
+    case GAME:
+      gameStage = <Game />;
+      break;
+    case END_GAME:
+      gameStage = <EndGame />;
+      break;
+    default:
+      break;
+  }
   return (
     <>
       <Typography
@@ -31,20 +65,10 @@ const GameLobbyScreen = () => {
           p: 3,
         }}
       >
-        <Button
-          variant="contained"
-          color="success"
-          size="large"
-          sx={{ borderRadius: 10, mt: 5 }}
-          onClick={() => {
-            navigate('/profile')
-          }}
-        >
-          Go Back
-        </Button>
-        <Box sx={{ maxWidth: '400px', m: '0 auto' }}>
-          <TriviaLocation />
-        </Box>
+
+        {gameStage}
+
+
       </Paper>
     </>
   )

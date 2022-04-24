@@ -6,6 +6,8 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { useDispatch } from "react-redux";
+import { setGame } from "../../features/game/gameSlice";
 
 const style = {
   position: "absolute",
@@ -26,6 +28,12 @@ const style = {
 };
 
 const NearByModal = ({ open, handleClose }) => {
+  const dispatch = useDispatch();
+
+  const handleNextButton = () => {
+    dispatch(setGame());
+  };
+
   return (
     <div>
       {" "}
@@ -67,9 +75,7 @@ const NearByModal = ({ open, handleClose }) => {
               color="success"
               size="medium"
               sx={{ borderRadius: 5, mt: 5 }}
-              // onClick={() => {
-              //   navigate("/profile");
-              // }}
+              onClick={handleNextButton}
             >
               Next
             </Button>
