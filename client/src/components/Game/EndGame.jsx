@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Grid, Button, Typography, Box, Paper } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import { restartGame } from "../../features/game/gameSlice";
 
 const EndGame = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentQuestionIndex, score, answers } = useSelector(
     (state) => state.quiz
@@ -17,18 +19,19 @@ const EndGame = () => {
 
   return (
     <>
-      <Button
-        variant="contained"
-        color="success"
-        size="large"
-        sx={{ borderRadius: 10, mt: 5 }}
-        onClick={() => {
-          dispatch(restartGame());
-        }}
-      >
-        Restart Game
-      </Button>
       <Box sx={{ m: "0 auto" }}>
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: "center",
+            mt: 2,
+            mb: 2,
+            fontWeight: "bold",
+            color: "##eeeeee",
+          }}
+        >
+          Very good !
+        </Typography>
         <Typography
           variant="h5"
           sx={{
@@ -41,6 +44,38 @@ const EndGame = () => {
         >
           Your score is {score}/10
         </Typography>
+
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          sx={{ mb: 2 }}
+        >
+          <Button
+            variant="contained"
+            color="success"
+            size="large"
+            sx={{ borderRadius: 10 }}
+            onClick={() => {
+              dispatch(restartGame());
+            }}
+          >
+            Play Again !
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            size="large"
+            sx={{ borderRadius: 10 }}
+            onClick={() => {
+              navigate("/profile");
+            }}
+          >
+            Exit Game
+          </Button>
+        </Stack>
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 450 }} aria-label="simple table">
             <TableHead>
