@@ -1,4 +1,4 @@
-import { createLogger, transports, format } from 'winston'
+import  winston, { createLogger, transports, format } from 'winston'
 
 
 const customFormat = format.combine(
@@ -17,7 +17,7 @@ const customFormat = format.combine(
 
 const logger = createLogger({
   format: customFormat,
-  transports: [new transports.Console({ level: 'info' }), new transports.File({ filename: 'app.log', level: 'info' })],
+  transports: [new transports.File({ filename: 'error.log', level: 'error' }),],
 })
 
 
