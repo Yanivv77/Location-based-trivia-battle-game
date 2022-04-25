@@ -4,6 +4,7 @@ import { finishGame } from "../game/gameSlice";
 
 const initialState = {
   questions: [],
+  answersToShow: [],
   error: null,
   score: null,
   currentQuestionIndex: null,
@@ -46,6 +47,9 @@ const quizSlice = createSlice({
     },
     nextQuestion(state) {
       state.currentQuestionIndex += 1;
+    },
+    resetState(state) {
+      state.answers = [];
     },
   },
   extraReducers: (builder) => {

@@ -47,9 +47,14 @@ const NavBar = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography
-            variant="h6"
+            variant="h4"
             component="div"
-            sx={{ flexGrow: 1, color: "#ff9800", placeSelf: "center" }}
+            sx={{
+              flexGrow: 1,
+              color: "#ff9800",
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
           >
             World Trivia Battle
           </Typography>

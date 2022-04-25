@@ -6,6 +6,7 @@ import { answerQuestion, nextQuestion } from "../../features/quiz/quizSlice";
 
 const Game = () => {
   const [timeLeft, setTimeLeft] = useState(60);
+  const [answers, setAnswers] = useState([]);
   const dispatch = useDispatch();
 
   const currentQuestion = useSelector((state) =>
@@ -25,6 +26,12 @@ const Game = () => {
       dispatch(finishGame());
     }
   }, [currentQuestionIndex]);
+  useEffect(() => {
+    setAnswers([
+      currentQuestion.correct_answer,
+      ...currentQuestion.incorrect_answers,
+    ]);
+  }, [currentQuestion]);
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft((prev) => prev - 1);
@@ -50,7 +57,7 @@ const Game = () => {
         EXIT GAME
       </Button>
       <Box sx={{ maxWidth: "400px", m: "0 auto", position: "relative" }}>
-        <Typography
+        {/* <Typography
           variant="h3"
           sx={{
             textAlign: "center",
@@ -61,21 +68,8 @@ const Game = () => {
           }}
         >
           Trivia
-        </Typography>
-        <Typography
-          variant="h6"
-          sx={{
-            textAlign: "center",
+        </Typography> */}
 
-            fontWeight: "bold",
-            color: "##eeeeee",
-            position: "absolute",
-            top: 0,
-            left: 0,
-          }}
-        >
-          {currentQuestionIndex + 1}/10
-        </Typography>
         <Typography
           variant="h6"
           sx={{
@@ -98,8 +92,8 @@ const Game = () => {
             fontWeight: "bold",
             color: "##eeeeee",
             position: "absolute",
-            top: 20,
-            right: 0,
+            top: 0,
+            left: 0,
           }}
         >
           Score : {score}
@@ -108,13 +102,24 @@ const Game = () => {
           <Grid
             container
             spacing={2}
-            direction="column"
             justifyContent="center"
             alignItems="center"
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", mt: 3 }}
           >
             <Grid item xs={12}>
-              <Paper sx={{ p: 3, mt: 3, mb: 3 }}>
+              <Paper sx={{ p: 2, pb: 2, mt: 3, mb: 3, borderRadius: "10px" }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    textAlign: "center",
+
+                    fontWeight: "bold",
+                    color: "##eeeeee",
+                    mb: 1,
+                  }}
+                >
+                  Question {currentQuestionIndex + 1}/10
+                </Typography>
                 <Typography
                   variant="h6"
                   sx={{
@@ -128,32 +133,31 @@ const Game = () => {
                 </Typography>
               </Paper>
             </Grid>
-            <Grid item xs={4}>
-              <Button
-                variant="contained"
-                color="secondary"
-                size="large"
-                sx={{ borderRadius: 10, mt: 5 }}
-                onClick={() => handleAnswer("True")}
-              >
-                True
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button
-                variant="contained"
-                color="secondary"
-                size="large"
-                sx={{ borderRadius: 10, mt: 3 }}
-                onClick={() => handleAnswer("False")}
-              >
-                False
-              </Button>
-            </Grid>
+            {answers.length &&
+              answers.map((answer) => (
+                <Grid item xs={6}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      minWidth: "150px",
+                      borderRadius: 10,
+                      mt: 5,
+                      backgroundColor: "secondary.main",
+                      "&:hover": {
+                        backgroundColor: "secondary.dark",
+                        // opacity: [0.9, 0.8, 0.7],
+                      },
+                    }}
+                    onClick={() => handleAnswer(answer)}
+                  >
+                    {answer}
+                  </Button>
+                </Grid>
+              ))}
           </Grid>
         </Box>
       </Box>
-      ;
     </>
   );
 };
