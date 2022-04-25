@@ -1,7 +1,8 @@
 import axios from "axios";
 
 //Base URL to Quiz Service
-const API_URL = "https://opentdb.com/api.php?amount=10&type=boolean";
+const API_URL =
+  "https://opentdb.com/api.php?amount=10&category=22&type=multiple";
 
 // Fetch Questions
 const getQuestions = async () => {

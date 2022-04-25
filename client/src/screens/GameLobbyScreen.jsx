@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button, Typography, Box, Paper } from "@mui/material";
@@ -19,7 +18,6 @@ import {
 
 const GameLobbyScreen = () => {
   const currentStage = useSelector((state) => state.game.stage);
-
 
   let gameStage;
   switch (currentStage) {
@@ -48,10 +46,12 @@ const GameLobbyScreen = () => {
         component="div"
         sx={{
           flexGrow: 1,
-          color: '##eeeeee',
-          textAlign: 'center',
-          mt: 3,
-          mb: 3,
+          color: "##eeeeee",
+          textAlign: "center",
+          pt: 3,
+          pb: 3,
+
+          background: "rgb(243, 168, 71)",
         }}
       >
         Game Lobby
@@ -59,19 +59,18 @@ const GameLobbyScreen = () => {
       <Paper
         elevation={3}
         sx={{
-          width: '100%',
-          height: '100%',
-          background: '#ffecb3',
+          width: "100%",
+          height: "100%",
+          background:
+            "url(https://imgc.allpostersimages.com/img/posters/aged-treasure-map-background_u-L-F78UCO0.jpg?artHeight=900&artPerspective=n&artWidth=900) no-repeat fixed center",
+          backgroundSize: "cover",
           p: 3,
         }}
       >
-
         {gameStage}
-
-
       </Paper>
     </>
-  )
-}
+  );
+};
 
-export default GameLobbyScreen
+export default GameLobbyScreen;
