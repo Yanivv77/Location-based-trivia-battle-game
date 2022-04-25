@@ -11,7 +11,7 @@ function LeaderBoardItem(props) {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "#sF5F5F5",
+              backgroundColor: "#F5F5F5",
               borderRadius: "11px",
               padding: "10px 15px",
               marginBottom: "10px",

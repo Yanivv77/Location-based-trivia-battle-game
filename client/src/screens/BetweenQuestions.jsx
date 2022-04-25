@@ -15,7 +15,7 @@ function BetweenQuestions(props) {
         Settings
       </Button>
 
-      <div className="main-container" style={{ marginTop: "20%" }}>
+      <div className="main-container" style={{ marginTop: "10%" }}>
         <LeaderBoard usersList={usersList} />
 
         <div
