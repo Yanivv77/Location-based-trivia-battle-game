@@ -6,6 +6,7 @@ import SignupScreen from './screens/SignupScreen'
 import LoginScreen from './screens/LoginScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import GameLobbyScreen from './screens/GameLobbyScreen'
+import InviteUsers from './screens/InviteUsers';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/signup" element={<SignupScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/gamelobby" element={<GameLobbyScreen />} />
+            <Route path="/inviteUsers" element={<InviteUsers />} />
           </Routes>
         </div>
       </Router>
