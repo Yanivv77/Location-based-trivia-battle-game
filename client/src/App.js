@@ -7,6 +7,8 @@ import LoginScreen from './screens/LoginScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import GameLobbyScreen from './screens/GameLobbyScreen'
 import InviteUsers from './screens/InviteUsers';
+import BetweenQuestions from './screens/BetweenQuestions'
+import EndGame from './screens/EndGame';
 
 function App() {
   return (
@@ -20,6 +22,9 @@ function App() {
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/gamelobby" element={<GameLobbyScreen />} />
             <Route path="/inviteUsers" element={<InviteUsers />} />
+            <Route path="/betweenQuestions" element={<BetweenQuestions />} />
+            <Route path="/endGame" element={<EndGame />} />
+            
           </Routes>
         </div>
       </Router>
