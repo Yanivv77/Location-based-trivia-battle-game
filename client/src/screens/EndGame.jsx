@@ -15,19 +15,26 @@ function EndGame(props) {
         Settings
       </Button>
 
-      <div style={{ marginTop: "20%" }}>
+      <div style={{ marginTop: "10%" }}>
         <LeaderBoard usersList={usersList} />
 
         <div
           className="options-buttons"
-          style={{ margin: "auto", width: "70%",marginTop:"50px" }}
-
+          style={{
+            display: "flex",
+            margin: "auto",
+            width: "90%",
+            marginTop: "40px",
+          }}
         >
           <Button
             variant="contained"
             color="primary"
             size="small"
-            style={{ width: "70%",display:"block",margin:"auto", marginBottom: "10px" }}
+            style={{
+              width: "100%",
+              margin: "5px",
+            }}
           >
             Play again
           </Button>
@@ -35,7 +42,7 @@ function EndGame(props) {
             variant="contained"
             color="primary"
             size="small"
-            style={{ width: "70%",display:"block",margin:"auto" }}
+            style={{ width: "100%", margin: "5px" }}
           >
             End game
           </Button>

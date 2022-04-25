@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { Button } from "@mui/material";
 import LeaderBoardItem from "./../components/LeaderBoardItem";
 
 function LeaderBoard(props) {
@@ -9,7 +7,7 @@ function LeaderBoard(props) {
       <div
         className="leader-board"
         style={{
-          width: "fit-content",
+          width: "90%",
           margin: "auto",
           textAlign: "center",
         }}

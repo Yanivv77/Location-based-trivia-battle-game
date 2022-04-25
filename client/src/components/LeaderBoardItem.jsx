@@ -11,17 +11,17 @@ function LeaderBoardItem(props) {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "white",
-              borderRadius: "7px",
-              padding: "8px 15px",
+              backgroundColor: "#sF5F5F5",
+              borderRadius: "11px",
+              padding: "10px 15px",
               marginBottom: "10px",
             }}
           >
             <div className="user">
-              {index + 1}. {user.userName}
+              {index + 1})
             </div>
-
-            <div className="points">{user.points}</div>
+            {user.userName}
+            <div className="points">{user.points} pt</div>
           </div>
         );
       })}
