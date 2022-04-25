@@ -26,7 +26,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function MultipleSelect(props) {
+export default function MultipleUsersSelect(props) {
     const {usersList}= props;
 
     const [selectedUser, setSelectedUser] = React.useState([]);

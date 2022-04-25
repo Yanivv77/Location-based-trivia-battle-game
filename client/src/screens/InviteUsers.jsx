@@ -1,7 +1,7 @@
 import Input from "./../components/Input";
 import { Button } from "@mui/material";
-import MultipleSelect from "../components/MultipleUsersSelect";
 import { useState } from "react";
+import MultipleUsersSelect from "../components/MultipleUsersSelect";
 
 function InviteUsers() {
   const [usersList, setUsersList] = useState([
@@ -34,7 +34,7 @@ function InviteUsers() {
             style={{ display: "inline-grid", marginBottom: "20px" }}
           >
             <p>Or you can add online users from list:</p>
-            <MultipleSelect usersList={usersList} />
+            <MultipleUsersSelect usersList={usersList} />
           </div>
         </div>
         <div
@@ -70,7 +70,7 @@ function InviteUsers() {
             variant="contained"
             color="primary"
             size="small"
-            style={{ width: "100%", marginBottom: "10px" }}
+            style={{ width: "70%",display:"block",margin:"auto", marginBottom: "10px" }}
           >
             Start game
           </Button>
@@ -78,7 +78,7 @@ function InviteUsers() {
             variant="contained"
             color="primary"
             size="small"
-            style={{ width: "100%" }}
+            style={{ width: "70%",display:"block",margin:"auto" }}
           >
             Back to menu
           </Button>
