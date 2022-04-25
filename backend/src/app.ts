@@ -1,24 +1,22 @@
 import express from 'express';
 import 'express-async-errors';
+import 'dotenv/config';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import cors from 'cors' ;
-import { currentUserRouter } from './routes/current-user';
-import { loginRouter } from './routes/login';
-import { logoutRouter } from './routes/logout';
-import { signupRouter } from './routes/signup';
+import { currentUserRouter } from './routes/auth/current-user';
+import { loginRouter } from './routes/auth/login';
+import { logoutRouter } from './routes/auth/logout';
+import { signupRouter } from './routes/auth/signup';
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
-import 'dotenv/config' 
-import { userByNameRouter } from './routes/user-by-name';
 
 const app = express();
 app.set('trust proxy', true);
-app.use(cors());
 app.use(json());
 app.use(
   cookieSession({
     signed: false,
+    
   })
 );
 
@@ -26,8 +24,6 @@ app.use(currentUserRouter);
 app.use(loginRouter);
 app.use(logoutRouter);
 app.use(signupRouter);
-app.use(userByNameRouter)
-
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
