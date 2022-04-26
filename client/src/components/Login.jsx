@@ -3,11 +3,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as linked } from 'react-router-dom'
 import useRequest from '../hooks/use-request'
-import { Grid, Paper, TextField, Button, Typography, Link } from '@material-ui/core'
+import { Grid, Paper, TextField, Button, Typography, Link, FormControlLabel, Checkbox } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 
 const Login = () => {
   const { t } = useTranslation(['login'])

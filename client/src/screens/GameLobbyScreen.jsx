@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Typography, Box, Paper } from '@mui/material'
 import TriviaLocation from '../components/Game/TriviaLocation'
+import Helps from '../components/Helps'
 //import OnlineUsers from '../components/Game/OnlineUsers'
 
 const GameLobbyScreen = () => {
@@ -45,6 +46,8 @@ const GameLobbyScreen = () => {
         <Box sx={{ maxWidth: '400px', m: '0 auto' }}>
           <TriviaLocation />
         </Box>
+
+        <Helps></Helps>
       </Paper>
     </>
   )
