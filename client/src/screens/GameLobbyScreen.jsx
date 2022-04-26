@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button, Typography, Box, Paper } from "@mui/material";
@@ -16,14 +15,6 @@ import {
   GAME,
   END_GAME,
 } from "../utils/gameConstants";
-=======
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Button, Typography, Box, Paper } from '@mui/material'
-import TriviaLocation from '../components/Game/TriviaLocation'
-import Helps from '../components/Helps'
-//import OnlineUsers from '../components/Game/OnlineUsers'
->>>>>>> b82ccdbda3cf00fb753dc9eb50a104e78e3d7a44
 
 const GameLobbyScreen = () => {
   const currentStage = useSelector((state) => state.game.stage);
@@ -95,6 +86,9 @@ const GameLobbyScreen = () => {
         </Box>
 
         <Helps></Helps>
+<<<<<<< HEAD
+>>>>>>> b82ccdbda3cf00fb753dc9eb50a104e78e3d7a44
+=======
 >>>>>>> b82ccdbda3cf00fb753dc9eb50a104e78e3d7a44
       </Paper>
     </>
