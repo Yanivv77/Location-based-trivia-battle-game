@@ -14,7 +14,7 @@ router.post(
     body('username')
       .trim()
       .isLength({ min: 4, max: 20 })
-      .withMessage('username must be between 4 and 20 characters'),
+      .withMessage('Username must be between 4 and 20 characters'),
     body('email')
       .isEmail()
       .withMessage('Email must be valid'),
@@ -25,7 +25,7 @@ router.post(
       body('age')
       .trim()
       .isInt({ min: 1, max: 120 })
-      .withMessage('age must be between 1 and 120 ')
+      .withMessage('Age must be between 1 and 120 ')
   ],
   validateRequest,
   async (req: Request, res: Response) => {
