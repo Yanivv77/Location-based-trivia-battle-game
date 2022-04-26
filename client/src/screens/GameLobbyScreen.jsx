@@ -8,6 +8,7 @@ import Game from "../components/Game/Game";
 import EndGame from "../components/Game/EndGame";
 
 import { useSelector } from "react-redux";
+import TriviaLocation from "./../components/Game/TriviaLocation";
 import {
   INIT_GAME,
   LOADING_GAME,
@@ -67,29 +68,23 @@ const GameLobbyScreen = () => {
           p: 3,
         }}
       >
-<<<<<<< HEAD
         {gameStage}
-=======
         <Button
           variant="contained"
           color="success"
           size="large"
           sx={{ borderRadius: 10, mt: 5 }}
           onClick={() => {
-            navigate('/profile')
+            // navigate("/profile");
           }}
         >
           Go Back
         </Button>
-        <Box sx={{ maxWidth: '400px', m: '0 auto' }}>
+        <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
           <TriviaLocation />
         </Box>
 
-        <Helps></Helps>
-<<<<<<< HEAD
->>>>>>> b82ccdbda3cf00fb753dc9eb50a104e78e3d7a44
-=======
->>>>>>> b82ccdbda3cf00fb753dc9eb50a104e78e3d7a44
+        {/* <Helps></Helps> */}
       </Paper>
     </>
   );
