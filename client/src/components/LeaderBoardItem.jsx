@@ -1,6 +1,9 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 
 function LeaderBoardItem(props) {
+  const { t } = useTranslation(["Game/LeaderBoard"]);
+
   return (
     <div className="items">
       {props.usersList.map((user, index) => {
@@ -21,7 +24,7 @@ function LeaderBoardItem(props) {
               {index + 1})
             </div>
             {user.userName}
-            <div className="points">{user.points} pt</div>
+            <div className="points">{user.points} {t("pt")}</div>
           </div>
         );
       })}

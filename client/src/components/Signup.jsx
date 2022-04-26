@@ -5,7 +5,7 @@ import useRequest from '../hooks/use-request'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-import { Grid, Paper, Typography, TextField, Button } from '@material-ui/core'
+import { Grid, Paper, Typography, TextField, Button } from '@mui/material'
 
 const Signup = () => {
   const { t } = useTranslation(['signup'])

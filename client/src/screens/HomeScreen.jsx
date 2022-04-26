@@ -2,6 +2,7 @@ import Header from '../components/Header'
 import React, { useEffect } from 'react'
 import { Grid, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import Helps from '../components/Helps'
 
 function HomeScreen() {
   useEffect(() => {
@@ -37,7 +38,7 @@ function HomeScreen() {
             </Button>
           </Grid>
         </Grid>
-
+        <Helps></Helps>
         <div className=" w-55 container d-flex justify-content-center">
           <lottie-player
             src="https://assets4.lottiefiles.com/private_files/lf30_c7xcgjbt.json"

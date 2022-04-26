@@ -2,8 +2,12 @@ import Input from "./../components/Input";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import MultipleUsersSelect from "../components/MultipleUsersSelect";
+import GameHeader from "./../components/GameHeader";
+import { useTranslation } from "react-i18next";
 
 function InviteUsers() {
+  const { t } = useTranslation(["Game/InviteUsers"]);
+
   const [usersList, setUsersList] = useState([
     { userName: "user 1", status: "accepted" },
     { userName: "user 2", status: "pending" },
@@ -12,19 +16,19 @@ function InviteUsers() {
 
   return (
     <div>
-      <Button variant="contained" color="primary" size="small">
-        Settings
-      </Button>
+      <GameHeader />
 
       <div className="main-container" style={{ marginTop: "10%" }}>
         <div className="invite-options">
           <div className="users-by-link">
-            <p> Send invitation link to friends and family to play with</p>
+            <p>
+              {t("send invitation link to friends and family to play with")}
+            </p>
 
             <div style={{ display: "flex", marginBottom: "20px" }}>
-              <Input values={{ placeholder: "Enter email" }} />
+              <Input values={{ placeholder: t("enter email") }} />
               <Button variant="contained" color="primary" size="small">
-                Send
+                {t("send")}
               </Button>
             </div>
           </div>
@@ -33,15 +37,20 @@ function InviteUsers() {
             className="users-from-list"
             style={{ display: "inline-grid", marginBottom: "20px" }}
           >
-            <p>Or you can add online users from list:</p>
-            <MultipleUsersSelect usersList={usersList} />
+            <p>{t("or you can add online users from list")}</p>
+            <MultipleUsersSelect
+              usersList={usersList}
+              label={t("select user")}
+            />
           </div>
         </div>
         <div
           className="total-invited"
           style={{ textAlign: "center", marginBottom: "30px" }}
         >
-          <p>Total invited: {usersList.length}</p>
+          <p>
+            {t("total invited")} {usersList.length}
+          </p>
 
           <div
             style={{
@@ -50,7 +59,7 @@ function InviteUsers() {
               margin: "auto",
             }}
           >
-            <h2>Invited Players</h2>
+            <h2>{t("invited players")}</h2>
             <br />
             {usersList.map((user) => {
               return (
@@ -70,17 +79,22 @@ function InviteUsers() {
             variant="contained"
             color="primary"
             size="small"
-            style={{ width: "70%",display:"block",margin:"auto", marginBottom: "10px" }}
+            style={{
+              width: "70%",
+              display: "block",
+              margin: "auto",
+              marginBottom: "10px",
+            }}
           >
-            Start game
+            {t("start game")}
           </Button>
           <Button
             variant="contained"
             color="primary"
             size="small"
-            style={{ width: "70%",display:"block",margin:"auto" }}
+            style={{ width: "70%", display: "block", margin: "auto" }}
           >
-            Back to menu
+            {t("back to menu")}
           </Button>
         </div>
       </div>

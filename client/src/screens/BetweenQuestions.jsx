@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
-import LeaderBoard from './../components/LeaderBoard';
+import LeaderBoard from "./../components/LeaderBoard";
+import GameHeader from "../components/GameHeader";
+import { useTranslation } from 'react-i18next';
 
 function BetweenQuestions(props) {
+  const { t } = useTranslation(["Game/BetweenQuestions"]);
+
   const [usersList, setUsersList] = useState([
     { userName: "user 1", points: 11 },
     { userName: "user 2", points: 8 },
@@ -11,9 +15,7 @@ function BetweenQuestions(props) {
   ]);
   return (
     <div>
-      <Button variant="contained" color="primary" size="small">
-        Settings
-      </Button>
+      <GameHeader />
 
       <div className="main-container" style={{ marginTop: "10%" }}>
         <LeaderBoard usersList={usersList} />
@@ -28,7 +30,7 @@ function BetweenQuestions(props) {
             marginBottom: "40px",
           }}
         >
-          <h1>The right answer is:</h1>
+          <h1>{t("the right answer is")}</h1>
         </div>
 
         <div
