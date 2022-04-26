@@ -8,6 +8,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { useDispatch } from "react-redux";
 import { setGame } from "../../features/game/gameSlice";
+import useGeoLocation from "../../hooks/useGeoLocation";
 
 const style = {
   position: "absolute",
@@ -29,6 +30,8 @@ const style = {
 
 const NearByModal = ({ open, handleClose }) => {
   const dispatch = useDispatch();
+  const location = useGeoLocation();
+  console.log(location);
 
   const handleNextButton = () => {
     dispatch(setGame());
@@ -67,7 +70,10 @@ const NearByModal = ({ open, handleClose }) => {
                 variant="body"
                 component="p"
               >
-                Your location is Nof Agalil
+                {location.loaded
+                  ? `lat: ${location.coordinates.lat} , long: ${location.coordinates.lng}`
+                  : "Location not ready yet"}
+                {/* Your location is Nof Agalil */}
               </Typography>
             </Paper>
             <Button
@@ -84,9 +90,7 @@ const NearByModal = ({ open, handleClose }) => {
               color="success"
               size="medium"
               sx={{ borderRadius: 5, mt: 5 }}
-              // onClick={() => {
-              //   navigate("/profile");
-              // }}
+              onClick={handleClose}
             >
               Go Back
             </Button>

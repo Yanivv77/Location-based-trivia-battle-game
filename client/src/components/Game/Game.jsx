@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Button, Typography, Box, Paper } from "@mui/material";
+import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { restartGame, finishGame } from "../../features/game/gameSlice";
+import {
+  betweenQuestions,
+  restartGame,
+  finishGame,
+} from "../../features/game/gameSlice";
 import { answerQuestion, nextQuestion } from "../../features/quiz/quizSlice";
 
 const Game = () => {
@@ -19,13 +23,16 @@ const Game = () => {
   const handleAnswer = (answer) => {
     dispatch(answerQuestion({ answer }));
 
-    setTimeout(() => dispatch(nextQuestion()), 1000);
+    setTimeout(() => dispatch(nextQuestion()), 3600);
+    setTimeout(() => dispatch(betweenQuestions()), 1000);
   };
+
   useEffect(() => {
     if (currentQuestionIndex === 10) {
       dispatch(finishGame());
     }
   }, [currentQuestionIndex]);
+
   useEffect(() => {
     setAnswers([
       currentQuestion.correct_answer,
@@ -99,13 +106,7 @@ const Game = () => {
           Score : {score}
         </Typography>
         <Box>
-          <Grid
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%", mt: 3 }}
-          >
+          <Grid container spacing={2} sx={{ width: "100%", mt: 3 }}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, pb: 2, mt: 3, mb: 3, borderRadius: "10px" }}>
                 <Typography
@@ -135,14 +136,14 @@ const Game = () => {
             </Grid>
             {answers.length &&
               answers.map((answer) => (
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <Button
                     variant="contained"
                     size="large"
                     sx={{
                       minWidth: "150px",
                       borderRadius: 10,
-                      mt: 5,
+
                       backgroundColor: "secondary.main",
                       "&:hover": {
                         backgroundColor: "secondary.dark",

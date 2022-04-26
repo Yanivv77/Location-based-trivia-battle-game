@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
@@ -9,8 +9,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { restartGame } from "../../features/game/gameSlice";
+import LiderBoard from "../LeaderBoard";
+import LeaderBoard from "../LeaderBoard";
 
 const EndGame = () => {
+  const [usersList, setUsersList] = useState([
+    { userName: "user 1", points: "6/10" },
+    { userName: "user 2", points: "8/10" },
+    { userName: "user 3", points: "5/10" },
+    { userName: "user 4", points: "3/10" },
+  ]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentQuestionIndex, score, answers } = useSelector(
@@ -75,8 +83,8 @@ const EndGame = () => {
             Exit Game
           </Button>
         </Stack>
-
-        <TableContainer component={Paper}>
+        <LeaderBoard usersList={usersList} />
+        {/* <TableContainer component={Paper}>
           <Table sx={{ minWidth: 450 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -104,7 +112,7 @@ const EndGame = () => {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
+        </TableContainer> */}
       </Box>
     </>
   );

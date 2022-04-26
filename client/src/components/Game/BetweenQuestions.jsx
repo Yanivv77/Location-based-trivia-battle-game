@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
-import LeaderBoard from "./../components/LeaderBoard";
+import LeaderBoard from "../LeaderBoard";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  restartGame,
+  finishGame,
+  startGame,
+} from "../../features/game/gameSlice";
+import { answerQuestion, nextQuestion } from "../../features/quiz/quizSlice";
 
 function BetweenQuestions(props) {
   const [usersList, setUsersList] = useState([
@@ -9,12 +16,23 @@ function BetweenQuestions(props) {
     { userName: "user 3", points: 5 },
     { userName: "user 4", points: 3 },
   ]);
+  const dispatch = useDispatch();
+
+  const currentQuestion = useSelector((state) =>
+    state.quiz.questions[state.quiz.currentQuestionIndex]
+      ? state.quiz.questions[state.quiz.currentQuestionIndex]
+      : state.quiz.questions[state.quiz.currentQuestionIndex - 1]
+  );
+  const { currentQuestionIndex, score } = useSelector((state) => state.quiz);
+  useEffect(() => {
+    //     dispatch(nextQuestion());
+    //     dispatch(startGame());
+    setTimeout(() => {
+      dispatch(startGame());
+    }, 2000);
+  }, []);
   return (
     <div>
-      <Button variant="contained" color="primary" size="small">
-        Settings
-      </Button>
-
       <div className="main-container" style={{ marginTop: "20%" }}>
         <LeaderBoard usersList={usersList} />
 
@@ -40,7 +58,7 @@ function BetweenQuestions(props) {
             textAlign: "center",
           }}
         >
-          Random fact
+          {currentQuestion.correct_answer}
         </div>
       </div>
     </div>

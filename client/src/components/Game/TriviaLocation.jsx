@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Grid, Button, Typography, Box, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +5,7 @@ import NearByModal from "../Game/NearByModal";
 
 const TriviaLocation = () => {
   const [open, setOpen] = React.useState(false);
+
   const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -74,12 +74,11 @@ const TriviaLocation = () => {
               Location from list
             </Button>
           </Grid>
-
         </Grid>
         <NearByModal open={open} handleClose={handleClose} />
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default TriviaLocation
+export default TriviaLocation;

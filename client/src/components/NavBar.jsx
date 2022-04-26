@@ -8,6 +8,7 @@ import {
   Button,
   IconButton,
   Menu,
+  Box,
   Toolbar,
   Grid,
 } from "@mui/material";
@@ -27,19 +28,18 @@ const NavBar = (props) => {
     console.log("close");
   };
   const handleMenu = () => {
-    console.log("menu");
+    // props.setOpen(true);
   };
 
   return (
     <header>
-      <AppBar position="static" sx={{ background: "#ffb74d", borderRadius: 5 }}>
+      <AppBar position="static" sx={{ backgroundColor: "secondary.dark" }}>
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
-            color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 1, color: "#f9fbe7" }}
             onClick={() => {
               props.setOpen(true);
             }}
@@ -51,8 +51,9 @@ const NavBar = (props) => {
             component="div"
             sx={{
               flexGrow: 1,
-              color: "#ff9800",
+              color: "#e65100",
               textAlign: "center",
+              fontSize: { xs: "15px", sm: "20px", md: "26px" },
               fontWeight: "bold",
             }}
           >
@@ -63,11 +64,15 @@ const NavBar = (props) => {
               <Typography
                 variant="h6"
                 component="div"
-                sx={{ color: "#0277bd" }}
+                sx={{
+                  color: "#f9fbe7",
+                  fontSize: { xs: "10px", sm: "16px" },
+                  ml: { xs: 1 },
+                }}
               >
                 Welcome , {user.name}
               </Typography>
-              <div>
+              <Box>
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -96,7 +101,7 @@ const NavBar = (props) => {
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                   <MenuItem onClick={handleClose}>My account</MenuItem>
                 </Menu>
-              </div>
+              </Box>
             </>
           )}
         </Toolbar>
