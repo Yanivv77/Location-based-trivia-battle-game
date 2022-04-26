@@ -21,8 +21,9 @@ function GameHeader() {
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <Button variant="contained" color="primary" size="small">
-        {t("settings")}
+      <Button   variant="contained" color="primary" size="small">
+        {/* {t("settings")} */}
+        <i className="bi bi-gear-fill">
       </Button>
       <select
         value={localStorage.getItem("i18nextLng")}

@@ -19,7 +19,10 @@ function InviteUsers() {
       <GameHeader />
 
       <div className="main-container" style={{ marginTop: "10%" }}>
-        <div className="invite-options" style={{width:"fit-content",margin:"auto"}}>
+        <div
+          className="invite-options"
+          style={{ width: "fit-content", margin: "auto" }}
+        >
           <div className="users-by-link">
             <p>
               {t("send invitation link to friends and family to play with")}
@@ -73,11 +76,11 @@ function InviteUsers() {
         </div>
         <div
           className="options-buttons"
-          style={{ margin: "auto", width: "70%" }}
+          style={{ margin: "auto", width: "50%" }}
         >
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             size="small"
             style={{
               width: "70%",
