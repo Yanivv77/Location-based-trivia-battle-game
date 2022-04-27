@@ -5,10 +5,12 @@ import { fetchQuestions } from "../../features/quiz/quizSlice";
 
 const LoadingGame = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchQuestions());
     setTimeout(() => dispatch(startGame()), 3000);
-  });
+  }, []);
+
   return (
     <div className=" w-55 container d-flex justify-content-center">
       <lottie-player

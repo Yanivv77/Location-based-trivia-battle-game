@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button, Typography, Box, Paper } from "@mui/material";
 import TriviaLocationOptions from "../components/Game/TriviaLocation";
@@ -6,6 +6,9 @@ import GameOptions from "../components/Game/GameOptions";
 import LoadingGame from "../components/Game/LoadingGame";
 import Game from "../components/Game/Game";
 import EndGame from "../components/Game/EndGame";
+import BetweenQuestions from "../components/Game/BetweenQuestions";
+import NavBar from "../components/NavBar";
+import LeftSideMenu from "../components/LeftSideMenu";
 
 import { useSelector } from "react-redux";
 import TriviaLocation from "./../components/Game/TriviaLocation";
@@ -13,11 +16,13 @@ import {
   INIT_GAME,
   LOADING_GAME,
   GAME_OPTIONS,
+  BETWEEN_QUESTIONS,
   GAME,
   END_GAME,
 } from "../utils/gameConstants";
 
 const GameLobbyScreen = () => {
+  const [open, setOpen] = useState(false);
   const currentStage = useSelector((state) => state.game.stage);
 
   let gameStage;
@@ -34,6 +39,9 @@ const GameLobbyScreen = () => {
     case GAME:
       gameStage = <Game />;
       break;
+    case BETWEEN_QUESTIONS:
+      gameStage = <BetweenQuestions />;
+      break;
     case END_GAME:
       gameStage = <EndGame />;
       break;
@@ -42,7 +50,7 @@ const GameLobbyScreen = () => {
   }
   return (
     <>
-      <Typography
+      {/* <Typography
         variant="h3"
         component="div"
         sx={{
@@ -56,7 +64,8 @@ const GameLobbyScreen = () => {
         }}
       >
         Game Lobby
-      </Typography>
+      </Typography> */}
+      <NavBar setOpen={setOpen} />
       <Paper
         elevation={3}
         sx={{
@@ -86,6 +95,7 @@ const GameLobbyScreen = () => {
 
         {/* <Helps></Helps> */}
       </Paper>
+      <LeftSideMenu open={setOpen} isOpen={open} />
     </>
   );
 };
