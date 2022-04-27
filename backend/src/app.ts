@@ -6,6 +6,7 @@ import cookieSession from 'cookie-session';
 import { json } from 'body-parser';
 import { currentUserRouter } from './routes/auth/current-user';
 import { loginRouter } from './routes/auth/login';
+import { authGoogleRouter } from './routes/auth/google-auth';
 import { logoutRouter } from './routes/auth/logout';
 import { signupRouter } from './routes/auth/signup';
 import { errorHandler } from './middlewares/error-handler';
@@ -28,6 +29,7 @@ app.use(currentUserRouter);
 app.use(loginRouter);
 app.use(logoutRouter);
 app.use(signupRouter);
+app.use(authGoogleRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
