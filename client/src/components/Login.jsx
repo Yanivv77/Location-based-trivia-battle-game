@@ -1,8 +1,9 @@
 import React from 'react'
+import useRequest from '../hooks/use-request'
+import LoginButton from './LoginButton'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as linked } from 'react-router-dom'
-import useRequest from '../hooks/use-request'
 import { Grid, Paper, TextField, Button, Typography, Link, FormControlLabel, Checkbox } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
@@ -75,7 +76,9 @@ const Login = () => {
           <Typography>
             {t("don't have an account yet")}
             <Link href="signup"> {t('sign up')}</Link>
+            <LoginButton></LoginButton>
           </Typography>
+
           <Button variant="contained" color="secondary" size="medium" sx={{ borderRadius: 10, mt: 2, p: 0 }} component={linked} to="/">
             back
           </Button>
