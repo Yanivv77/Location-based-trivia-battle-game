@@ -1,6 +1,9 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 
 function LeaderBoardItem(props) {
+  const { t } = useTranslation(["Game/LeaderBoard"]);
+
   return (
     <div className="items">
       {props.usersList.map((user, index) => {
@@ -11,17 +14,17 @@ function LeaderBoardItem(props) {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "white",
-              borderRadius: "7px",
-              padding: "8px 15px",
+              backgroundColor: "#F5F5F5",
+              borderRadius: "11px",
+              padding: "10px 15px",
               marginBottom: "10px",
             }}
           >
             <div className="user">
-              {index + 1}. {user.userName}
+              {index + 1})
             </div>
-
-            <div className="points">{user.points}</div>
+            {user.userName}
+            <div className="points">{user.points} {t("pt")}</div>
           </div>
         );
       })}

@@ -1,8 +1,12 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
 import LeaderBoard from "../components/LeaderBoard";
+import GameHeader from "./../components/GameHeader";
+import { useTranslation } from "react-i18next";
 
 function EndGame(props) {
+  const { t } = useTranslation(["Game/EndGame"]);
+
   const [usersList, setUsersList] = useState([
     { userName: "user 1", points: 11 },
     { userName: "user 2", points: 8 },
@@ -11,34 +15,47 @@ function EndGame(props) {
   ]);
   return (
     <div>
-      <Button variant="contained" color="primary" size="small">
-        Settings
-      </Button>
+      <GameHeader />
 
-      <div style={{ marginTop: "20%" }}>
+      <div style={{ marginTop: "10%" }}>
         <LeaderBoard usersList={usersList} />
 
         <div
           className="options-buttons"
-          style={{ margin: "auto", width: "70%",marginTop:"50px" }}
-
+          style={{
+            display: "flex",
+            margin: "auto",
+            width: "90%",
+            marginTop: "70px",
+          }}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            style={{ width: "70%",display:"block",margin:"auto", marginBottom: "10px" }}
+          <div
+            style={{
+              display: "flex",
+              margin: "auto",
+              width: "50%",
+            }}
           >
-            Play again
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            style={{ width: "70%",display:"block",margin:"auto" }}
-          >
-            End game
-          </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              style={{
+                width: "100%",
+                margin: "5px",
+              }}
+            >
+              {t("play again")}
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              style={{ width: "100%", margin: "5px" }}
+            >
+              {t("end game")}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

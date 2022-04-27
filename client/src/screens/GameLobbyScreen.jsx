@@ -11,6 +11,7 @@ import NavBar from "../components/NavBar";
 import LeftSideMenu from "../components/LeftSideMenu";
 
 import { useSelector } from "react-redux";
+import TriviaLocation from "./../components/Game/TriviaLocation";
 import {
   INIT_GAME,
   LOADING_GAME,
@@ -77,6 +78,22 @@ const GameLobbyScreen = () => {
         }}
       >
         {gameStage}
+        <Button
+          variant="contained"
+          color="success"
+          size="large"
+          sx={{ borderRadius: 10, mt: 5 }}
+          onClick={() => {
+            // navigate("/profile");
+          }}
+        >
+          Go Back
+        </Button>
+        <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
+          <TriviaLocation />
+        </Box>
+
+        {/* <Helps></Helps> */}
       </Paper>
       <LeftSideMenu open={setOpen} isOpen={open} />
     </>

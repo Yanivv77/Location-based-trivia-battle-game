@@ -3,11 +3,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link as linked } from 'react-router-dom'
 import useRequest from '../hooks/use-request'
-import { Grid, Paper, TextField, Button, Typography, Link } from '@material-ui/core'
+import { Grid, Paper, TextField, Button, Typography, Link, FormControlLabel, Checkbox } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 
 const Login = () => {
   const { t } = useTranslation(['login'])
@@ -70,7 +67,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel control={<Checkbox name="checkedB" color="primary" />} label={t('remember me')} />
-            {errors}
+
             <Button type="submit" color="primary" variant="contained" style={btnStyle} fullWidth>
               {t('sign in')}
             </Button>
@@ -79,12 +76,21 @@ const Login = () => {
             {t("don't have an account yet")}
             <Link href="signup"> {t('sign up')}</Link>
           </Typography>
+          <Button variant="contained" color="secondary" size="medium" sx={{ borderRadius: 10, mt: 2, p: 0 }} component={linked} to="/">
+            back
+          </Button>
         </Paper>
-      </Grid>
-      <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
-        <Button variant="contained" color="default" size="medium" sx={{ borderRadius: 10, mb: 20, p: 0 }} component={linked} to="/">
-          back
-        </Button>
+        <div className="d-flex justify-content-center">
+          <div
+            style={{
+              width: '74vh',
+              margin: '4',
+            }}
+          >
+            <br />
+            {errors}
+          </div>
+        </div>
       </Grid>
     </>
   )

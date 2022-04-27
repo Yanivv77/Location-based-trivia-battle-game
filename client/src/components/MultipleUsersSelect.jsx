@@ -45,12 +45,12 @@ export default function MultipleUsersSelect(props) {
   return (
     <div>
              <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id="demo-multiple-name-label">Select user</InputLabel>
+            <InputLabel id="demo-multiple-name-label">{props.label}</InputLabel>
             <Select
               multiple
               value={selectedUser}
               onChange={handleChange}
-              input={<OutlinedInput label="Select user" />}
+              input={<OutlinedInput label={props.label} />}
               MenuProps={MenuProps}
             >
               {usersList.map((user) => (

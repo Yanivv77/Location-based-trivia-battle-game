@@ -5,7 +5,7 @@ import useRequest from '../hooks/use-request'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-import { Grid, Paper, Typography, TextField, Button } from '@material-ui/core'
+import { Grid, Paper, Typography, TextField, Button, Box } from '@mui/material'
 
 const Signup = () => {
   const { t } = useTranslation(['signup'])
@@ -79,17 +79,36 @@ const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
               type="password"
             />
-            {errors}
+
             <Button className="my-3" type="submit" variant="contained" color="primary">
               {t('sign up')}
             </Button>
           </form>
+          <Box container spacing={5} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
+            <Button
+              className="my-7 mr-4"
+              variant="contained"
+              color="secondary"
+              size="medium"
+              sx={{ borderRadius: 10, mb: 0, p: 0 }}
+              component={Link}
+              to="/"
+            >
+              back
+            </Button>
+          </Box>
         </Paper>
-      </Grid>
-      <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
-        <Button variant="contained" color="default" size="medium" sx={{ borderRadius: 10, mb: 20, p: 0 }} component={Link} to="/">
-          back
-        </Button>
+        <div className="d-flex justify-content-center">
+          <div
+            style={{
+              width: '74vh',
+              margin: '4',
+            }}
+          >
+            <br />
+            {errors}
+          </div>
+        </div>
       </Grid>
     </>
   )
