@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Link, useNavigate } from "react-router-dom";
 import {
   List,
@@ -13,15 +12,13 @@ import {
   Box,
 } from "@mui/material";
 import { Language, IosShare, Phone, Logout } from "@mui/icons-material";
-
 import { useSelector, useDispatch } from "react-redux";
-
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 const LeftSideMenu = (props) => {
-  const { i18n, t } = useTranslation(["header"]);
+  const { i18n, t } = useTranslation(["LeftSideMenu"]);
 
   useEffect(() => {
     let userLang = navigator.language || navigator.userLanguage;
@@ -51,7 +48,7 @@ const LeftSideMenu = (props) => {
           }}
         >
           <Typography variant="h5" sx={{ textAlign: "center", mt: 3 }}>
-            Settings
+            {t("settings")}
           </Typography>
 
           <List>
@@ -106,7 +103,7 @@ const LeftSideMenu = (props) => {
               <ListItemIcon sx={{ color: "white" }}>
                 <IosShare />
               </ListItemIcon>
-              <ListItemText primary="Apply for expert" />
+              <ListItemText primary={t("apply for expert")} />
             </ListItem>
             <ListItem
               button
@@ -121,7 +118,7 @@ const LeftSideMenu = (props) => {
               <ListItemIcon sx={{ color: "white" }}>
                 <Phone />
               </ListItemIcon>
-              <ListItemText primary="Contact us" />
+              <ListItemText primary={t("contact us")} />
             </ListItem>
             <Divider />
             <ListItem
@@ -137,7 +134,7 @@ const LeftSideMenu = (props) => {
               <ListItemIcon sx={{ color: "white" }}>
                 <Logout />
               </ListItemIcon>
-              <ListItemText primary="Logout" />
+              <ListItemText primary={t("logout")} />
             </ListItem>
           </List>
         </Box>
