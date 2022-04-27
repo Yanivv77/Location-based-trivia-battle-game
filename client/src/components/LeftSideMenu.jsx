@@ -1,12 +1,37 @@
-import React from 'react'
-
-import { Link, useNavigate } from 'react-router-dom'
-import { List, ListItem, ListItemIcon, ListItemText, Drawer, Divider, Typography, Button, Box } from '@mui/material'
-import { Language, IosShare, Phone, Logout } from '@mui/icons-material'
-
-import { useSelector, useDispatch } from 'react-redux'
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Drawer,
+  Divider,
+  Typography,
+  Button,
+  Box,
+} from "@mui/material";
+import { Language, IosShare, Phone, Logout } from "@mui/icons-material";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const LeftSideMenu = (props) => {
+  const { i18n, t } = useTranslation(["LeftSideMenu"]);
+
+  useEffect(() => {
+    let userLang = navigator.language || navigator.userLanguage;
+    userLang = userLang.split("-");
+    if (localStorage.getItem("i18nextLng")?.length > 2) {
+      i18next.changeLanguage(userLang[0]);
+    }
+  }, []);
+
+  const handleLanguageChange = (e) => {
+    i18n.changeLanguage(e.target.value);
+  };
+
   return (
     <>
       <Drawer anchor="left" open={props.isOpen} onClose={() => props.open(false)}>
@@ -18,8 +43,8 @@ const LeftSideMenu = (props) => {
             height: '100%',
           }}
         >
-          <Typography variant="h5" sx={{ textAlign: 'center', mt: 3 }}>
-            Settings
+          <Typography variant="h5" sx={{ textAlign: "center", mt: 3 }}>
+            {t("settings")}
           </Typography>
 
           <List>
@@ -51,7 +76,7 @@ const LeftSideMenu = (props) => {
               <ListItemIcon sx={{ color: 'white' }}>
                 <IosShare />
               </ListItemIcon>
-              <ListItemText primary="Apply for expert" />
+              <ListItemText primary={t("apply for expert")} />
             </ListItem>
             <ListItem
               button
@@ -66,7 +91,7 @@ const LeftSideMenu = (props) => {
               <ListItemIcon sx={{ color: 'white' }}>
                 <Phone />
               </ListItemIcon>
-              <ListItemText primary="Contact us" />
+              <ListItemText primary={t("contact us")} />
             </ListItem>
             <Divider />
             <ListItem
@@ -82,7 +107,7 @@ const LeftSideMenu = (props) => {
               <ListItemIcon sx={{ color: 'white' }}>
                 <Logout />
               </ListItemIcon>
-              <ListItemText primary="Logout" />
+              <ListItemText primary={t("logout")} />
             </ListItem>
           </List>
         </Box>
