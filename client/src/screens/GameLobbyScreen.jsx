@@ -12,6 +12,7 @@ import LeftSideMenu from "../components/LeftSideMenu";
 
 import { useSelector } from "react-redux";
 import TriviaLocation from "./../components/Game/TriviaLocation";
+import Helps from './../components/Helps';
 import {
   INIT_GAME,
   LOADING_GAME,
@@ -93,7 +94,7 @@ const GameLobbyScreen = () => {
           <TriviaLocation />
         </Box>
 
-        {/* <Helps></Helps> */}
+        <Helps></Helps>
       </Paper>
       <LeftSideMenu open={setOpen} isOpen={open} />
     </>
