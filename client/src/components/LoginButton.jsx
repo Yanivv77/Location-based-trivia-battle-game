@@ -12,7 +12,7 @@ export default function LoginButton() {
     console.log(response)
     axios({
       method: 'POST',
-      url: 'http://localhost:5000/api/auth/google',
+      url: 'http://localhost:5000/api/users/googlelogin',
       data: { tokenId: response.tokenId },
     }).then((response) => {
       console.log('Google login success', response)

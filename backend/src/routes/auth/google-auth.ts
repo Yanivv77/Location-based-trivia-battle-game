@@ -8,25 +8,17 @@ import { BadRequestError } from '../../errors/bad-request-error';
 
 const router = express.Router();
 const client = new OAuth2Client( "602070662525-cg5up3456lcbdngu7nhji2j6inpi8t1b.apps.googleusercontent.com" );
-router.post("/api/users/googlelogin",  [
-  body('email')
-    .isEmail()
-    .withMessage('Email must be valid'),
-  body('password')
-    .trim()
-    .notEmpty()
-    .withMessage('You must supply a password')
-],
-validateRequest,
+router.post("/api/users/googlelogin", (req, res) => {
+    const { tokenId } = req.body;
+
 async (req: Request, res: Response) => {
-  const { email, password } = req.body;
   const { tokenId } = req.body;
 
-    client.verifyIdToken({ idToken: tokenId, audience: "602070662525-cg5up3456lcbdngu7nhji2j6inpi8t1b.apps.googleusercontent.com", })
-      .then (async(response:any) => {
-        const { email_verified, email } = response.payload;
-        console.log({email})
-        const googleUser = await User.findOne({ email });    
+  client.verifyIdToken({ idToken: tokenId, audience: "602070662525-cg5up3456lcbdngu7nhji2j6inpi8t1b.apps.googleusercontent.com", })
+  .then (async(response:any) => {
+    const { email_verified, email } = response.payload;
+    console.log({email})
+    const googleUser = await User.findOne({ email });    
 
         // console.log(googleUser);
         if (!email_verified) 
@@ -35,7 +27,7 @@ async (req: Request, res: Response) => {
           if (googleUser) {
         const token = jwt.sign({ userId: googleUser.id }
           , "It is a big secret"
-          , { expiresIn: "1h", }
+          , { expiresIn: "4h", }
           );
         
           console.log("User has login!");
@@ -44,9 +36,13 @@ async (req: Request, res: Response) => {
 
         let password = email + "222";
         let newUser = new User({ email, password }).save();
-        });
-  });  
 
+        
+        // Store it on session object
+    
 
+      });
+    };  
+  });
 
 export {router as authGoogleRouter}
