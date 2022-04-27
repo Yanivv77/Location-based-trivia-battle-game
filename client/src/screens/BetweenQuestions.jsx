@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
 import LeaderBoard from "./../components/LeaderBoard";
+
 import GameHeader from "../components/GameHeader";
 import { useTranslation } from 'react-i18next';
+
 
 function BetweenQuestions(props) {
   const { t } = useTranslation(["Game/BetweenQuestions"]);

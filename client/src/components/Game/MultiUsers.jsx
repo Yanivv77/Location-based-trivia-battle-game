@@ -1,37 +1,33 @@
-import Input from "./../components/Input";
+import React, { useState } from "react";
+import Input from "../Input";
 import { Button } from "@mui/material";
-import { useState } from "react";
-import MultipleUsersSelect from "../components/MultipleUsersSelect";
-import GameHeader from "./../components/GameHeader";
-import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { restartGame, loadGame } from "../../features/game/gameSlice";
 
-function InviteUsers() {
-  const { t } = useTranslation(["Game/InviteUsers"]);
+import MultipleUsersSelect from "../MultipleUsersSelect";
 
+const MultiUsers = () => {
   const [usersList, setUsersList] = useState([
     { userName: "user 1", status: "accepted" },
     { userName: "user 2", status: "pending" },
     { userName: "user 3", status: "accepted" },
   ]);
-
+  const dispatch = useDispatch();
   return (
     <div>
-      <GameHeader />
+      <Button variant="contained" color="primary" size="small">
+        Settings
+      </Button>
 
       <div className="main-container" style={{ marginTop: "10%" }}>
-        <div
-          className="invite-options"
-          style={{ width: "fit-content", margin: "auto" }}
-        >
+        <div className="invite-options">
           <div className="users-by-link">
-            <p>
-              {t("send invitation link to friends and family to play with")}
-            </p>
+            <p> Send invitation link to friends and family to play with</p>
 
             <div style={{ display: "flex", marginBottom: "20px" }}>
-              <Input values={{ placeholder: t("enter email") }} />
+              <Input values={{ placeholder: "Enter email" }} />
               <Button variant="contained" color="primary" size="small">
-                {t("send")}
+                Send
               </Button>
             </div>
           </div>
@@ -40,20 +36,15 @@ function InviteUsers() {
             className="users-from-list"
             style={{ display: "inline-grid", marginBottom: "20px" }}
           >
-            <p>{t("or you can add online users from list")}</p>
-            <MultipleUsersSelect
-              usersList={usersList}
-              label={t("select user")}
-            />
+            <p>Or you can add online users from list:</p>
+            <MultipleUsersSelect usersList={usersList} />
           </div>
         </div>
         <div
           className="total-invited"
           style={{ textAlign: "center", marginBottom: "30px" }}
         >
-          <p>
-            {t("total invited")} {usersList.length}
-          </p>
+          <p>Total invited: {usersList.length}</p>
 
           <div
             style={{
@@ -62,7 +53,7 @@ function InviteUsers() {
               margin: "auto",
             }}
           >
-            <h2>{t("invited players")}</h2>
+            <h2>Invited Players</h2>
             <br />
             {usersList.map((user) => {
               return (
@@ -76,11 +67,11 @@ function InviteUsers() {
         </div>
         <div
           className="options-buttons"
-          style={{ margin: "auto", width: "50%" }}
+          style={{ margin: "auto", width: "70%" }}
         >
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             size="small"
             style={{
               width: "70%",
@@ -88,8 +79,9 @@ function InviteUsers() {
               margin: "auto",
               marginBottom: "10px",
             }}
+            onClick={() => dispatch(loadGame())}
           >
-            {t("start game")}
+            Start game
           </Button>
           <Button
             variant="contained"
@@ -97,12 +89,12 @@ function InviteUsers() {
             size="small"
             style={{ width: "70%", display: "block", margin: "auto" }}
           >
-            {t("back to menu")}
+            Back to menu
           </Button>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default InviteUsers;
+export default MultiUsers;

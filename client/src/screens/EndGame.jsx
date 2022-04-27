@@ -26,28 +26,36 @@ function EndGame(props) {
             display: "flex",
             margin: "auto",
             width: "90%",
-            marginTop: "40px",
+            marginTop: "70px",
           }}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
+          <div
             style={{
-              width: "100%",
-              margin: "5px",
+              display: "flex",
+              margin: "auto",
+              width: "50%",
             }}
           >
-            {t("play again")}
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            style={{ width: "100%", margin: "5px" }}
-          >
-            {t("end game")}
-          </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              style={{
+                width: "100%",
+                margin: "5px",
+              }}
+            >
+              {t("play again")}
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              style={{ width: "100%", margin: "5px" }}
+            >
+              {t("end game")}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

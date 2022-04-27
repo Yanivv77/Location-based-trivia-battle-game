@@ -4,6 +4,7 @@ import {
   LOADING_GAME,
   GAME_OPTIONS,
   GAME,
+  BETWEEN_QUESTIONS,
   END_GAME,
 } from "../../utils/gameConstants";
 
@@ -28,6 +29,10 @@ const gameState = createSlice({
       //  state.username = action.payload.username;
       state.stage = GAME;
     },
+    betweenQuestions(state) {
+      //  state.username = action.payload.username;
+      state.stage = BETWEEN_QUESTIONS;
+    },
 
     finishGame(state) {
       state.stage = END_GAME;
@@ -47,7 +52,13 @@ const gameState = createSlice({
   //   },
 });
 
-export const { setGame, loadGame, startGame, finishGame, restartGame } =
-  gameState.actions;
+export const {
+  setGame,
+  loadGame,
+  startGame,
+  finishGame,
+  restartGame,
+  betweenQuestions,
+} = gameState.actions;
 
 export default gameState.reducer;
