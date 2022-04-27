@@ -55,6 +55,7 @@ const NavBar = (props) => {
               textAlign: "center",
               fontSize: { xs: "15px", sm: "20px", md: "26px" },
               fontWeight: "bold",
+              fontFamily: "'Stone Age', sans-serif",
             }}
           >
             World Trivia Battle

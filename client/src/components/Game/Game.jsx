@@ -7,10 +7,13 @@ import {
   finishGame,
 } from "../../features/game/gameSlice";
 import { answerQuestion, nextQuestion } from "../../features/quiz/quizSlice";
+import BetweenQuestionsModal from "../Game/BetweenQuestionsModal";
 
 const Game = () => {
+  const [open, setOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
   const [answers, setAnswers] = useState([]);
+
   const dispatch = useDispatch();
 
   const currentQuestion = useSelector((state) =>
@@ -20,11 +23,22 @@ const Game = () => {
   );
   const { currentQuestionIndex, score } = useSelector((state) => state.quiz);
 
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = () => setOpen(false);
+
   const handleAnswer = (answer) => {
+    let nextQuestionTimer;
+
     dispatch(answerQuestion({ answer }));
 
-    setTimeout(() => dispatch(nextQuestion()), 3600);
-    setTimeout(() => dispatch(betweenQuestions()), 1000);
+    currentQuestionIndex < 9
+      ? (nextQuestionTimer = 4500)
+      : (nextQuestionTimer = 3500);
+
+    setTimeout(() => handleOpen(), 1500);
+
+    setTimeout(() => dispatch(nextQuestion()), nextQuestionTimer);
   };
 
   useEffect(() => {
@@ -108,18 +122,31 @@ const Game = () => {
         <Box>
           <Grid container spacing={2} sx={{ width: "100%", mt: 3 }}>
             <Grid item xs={12}>
-              <Paper sx={{ p: 2, pb: 2, mt: 3, mb: 3, borderRadius: "10px" }}>
+              <Paper
+                sx={{
+                  p: 2,
+                  pb: 2,
+                  mt: 3,
+                  mb: 3,
+                  borderRadius: "10px",
+                  minHeight: "200px",
+                }}
+              >
                 <Typography
-                  variant="h6"
+                  variant="h5"
                   sx={{
                     textAlign: "center",
 
                     fontWeight: "bold",
                     color: "##eeeeee",
-                    mb: 1,
+                    mb: 2,
                   }}
                 >
-                  Question {currentQuestionIndex + 1}/10
+                  Question{" "}
+                  <span className={{ fontSize: "15px", color: "red" }}>
+                    {currentQuestionIndex + 1}
+                  </span>
+                  /10
                 </Typography>
                 <Typography
                   variant="h6"
@@ -159,6 +186,7 @@ const Game = () => {
           </Grid>
         </Box>
       </Box>
+      <BetweenQuestionsModal open={open} handleClose={handleClose} />
     </>
   );
 };
