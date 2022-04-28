@@ -10,7 +10,10 @@ import {
 
 const initialState = {
   stage: INIT_GAME,
-  gameOptions: {},
+  gameOptions: {
+    timeOut: false,
+    gameDuration: 30,
+  },
 };
 
 const gameState = createSlice({
