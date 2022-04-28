@@ -11,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import { restartGame } from "../../features/game/gameSlice";
 import LiderBoard from "../LeaderBoard";
 import LeaderBoard from "../LeaderBoard";
+import { resetState } from "../../features/quiz/quizSlice";
 
 const EndGame = () => {
   const [usersList, setUsersList] = useState([
@@ -24,6 +25,10 @@ const EndGame = () => {
   const { currentQuestionIndex, score, answers } = useSelector(
     (state) => state.quiz
   );
+  const handleExitGame = () => {
+    dispatch(resetState());
+    navigate("/profile");
+  };
 
   return (
     <>
@@ -76,9 +81,7 @@ const EndGame = () => {
             color="success"
             size="large"
             sx={{ borderRadius: 10 }}
-            onClick={() => {
-              navigate("/profile");
-            }}
+            onClick={handleExitGame}
           >
             Exit Game
           </Button>

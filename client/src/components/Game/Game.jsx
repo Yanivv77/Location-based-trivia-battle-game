@@ -1,29 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { finishGame } from "../../features/game/gameSlice";
 import {
-  betweenQuestions,
-  restartGame,
-  finishGame,
-} from "../../features/game/gameSlice";
-import { answerQuestion, nextQuestion } from "../../features/quiz/quizSlice";
+  answerQuestion,
+  nextQuestion,
+  resetState,
+} from "../../features/quiz/quizSlice";
 import BetweenQuestionsModal from "../Game/BetweenQuestionsModal";
 import Timer from "../Timer";
 import Helps from "../Helps";
 
 const Game = () => {
-  const [open, setOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [answers, setAnswers] = useState([]);
-
-  const dispatch = useDispatch();
-
   const currentQuestion = useSelector((state) =>
     state.quiz.questions[state.quiz.currentQuestionIndex]
       ? state.quiz.questions[state.quiz.currentQuestionIndex]
       : state.quiz.questions[state.quiz.currentQuestionIndex - 1]
   );
+
+  const [open, setOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [answers, setAnswers] = useState(currentQuestion.answers || []);
+  const [clicked, setClicked] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { currentQuestionIndex, score } = useSelector((state) => state.quiz);
+  const { isHalfAnswersUsed } = useSelector((state) => state.game.helpers);
 
   const handleOpen = () => setOpen(true);
 
@@ -31,6 +36,11 @@ const Game = () => {
     setTimeout(() => callback(), timer);
   };
   const handleClose = () => setOpen(false);
+
+  const handleExitGame = () => {
+    dispatch(resetState());
+    navigate("/profile");
+  };
 
   const moveToNextQuestion = () => {
     let nextQuestionTimer;
@@ -40,35 +50,26 @@ const Game = () => {
 
     delay(1500, handleOpen);
 
-    delay(nextQuestionTimer, () => dispatch(nextQuestion()));
+    delay(nextQuestionTimer, () => {
+      setClicked(false);
+      dispatch(nextQuestion());
+    });
   };
 
   const handleAnswer = (answer) => {
+    setClicked(true);
     dispatch(answerQuestion({ answer }));
     moveToNextQuestion();
   };
 
   useEffect(() => {
+    console.log("currentQuestion changed");
+    setAnswers(currentQuestion.answers);
+
     if (currentQuestionIndex === 10) {
       dispatch(finishGame());
     }
   }, [currentQuestionIndex]);
-
-  useEffect(() => {
-    setAnswers([
-      currentQuestion.correct_answer,
-      ...currentQuestion.incorrect_answers,
-    ]);
-  }, [currentQuestion]);
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setTimeLeft((prev) => prev - 1);
-  //   }, 1000);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
 
   return (
     <>
@@ -78,9 +79,7 @@ const Game = () => {
         color="success"
         size="large"
         sx={{ borderRadius: 10, mt: 5 }}
-        onClick={() => {
-          dispatch(restartGame());
-        }}
+        onClick={handleExitGame}
       >
         EXIT GAME
       </Button>
@@ -178,6 +177,7 @@ const Game = () => {
                   <Button
                     variant="contained"
                     size="large"
+                    disabled={clicked}
                     sx={{
                       minWidth: "150px",
                       borderRadius: 10,
@@ -188,14 +188,14 @@ const Game = () => {
                         // opacity: [0.9, 0.8, 0.7],
                       },
                     }}
-                    onClick={() => handleAnswer(answer)}
+                    onClick={() => handleAnswer(answer.text)}
                   >
-                    {answer}
+                    {answer.text}
                   </Button>
                 </Grid>
               ))}
           </Grid>
-          {/* <Helps></Helps> */}
+          <Helps answers={answers} setAnswers={setAnswers}></Helps>
         </Box>
       </Box>
       <BetweenQuestionsModal open={open} handleClose={handleClose} />

@@ -36,20 +36,22 @@ const quizSlice = createSlice({
   reducers: {
     answerQuestion(state, action) {
       const currentQuestion = state.questions[state.currentQuestionIndex];
-      state.score +=
-        action.payload.answer === currentQuestion.correct_answer ? 1 : 0;
+      const correctAnswer = currentQuestion.answers.find(
+        (answer) => answer.isCorrect
+      );
+      state.score += action.payload.answer === correctAnswer.text ? 1 : 0;
       state.answers.push({
         question: currentQuestion.question,
         answer: action.payload.answer,
-        correctAnswer: currentQuestion.correct_answer,
-        isCorrect: action.payload.answer === currentQuestion.correct_answer,
+        correctAnswer: correctAnswer.text,
+        isCorrect: action.payload.answer === correctAnswer.text,
       });
     },
     nextQuestion(state) {
       state.currentQuestionIndex += 1;
     },
     resetState(state) {
-      state.answers = [];
+      state = initialState;
     },
   },
   extraReducers: (builder) => {
@@ -71,6 +73,6 @@ const quizSlice = createSlice({
   },
 });
 
-export const { answerQuestion, nextQuestion } = quizSlice.actions;
+export const { answerQuestion, nextQuestion, resetState } = quizSlice.actions;
 
 export default quizSlice.reducer;
