@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { resetState } from "../quiz/quizSlice";
 import {
   INIT_GAME,
   LOADING_GAME,
@@ -13,6 +14,11 @@ const initialState = {
   gameOptions: {
     timeOut: false,
     gameDuration: 30,
+  },
+  helpers: {
+    isHalfAnswersUsed: false,
+    isStatisticsUsed: false,
+    isFolowUsed: false,
   },
 };
 
@@ -43,16 +49,23 @@ const gameState = createSlice({
     restartGame(state) {
       state.stage = INIT_GAME;
     },
+    changeHalfHelper(state) {
+      state.helpers.isHalfAnswersUsed = true;
+    },
+    changeStatisticsHelper(state) {
+      state.helpers.isStatisticsUsed = true;
+    },
   },
-  //   extraReducers: (builder) => {
-  //     builder
-  //       .addCase(fetchQuestionsSuccess, (state, action) => {
-  //         state.stage = GAME;
-  //       })
-  //       .addCase(fetchQuestionsFail, (state, action) => {
-  //         state.stage = START_GAME;
-  //       });
-  //   },
+  extraReducers: (builder) => {
+    builder.addCase(resetState, (state) => {
+      state.stage = INIT_GAME;
+      state.helpers = {
+        isHalfAnswersUsed: false,
+        isStatisticsUsed: false,
+        isFolowUsed: false,
+      };
+    });
+  },
 });
 
 export const {
@@ -62,6 +75,8 @@ export const {
   finishGame,
   restartGame,
   betweenQuestions,
+  changeHalfHelper,
+  changeStatisticsHelper,
 } = gameState.actions;
 
 export default gameState.reducer;

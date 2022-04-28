@@ -6,8 +6,6 @@ export default function Timer({ setTimeOut, questionNumber }) {
   const [timer, setTimer] = useState();
 
   useEffect(() => {
-    console.log(timer);
-
     const interval = setInterval(() => {
       setTimer((prev) => prev - 1);
     }, 1000);
@@ -19,7 +17,6 @@ export default function Timer({ setTimeOut, questionNumber }) {
   }, [timer]);
 
   useEffect(() => {
-    console.log(questionNumber);
     setTimer(game.gameDuration || 30);
   }, [questionNumber]);
   return timer;

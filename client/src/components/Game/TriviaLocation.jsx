@@ -24,12 +24,13 @@ const TriviaLocation = () => {
       </Button>
       <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
         <Typography
-          variant="h5"
+          variant="h4"
           sx={{
             textAlign: "center",
             mt: 3,
             mb: 3,
             fontWeight: "bold",
+            fontFamily: "Dollan",
             color: "##eeeeee",
           }}
         >

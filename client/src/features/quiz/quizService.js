@@ -1,4 +1,5 @@
 import axios from "axios";
+import { questions } from "../../data/data";
 
 //Base URL to Quiz Service
 const API_URL =
@@ -8,23 +9,9 @@ const API_URL =
 const getQuestions = async () => {
   const response = await axios.get(API_URL);
 
-  return response.data.results;
-};
+  // return response.data.results;
 
-// Login user
-const login = async (userData) => {
-  const response = await axios.post(API_URL + "login", userData);
-
-  if (response.data) {
-    localStorage.setItem("user", JSON.stringify(response.data));
-  }
-
-  return response.data;
-};
-
-// Logout user
-const logout = () => {
-  localStorage.removeItem("user");
+  return questions;
 };
 
 const quizService = {

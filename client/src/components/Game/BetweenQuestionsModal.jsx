@@ -96,7 +96,10 @@ const BetweenQuestionsModal = ({ open, handleClose }) => {
                   textAlign: "center",
                 }}
               >
-                {currentQuestion.correct_answer}
+                {
+                  currentQuestion?.answers.find((answer) => answer.isCorrect)
+                    .text
+                }
               </div>
             </div>
           </Box>
