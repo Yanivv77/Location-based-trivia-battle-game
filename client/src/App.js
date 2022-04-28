@@ -6,9 +6,10 @@ import SignupScreen from './screens/SignupScreen'
 import LoginScreen from './screens/LoginScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import GameLobbyScreen from './screens/GameLobbyScreen'
-import InviteUsers from './screens/InviteUsers';
+import InviteUsers from './screens/InviteUsers'
 import BetweenQuestions from './screens/BetweenQuestions'
-import EndGame from './screens/EndGame';
+import EndGame from './screens/EndGame'
+import ExpertApplication from './components/ExpertApplication'
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
             <Route path="/inviteUsers" element={<InviteUsers />} />
             <Route path="/betweenQuestions" element={<BetweenQuestions />} />
             <Route path="/endGame" element={<EndGame />} />
-            
+            <Route path="/ExpertApplication" element={<ExpertApplication />} />
           </Routes>
         </div>
       </Router>
