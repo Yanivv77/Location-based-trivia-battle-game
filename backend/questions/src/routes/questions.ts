@@ -1,12 +1,22 @@
-const express = require("express");
-const {
+import express from "express";
+
+// const {
+//   getAllQuestions,
+//   getSingleRandomQuestion,
+//   getTenRandomQuestions,
+//   addQuestion,
+//   deleteQuestion,
+//   deleteAllQuestion,
+// } = require("../controllers/questions");
+
+import {
   getAllQuestions,
   getSingleRandomQuestion,
   getTenRandomQuestions,
   addQuestion,
   deleteQuestion,
   deleteAllQuestion,
-} = require("../controllers/questions");
+} from "../controllers/questions";
 
 const router = express.Router();
 
@@ -22,4 +32,4 @@ router.delete("/:id", deleteQuestion);
 
 router.delete("/", deleteAllQuestion);
 
-module.exports = router;
+export  {router};

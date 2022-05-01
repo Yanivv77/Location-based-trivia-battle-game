@@ -34,13 +34,17 @@ const LeftSideMenu = (props) => {
 
   return (
     <>
-      <Drawer anchor="left" open={props.isOpen} onClose={() => props.open(false)}>
+      <Drawer
+        anchor="left"
+        open={props.isOpen}
+        onClose={() => props.open(false)}
+      >
         <Box
           sx={{
-            maxWidth: '350px',
+            maxWidth: "350px",
 
-            background: '#006064',
-            height: '100%',
+            background: "#006064",
+            height: "100%",
           }}
         >
           <Typography variant="h5" sx={{ textAlign: "center", mt: 3 }}>
@@ -51,29 +55,36 @@ const LeftSideMenu = (props) => {
             <ListItem
               button
               sx={{
-                width: '90%',
+                width: "90%",
                 ml: 1,
-                background: '#0097a7',
+                background: "#0097a7",
                 mt: 3,
-                color: 'white',
+                color: "white",
               }}
             >
-              <ListItemIcon sx={{ color: 'white' }}>
+              <ListItemIcon sx={{ color: "white" }}>
                 <Language />
               </ListItemIcon>
-              <ListItemText primary="Language" />
+              <select
+                value={localStorage.getItem("i18nextLng")}
+                onChange={handleLanguageChange}
+              >
+                <option value="en">(EN) </option>
+                <option value="he">(HE) </option>
+              </select>
             </ListItem>
+
             <ListItem
               button
               sx={{
-                width: '90%',
+                width: "90%",
                 ml: 1,
-                background: '#0097a7',
+                background: "#0097a7",
                 mt: 3,
-                color: 'white',
+                color: "white",
               }}
             >
-              <ListItemIcon sx={{ color: 'white' }}>
+              <ListItemIcon sx={{ color: "white" }}>
                 <IosShare />
               </ListItemIcon>
               <ListItemText primary={t("apply for expert")} />
@@ -81,14 +92,14 @@ const LeftSideMenu = (props) => {
             <ListItem
               button
               sx={{
-                width: '90%',
+                width: "90%",
                 ml: 1,
-                background: '#0097a7',
+                background: "#0097a7",
                 mt: 3,
-                color: 'white',
+                color: "white",
               }}
             >
-              <ListItemIcon sx={{ color: 'white' }}>
+              <ListItemIcon sx={{ color: "white" }}>
                 <Phone />
               </ListItemIcon>
               <ListItemText primary={t("contact us")} />
@@ -97,14 +108,14 @@ const LeftSideMenu = (props) => {
             <ListItem
               button
               sx={{
-                width: '90%',
+                width: "90%",
                 ml: 1,
-                background: '#0097a7',
+                background: "#0097a7",
                 mt: 10,
-                color: 'white',
+                color: "white",
               }}
             >
-              <ListItemIcon sx={{ color: 'white' }}>
+              <ListItemIcon sx={{ color: "white" }}>
                 <Logout />
               </ListItemIcon>
               <ListItemText primary={t("logout")} />
@@ -113,7 +124,7 @@ const LeftSideMenu = (props) => {
         </Box>
       </Drawer>
     </>
-  )
-}
+  );
+};
 
-export default LeftSideMenu
+export default LeftSideMenu;
