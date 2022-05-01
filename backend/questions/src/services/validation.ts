@@ -1,6 +1,7 @@
-const Joi = require("joi");
+import Joi from "joi";
+import { QuestionModel } from "../models/question";
 
-function validateQuestion(question) {
+function validateQuestion(question: any) {
   const joinSchema = Joi.object({
     location: Joi.string(),
     question: Joi.string(),
@@ -10,4 +11,5 @@ function validateQuestion(question) {
 
   return joinSchema.validate(question);
 }
-exports.validate = validateQuestion;
+// exports.validate = validateQuestion;
+export { validateQuestion as validate };

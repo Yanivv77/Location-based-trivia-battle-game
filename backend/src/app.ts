@@ -11,7 +11,7 @@ import { logoutRouter } from './routes/auth/logout';
 import { signupRouter } from './routes/auth/signup';
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
-
+import { router as questions } from "../questions/src/routes/questions";
 
 
 const app = express();
@@ -30,6 +30,7 @@ app.use(loginRouter);
 app.use(logoutRouter);
 app.use(signupRouter);
 app.use(authGoogleRouter);
+app.use("/api/questions", questions);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
