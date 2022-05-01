@@ -5,7 +5,7 @@ import useRequest from '../hooks/use-request'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-import { Grid, Paper, Typography, Button, Box, TextareaAutosize } from '@mui/material'
+import { Grid, Typography, Button, Box, TextareaAutosize } from '@mui/material'
 
 const ExpertApplication = () => {
   const { t } = useTranslation(['signup'])

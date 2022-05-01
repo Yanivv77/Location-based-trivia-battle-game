@@ -17,12 +17,12 @@ const customFormat = winston.format.combine(
 
 const logger = winston.createLogger({
   format: customFormat,
-  // transports: [
-  //   new winston.transports.MongoDB({
-  //     db: 'mongodb+srv://admin:admin@usercluster.lb38v.mongodb.net/',
-  //     collection: 'logs',
-  //   }),
-  // ],
+  transports: [
+    new winston.transports.MongoDB({
+      db: 'mongodb+srv://admin:admin@usercluster.lb38v.mongodb.net/Trivia',
+      collection: 'logs',
+    }),
+  ],
 })
 
 export { logger }
