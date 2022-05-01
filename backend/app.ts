@@ -4,14 +4,14 @@ import 'dotenv/config';
 import cors from 'cors';
 import cookieSession from 'cookie-session';
 import { json } from 'body-parser';
-import { currentUserRouter } from './routes/auth/current-user';
-import { loginRouter } from './routes/auth/login';
-import { authGoogleRouter } from './routes/auth/google-auth';
-import { logoutRouter } from './routes/auth/logout';
-import { signupRouter } from './routes/auth/signup';
-import { errorHandler } from './middlewares/error-handler';
-import { NotFoundError } from './errors/not-found-error';
-import { router as questions } from "../questions/src/routes/questions";
+import { currentUserRouter } from './Users/src/routes/auth/current-user';
+import { loginRouter } from './Users/src/routes/auth/login';
+import { authGoogleRouter } from './Users/src/routes/auth/google-auth';
+import { logoutRouter } from './Users/src/routes/auth/logout';
+import { signupRouter } from './Users/src/routes/auth/signup';
+import { errorHandler } from './Users/src/middlewares/error-handler';
+import { NotFoundError } from './Users/src/errors/not-found-error';
+import { router as questions } from "./Questions/src/routes/questions";
 
 
 const app = express();
