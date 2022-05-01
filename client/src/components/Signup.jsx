@@ -33,11 +33,16 @@ const Signup = () => {
     await doRequest()
   }
 
+  const divStyle = {
+    overflowY: 'auto',
+
+    height: '500px',
+  }
   const paperStyle = { padding: '30px 20px', width: 300, margin: '-20px auto' }
   const headerStyle = { margin: 0 }
 
   return (
-    <>
+    <div style={divStyle}>
       <Grid>
         <Paper elevation={20} style={paperStyle}>
           <Grid align="center">
@@ -101,8 +106,8 @@ const Signup = () => {
         <div className="d-flex justify-content-center">
           <div
             style={{
-              width: '74vh',
-              margin: '4',
+              width: '80vh',
+              margin: '14',
             }}
           >
             <br />
@@ -110,7 +115,7 @@ const Signup = () => {
           </div>
         </div>
       </Grid>
-    </>
+    </div>
   )
 }
 

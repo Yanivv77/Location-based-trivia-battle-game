@@ -28,9 +28,9 @@ const Login = () => {
     await doRequest()
   }
 
-  const paperStyle = { padding: '30px 20px', height: '74vh', width: 300, margin: '-30px auto' }
+  const paperStyle = { padding: '30px 20px', height: '76vh', width: 300, margin: '-20px auto' }
 
-  const btnStyle = { margin: '8px 0' }
+  const btnStyle = { margin: '0px 0' }
   return (
     <>
       <Grid>
@@ -73,7 +73,7 @@ const Login = () => {
               {t('sign in')}
             </Button>
           </form>
-          <Typography>
+          <Typography component={'span'}>
             {t("don't have an account yet")}
             <Link href="signup"> {t('sign up')}</Link>
             <LoginButton></LoginButton>
