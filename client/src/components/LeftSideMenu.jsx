@@ -10,6 +10,10 @@ import {
   Typography,
   Button,
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { Language, IosShare, Phone, Logout } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
@@ -65,13 +69,19 @@ const LeftSideMenu = (props) => {
               <ListItemIcon sx={{ color: "white" }}>
                 <Language />
               </ListItemIcon>
-              <select
-                value={localStorage.getItem("i18nextLng")}
-                onChange={handleLanguageChange}
-              >
-                <option value="en">(EN) </option>
-                <option value="he">(HE) </option>
-              </select>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Language</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={localStorage.getItem("i18nextLng")}
+                  label="Language"
+                  onChange={handleLanguageChange}
+                >
+                  <MenuItem value="en">English </MenuItem>
+                  <MenuItem value="he">עברית</MenuItem>
+                </Select>
+              </FormControl>
             </ListItem>
 
             <ListItem
