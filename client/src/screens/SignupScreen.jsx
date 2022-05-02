@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../components/Header'
+import Header from '../components/Shared/Header'
 import Signup from '../components/Signup/Signup'
 
 function SignupScreen() {
