@@ -6,6 +6,7 @@ import cookieSession from 'cookie-session';
 import { json } from 'body-parser';
 import { currentUserRouter } from './Users/src/routes/auth/current-user';
 import { loginRouter } from './Users/src/routes/auth/login';
+import { userByNameRouter } from './Users/src/routes/auth/user-by-name';
 import { authGoogleRouter } from './Users/src/routes/auth/google-auth';
 import { logoutRouter } from './Users/src/routes/auth/logout';
 import { signupRouter } from './Users/src/routes/auth/signup';
@@ -26,6 +27,7 @@ app.use(
 );
 
 app.use(currentUserRouter);
+app.use(userByNameRouter);
 app.use(loginRouter);
 app.use(logoutRouter);
 app.use(signupRouter);
