@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import useRequest from '../hooks/use-request'
+import useRequest from '../../hooks/use-request'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 

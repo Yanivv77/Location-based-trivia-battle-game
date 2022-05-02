@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
 import RainbowText from 'react-rainbow-text'
+import Cookies from 'js-cookie';
+const username = Cookies.get('username')
 
 function Header() {
   const { i18n, t } = useTranslation(['header'])
