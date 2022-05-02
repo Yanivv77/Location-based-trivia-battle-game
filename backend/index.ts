@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 import { app } from './app';
 import { logger } from './logger';
+import chalk from 'chalk';
+
 
 const url = process.env.MONGO_CONNECTION_STRING
 const port = process.env.PORT || 5000
 const jwtKey = process.env.JWT_KEY
-
 
 const start = async () => {
   if (!jwtKey) {
@@ -15,8 +16,8 @@ const start = async () => {
 
   try {
     if (url){
-    await mongoose.connect(url);
-    console.log('Connected to MongoDb');
+    const conn = await mongoose.connect(url);
+    console.log(chalk.yellow(`MongoDB Connected: ${conn.connection.name}`));
     logger.info('Connected to MongoDb', process.env.NODE_ENV)
     }
   } catch (err) {
@@ -25,7 +26,7 @@ const start = async () => {
   }
 
   app.listen(port, () => {
-    console.log('Listening on port 5000!');
+    console.log(chalk.yellow(`Server started on port ${port}`));
     logger.info('Listening on port 5000', process.env.NODE_ENV)
   });
 };

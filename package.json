@@ -13,14 +13,23 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
-      "./backend/Users/src/test/setup.ts"
+      "./backend/testSetup.ts"
     ]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/supertest": "^2.0.12",
     "concurrently": "^7.1.0",
-    "nodemon": "^2.0.15"
+    "jest": "^28.0.3",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.3",
+    "ts-jest": "^27.1.4"
+  },
+  "dependencies": {
+    "mongoose": "^6.3.0",
+    "npm": "^8.8.0"
   }
 }
