@@ -1,14 +1,5 @@
 import express from "express";
 
-// const {
-//   getAllQuestions,
-//   getSingleRandomQuestion,
-//   getTenRandomQuestions,
-//   addQuestion,
-//   deleteQuestion,
-//   deleteAllQuestion,
-// } = require("../controllers/questions");
-
 import {
   getAllQuestions,
   getSingleRandomQuestion,
@@ -32,4 +23,4 @@ router.delete("/:id", deleteQuestion);
 
 router.delete("/", deleteAllQuestion);
 
-export  {router};
+export  {router as questions};

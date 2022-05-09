@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 
 import { QuestionModel } from '../models/question';
-import { validate } from '../services/validation';
+import { validate } from '../utils/validation';
 import "dotenv/config";
 
 const getRandomQuestions = async (numberOfRandomQuestions:number) => {
