@@ -4,11 +4,18 @@ import { finishGame } from "../game/gameSlice";
 
 const initialState = {
   questions: [],
-  answersToShow: [],
+  currentQuestion: null,
+  correctAnswer: null,
   error: null,
   score: null,
   currentQuestionIndex: null,
+  currentQuestionNumber: 0,
+  currentAnswer: "",
+  currentPlayersAnswers: [],
+  playerAnswersData: [],
+  allPlayersAnswersData: [],
   answers: [],
+  quizPlayers: [],
   isLoading: false,
 };
 
@@ -34,6 +41,12 @@ const quizSlice = createSlice({
   name: "quiz",
   initialState,
   reducers: {
+    addPlayers(state, action) {
+      state.quizPlayers = action.payload;
+    },
+    removePlayer(state, action) {
+      state.quizPlayers.filter((player) => player.id !== action.payload.id);
+    },
     answerQuestion(state, action) {
       const currentQuestion = state.questions[state.currentQuestionIndex];
       const correctAnswer = currentQuestion.answers.find(
@@ -46,6 +59,24 @@ const quizSlice = createSlice({
         correctAnswer: correctAnswer.text,
         isCorrect: action.payload.answer === correctAnswer.text,
       });
+    },
+    setQuestion(state, action) {
+      console.log(action.payload);
+      state.currentAnswer = null;
+      state.currentPlayersAnswers = [];
+      state.currentQuestion = action.payload.question;
+      state.currentQuestionNumber = action.payload.number;
+    },
+    setAnswer(state, action) {
+      state.correctAnswer = action.payload;
+      state.currentAnswer = action.payload;
+      state.playerAnswersData.push(action.payload);
+      console.log(state.correctAnswer);
+      state.score = action.payload.player.score;
+    },
+    setAllAnswers(state, action) {
+      state.currentPlayersAnswers.push(action.payload);
+      state.allPlayersAnswersData.push(action.payload);
     },
     nextQuestion(state) {
       state.currentQuestionIndex += 1;
@@ -73,6 +104,15 @@ const quizSlice = createSlice({
   },
 });
 
-export const { answerQuestion, nextQuestion, resetState } = quizSlice.actions;
+export const {
+  answerQuestion,
+  nextQuestion,
+  resetState,
+  addPlayers,
+  removePlayer,
+  setQuestion,
+  setAnswer,
+  setAllAnswers,
+} = quizSlice.actions;
 
 export default quizSlice.reducer;

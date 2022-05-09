@@ -14,6 +14,7 @@ const initialState = {
   gameOptions: {
     timeOut: false,
     gameDuration: 30,
+    invitedPlayers: [],
   },
   helpers: {
     isHalfAnswersUsed: false,
@@ -55,6 +56,9 @@ const gameState = createSlice({
     changeStatisticsHelper(state) {
       state.helpers.isStatisticsUsed = true;
     },
+    addInvitedPlayer(state, action) {
+      state.gameOptions.invitedPlayers.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(resetState, (state) => {
@@ -77,6 +81,7 @@ export const {
   betweenQuestions,
   changeHalfHelper,
   changeStatisticsHelper,
+  addInvitedPlayer,
 } = gameState.actions;
 
 export default gameState.reducer;
