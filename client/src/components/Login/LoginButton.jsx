@@ -9,14 +9,17 @@ import axios from 'axios'
 export default function LoginButton() {
   const navigate = useNavigate()
   const responseSuccessGoogle = (response) => {
-    console.log(response)
+    var profile = response.getBasicProfile()
+    console.log('ID: ' + profile.getId())
+    console.log('Name: ' + profile.getName())
+    console.log('First Name: ' + profile.getGivenName())
+    console.log('Email: ' + profile.getEmail())
+
     axios({
       method: 'POST',
       url: 'http://localhost:5000/api/users/googlelogin',
       data: { tokenId: response.tokenId },
-    }).then((response) => {
-      console.log('Google login success', response)
-    })
+    }).then((response) => {})
     navigate('/profile')
   }
 

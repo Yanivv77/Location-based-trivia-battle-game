@@ -12,6 +12,7 @@ const Login = () => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [user, setUser] = useState('')
   const { doRequest, errors } = useRequest({
     url: 'http://localhost:5000/api/users/login',
     method: 'post',
@@ -19,13 +20,17 @@ const Login = () => {
       email,
       password,
     },
-    onSuccess: () => navigate('/profile'),
   })
+
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
   const onSubmit = async (event) => {
     event.preventDefault()
 
-    await doRequest()
+    setUser(await doRequest())
+    await delay(1000)
+    console.log(user)
+    await navigate('/profile')
   }
 
   const paperStyle = { padding: '30px 20px', height: '76vh', width: 300, margin: '-20px auto' }
