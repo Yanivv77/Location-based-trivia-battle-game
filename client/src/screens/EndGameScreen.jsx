@@ -14,15 +14,12 @@ import LeaderBoard from "../components/LeaderBoard";
 import { resetState } from "../features/quiz/quizSlice";
 
 const EndGame = () => {
-  const { currentAnswer, currentPlayersAnswers, currentQuestionNumber } =
-    useSelector((state) => state.quiz);
+  const { currentPlayersAnswers, score } = useSelector((state) => state.quiz);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { currentQuestionIndex, score, answers } = useSelector(
-    (state) => state.quiz
-  );
-  const handleExitGame = () => {
-    dispatch(resetState());
+
+  const handleButtonClick = () => {
+    //     dispatch(resetState());
     navigate("/profile");
   };
 
@@ -66,52 +63,12 @@ const EndGame = () => {
             color="success"
             size="large"
             sx={{ borderRadius: 10 }}
-            onClick={() => {
-              dispatch(restartGame());
-            }}
+            onClick={handleButtonClick}
           >
-            Play Again !
-          </Button>
-          <Button
-            variant="contained"
-            color="success"
-            size="large"
-            sx={{ borderRadius: 10 }}
-            onClick={handleExitGame}
-          >
-            Exit Game
+            Go To Profile
           </Button>
         </Stack>
         <LeaderBoard usersList={currentPlayersAnswers} />
-        {/* <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 450 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Question </TableCell>
-                <TableCell align="right">Correct answer</TableCell>
-                <TableCell align="right">Your answer</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {answers?.map((answer, i) => (
-                <TableRow
-                  key={new Date().toUTCString()}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row" sx={{ width: "60%" }}>
-                    {i + 1}. {answer.question}
-                  </TableCell>
-                  <TableCell align="right" sx={{ width: "20%" }}>
-                    {answer.correctAnswer}
-                  </TableCell>
-                  <TableCell align="right" sx={{ width: "20%" }}>
-                    {answer.answer}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer> */}
       </Box>
     </>
   );

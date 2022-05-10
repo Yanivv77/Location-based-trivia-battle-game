@@ -3,7 +3,7 @@ import io from "socket.io-client";
 // import { WS_BASE } from './config';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import { updateChatLog } from './actions';
+
 import {
   addPlayers,
   removePlayer,
@@ -11,6 +11,7 @@ import {
   setAnswer,
   setAllAnswers,
 } from "../../features/quiz/quizSlice";
+import { finishGame } from "../../features/game/gameSlice";
 
 const WebSocketContext = createContext(null);
 
@@ -94,9 +95,13 @@ export default ({ children }) => {
       if (socket.current) {
         socket.current.on("newQuestion", (question) => {
           console.log("new question: ", question);
-          setTimeout(() => {
+          if (question.number > 1) {
+            setTimeout(() => {
+              dispatch(setQuestion(question));
+            }, 4000);
+          } else {
             dispatch(setQuestion(question));
-          }, 3000);
+          }
         });
       }
 
@@ -115,8 +120,8 @@ export default ({ children }) => {
       });
 
       socket.current.on("gameFinished", (scoreboard) => {
-        // dispatch(setScoreboard(scoreboard));
-        // dispatch(setStatus("finished"));
+        console.log(scoreboard);
+        dispatch(finishGame());
       });
 
       //  socket.current.on("newQuestion", (res) => {

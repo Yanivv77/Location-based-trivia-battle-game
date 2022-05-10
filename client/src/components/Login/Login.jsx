@@ -1,36 +1,53 @@
-import React from 'react'
-import useRequest from '../../hooks/use-request'
-import LoginButton from './LoginButton'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link as linked } from 'react-router-dom'
-import { Grid, Paper, TextField, Button, Typography, Link, FormControlLabel, Checkbox } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import useRequest from "../../hooks/use-request";
+import LoginButton from "./LoginButton";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link as linked } from "react-router-dom";
+import {
+  Grid,
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  Link,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { t } = useTranslation(['login'])
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const { t } = useTranslation(["login"]);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { doRequest, errors } = useRequest({
-    url: 'http://localhost:5000/api/users/login',
-    method: 'post',
+    url: "http://localhost:5000/api/users/login",
+    method: "post",
     body: {
       email,
       password,
     },
-    onSuccess: () => navigate('/profile'),
-  })
+    onSuccess: (res) => {
+      console.log(res);
+      navigate("/profile");
+    },
+  });
 
   const onSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    await doRequest()
-  }
+    await doRequest();
+  };
 
-  const paperStyle = { padding: '30px 20px', height: '76vh', width: 300, margin: '-20px auto' }
+  const paperStyle = {
+    padding: "30px 20px",
+    height: "76vh",
+    width: 300,
+    margin: "-20px auto",
+  };
 
-  const btnStyle = { margin: '0px 0' }
+  const btnStyle = { margin: "0px 0" };
   return (
     <>
       <Grid>
@@ -46,12 +63,12 @@ const Login = () => {
               ></lottie-player>
             </div>
 
-            <h2>{t('sign in')}</h2>
+            <h2>{t("sign in")}</h2>
           </Grid>
           <form onSubmit={onSubmit}>
             <TextField
               className="my-3"
-              label={t('email')}
+              label={t("email")}
               placeholder="Enter email"
               fullWidth
               required
@@ -59,7 +76,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
-              label={t('password')}
+              label={t("password")}
               placeholder="Enter password"
               type="password"
               fullWidth
@@ -67,27 +84,43 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <FormControlLabel control={<Checkbox name="checkedB" color="primary" />} label={t('remember me')} />
+            <FormControlLabel
+              control={<Checkbox name="checkedB" color="primary" />}
+              label={t("remember me")}
+            />
 
-            <Button type="submit" color="primary" variant="contained" style={btnStyle} fullWidth>
-              {t('sign in')}
+            <Button
+              type="submit"
+              color="primary"
+              variant="contained"
+              style={btnStyle}
+              fullWidth
+            >
+              {t("sign in")}
             </Button>
           </form>
-          <Typography component={'span'}>
+          <Typography component={"span"}>
             {t("don't have an account yet")}
-            <Link href="signup"> {t('sign up')}</Link>
+            <Link href="signup"> {t("sign up")}</Link>
             <LoginButton></LoginButton>
           </Typography>
 
-          <Button variant="contained" color="secondary" size="medium" sx={{ borderRadius: 10, mt: 2, p: 0 }} component={linked} to="/">
+          <Button
+            variant="contained"
+            color="secondary"
+            size="medium"
+            sx={{ borderRadius: 10, mt: 2, p: 0 }}
+            component={linked}
+            to="/"
+          >
             back
           </Button>
         </Paper>
         <div className="d-flex justify-content-center">
           <div
             style={{
-              width: '74vh',
-              margin: '4',
+              width: "74vh",
+              margin: "4",
             }}
           >
             <br />
@@ -96,7 +129,7 @@ const Login = () => {
         </div>
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

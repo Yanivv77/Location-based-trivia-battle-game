@@ -2,29 +2,18 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+
 import { restartGame } from "../../features/game/gameSlice";
-import LiderBoard from "../LeaderBoard";
+
 import LeaderBoard from "../LeaderBoard";
 import { resetState } from "../../features/quiz/quizSlice";
 
 const EndGame = () => {
-  const [usersList, setUsersList] = useState([
-    { userName: "user 1", points: "6/10" },
-    { userName: "user 2", points: "8/10" },
-    { userName: "user 3", points: "5/10" },
-    { userName: "user 4", points: "3/10" },
-  ]);
+  const { currentPlayersAnswers, score } = useSelector((state) => state.quiz);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { currentQuestionIndex, score, answers } = useSelector(
-    (state) => state.quiz
-  );
+
   const handleExitGame = () => {
     dispatch(resetState());
     navigate("/profile");
@@ -86,36 +75,7 @@ const EndGame = () => {
             Exit Game
           </Button>
         </Stack>
-        <LeaderBoard usersList={usersList} />
-        {/* <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 450 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Question </TableCell>
-                <TableCell align="right">Correct answer</TableCell>
-                <TableCell align="right">Your answer</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {answers?.map((answer, i) => (
-                <TableRow
-                  key={new Date().toUTCString()}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row" sx={{ width: "60%" }}>
-                    {i + 1}. {answer.question}
-                  </TableCell>
-                  <TableCell align="right" sx={{ width: "20%" }}>
-                    {answer.correctAnswer}
-                  </TableCell>
-                  <TableCell align="right" sx={{ width: "20%" }}>
-                    {answer.answer}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer> */}
+        <LeaderBoard usersList={currentPlayersAnswers} />
       </Box>
     </>
   );

@@ -1,16 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
-import { finishGame } from "../features/game/gameSlice";
-import {
-  answerQuestion,
-  nextQuestion,
-  resetState,
-} from "../features/quiz/quizSlice";
-import BetweenQuestionsModal from "../components/Game/BetweenQuestionsModal";
-import Timer from "../components/Timer";
-import Helps from "../components/Helps";
+import { useNavigate, useParams } from "react-router-dom";
+
 import { WebSocketContext } from "../components/Websocket/WebSocket";
 import { useTranslation } from "react-i18next";
 import { styled } from "@mui/material/styles";
@@ -23,9 +15,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const WaitingRoomScreen = () => {
-  const location = useLocation();
+  const params = useParams();
   //   const { t } = useTranslation(["Waitingroom"]);
-  console.log(location.pathname.replace("/waitingroom/", ""));
+  console.log(params);
 
   const [users, setUsers] = useState([
     { id: 22, name: "John" },
@@ -35,12 +27,10 @@ const WaitingRoomScreen = () => {
   ]);
   const [gameStarted, setGameStarted] = useState(false);
   const [name, setName] = useState("");
-  const [gameId, setGameId] = useState(
-    location.pathname.replace("/waitingroom/", "")
-  );
+
   const invitedPlayers = useSelector((state) => state.quiz.quizPlayers);
   const ws = useContext(WebSocketContext);
-  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const delay = (timer, callback) => {
@@ -54,7 +44,7 @@ const WaitingRoomScreen = () => {
   //   };
 
   const handleJoin = () => {
-    const config = { room: gameId, name: name };
+    const config = { room: params.id, name: name };
     ws.joinGame(config);
   };
 
@@ -69,7 +59,7 @@ const WaitingRoomScreen = () => {
   }, [ws]);
   useEffect(() => {
     if (gameStarted) {
-      navigate(`/gameroom/${gameId}`);
+      navigate(`/loadinggame/${params.id}`);
     }
   }, [gameStarted]);
 

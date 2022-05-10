@@ -105,8 +105,8 @@ io.on("connection", (socket) => {
     //     }
   });
 
+  // Game start by Host
   socket.on("startGame", (undefined, callback) => {
-    //     let roomName = games.getGameByHost(socket.id).room;
     let roomId = games.getGameByHost(socket.id).roomId;
     if (roomId) {
       let players = games.getPlayersByRoom(roomId);
