@@ -2,8 +2,11 @@ import React from "react";
 import { Grid, Button, Typography, Box, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NearByModal from "../Game/NearByModal";
+import { useTranslation } from "react-i18next";
 
 const TriviaLocation = () => {
+  const { t } = useTranslation(["Game/TriviaLocation"]);
+
   const [open, setOpen] = React.useState(false);
 
   const navigate = useNavigate();
@@ -20,7 +23,7 @@ const TriviaLocation = () => {
           navigate("/profile");
         }}
       >
-        Go Back
+        {t("go back")}
       </Button>
       <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
         <Typography
@@ -34,7 +37,7 @@ const TriviaLocation = () => {
             color: "##eeeeee",
           }}
         >
-          To start the game please choose trivia location
+          {t("to start the game please choose trivia location")}
         </Typography>
         <Grid
           container
@@ -52,7 +55,7 @@ const TriviaLocation = () => {
               sx={{ borderRadius: 10, mt: 5 }}
               onClick={handleOpen}
             >
-              Near by location
+              {t("near by location")}
             </Button>
           </Grid>
           <Grid item xs={12}>
@@ -62,7 +65,7 @@ const TriviaLocation = () => {
               size="large"
               sx={{ borderRadius: 10, mt: 5 }}
             >
-              Location on map
+              {t("location on map")}
             </Button>
           </Grid>
           <Grid item xs={12}>
@@ -72,7 +75,7 @@ const TriviaLocation = () => {
               size="large"
               sx={{ borderRadius: 10, mt: 3 }}
             >
-              Location from list
+              {t("location from list")}
             </Button>
           </Grid>
         </Grid>

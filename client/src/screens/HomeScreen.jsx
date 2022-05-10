@@ -1,4 +1,4 @@
-import Header from '../components/Header'
+import Header from '../components/Shared/Header'
 import React, { useEffect } from 'react'
 import { Grid, Button } from '@mui/material'
 import { Link } from 'react-router-dom'

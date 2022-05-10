@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+
 
 export default function Timer({
   moveToNextQuestion,
@@ -23,12 +24,16 @@ export default function Timer({
       } else {
         moveToNextQuestion();
       }
+
+
     }
-    return () => clearInterval(interval);
-  }, [timer]);
+    return () => clearInterval(interval)
+  }, [timer])
 
   useEffect(() => {
+
     setTimer(game.gameDuration || 30);
   }, [currentQuestion]);
   return timer;
+
 }
