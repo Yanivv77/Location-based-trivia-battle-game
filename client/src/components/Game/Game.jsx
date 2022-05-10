@@ -24,7 +24,7 @@ const Game = () => {
   );
   const [open, setOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
-  const [answers, setAnswers] = useState(currentQuestion.answers || []);
+  const [answers, setAnswers] = useState(currentQuestion?.answers || []);
   const [clicked, setClicked] = useState(false);
   const ws = useContext(WebSocketContext);
   const dispatch = useDispatch();
@@ -48,14 +48,6 @@ const Game = () => {
   const moveToNextQuestion = () => {
     ws.nextQuestion();
     setClicked(false);
-    // let nextQuestionTimer;
-    // currentQuestionIndex < 9
-    //   ? (nextQuestionTimer = 4500)
-    //   : (nextQuestionTimer = 3500);
-
-    // delay(nextQuestionTimer, () => {
-    //   dispatch(nextQuestion());
-    // });
   };
 
   const handleAnswer = (answer) => {

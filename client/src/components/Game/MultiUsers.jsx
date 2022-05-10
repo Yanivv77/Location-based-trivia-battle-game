@@ -39,17 +39,19 @@ const MultiUsers = () => {
   }, [onlinePlayers]);
   return (
     <div>
-      <Button variant="contained" color="primary" size="small">
-        Settings
-      </Button>
-
-      <div className="main-container" style={{ marginTop: "10%" }}>
+      <div className="main-container" style={{ marginTop: "20px" }}>
         <div className="invite-options">
           <div className="users-by-link">
-            <p> Send invitation link to friends and family to play with</p>
-            <Grid container spacing={2}>
+            <h5> Send invitation link to friends and family to play with</h5>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              spacing={5}
+              sx={{ mt: 2 }}
+            >
               <Grid item xs={6}>
-                <Stack spacing={2}>
+                <Stack spacing={1}>
                   <TextField
                     required
                     id="standard-required"
@@ -140,7 +142,7 @@ const MultiUsers = () => {
         </div>
         <div
           className="options-buttons"
-          style={{ margin: "auto", width: "70%" }}
+          style={{ margin: "auto", width: "50%" }}
         >
           <Button
             variant="contained"
@@ -150,7 +152,7 @@ const MultiUsers = () => {
               width: "70%",
               display: "block",
               margin: "auto",
-              marginBottom: "10px",
+              marginBottom: "20px",
             }}
             onClick={handleCreateGame}
           >
@@ -169,14 +171,6 @@ const MultiUsers = () => {
             onClick={handleStartGame}
           >
             Start game
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            style={{ width: "70%", display: "block", margin: "auto" }}
-          >
-            Back to menu
           </Button>
         </div>
       </div>

@@ -10,6 +10,7 @@ import InviteUsers from "./screens/InviteUsers";
 import BetweenQuestions from "./screens/BetweenQuestions";
 import GameRoomScreen from "./screens/GameRoomScreen";
 import WaitingRoomScreen from "./screens/WaitingRoomScreen";
+import LoadingGameScreen from "./screens/LoadingGameScreen";
 import EndGame from "./screens/EndGame";
 import EndGameScreen from "./screens/EndGameScreen";
 import ExpertApplication from "./components/ExpertApplication";
@@ -26,6 +27,7 @@ function App() {
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/gamelobby" element={<GameLobbyScreen />} />
             <Route path="/waitingroom/:id" element={<WaitingRoomScreen />} />
+            <Route path="/loadinggame/:id" element={<LoadingGameScreen />} />
             <Route path="/gameroom/:id" element={<GameRoomScreen />} />
             <Route path="/inviteUsers" element={<InviteUsers />} />
             <Route path="/betweenQuestions" element={<BetweenQuestions />} />

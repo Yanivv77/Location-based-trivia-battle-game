@@ -39,10 +39,6 @@ const gameState = createSlice({
       //  state.username = action.payload.username;
       state.stage = GAME;
     },
-    betweenQuestions(state) {
-      //  state.username = action.payload.username;
-      state.stage = BETWEEN_QUESTIONS;
-    },
 
     finishGame(state) {
       state.stage = END_GAME;
@@ -78,7 +74,7 @@ export const {
   startGame,
   finishGame,
   restartGame,
-  betweenQuestions,
+
   changeHalfHelper,
   changeStatisticsHelper,
   addInvitedPlayer,
