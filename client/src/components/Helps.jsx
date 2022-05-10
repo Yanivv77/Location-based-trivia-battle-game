@@ -11,15 +11,14 @@ function Helps({ answers, setAnswers }) {
   };
   const helpHalf = () => {
     if (!helpOptions.isHalfAnswersUsed) {
-      const correctAnswer = answers.filter((answer) => answers.isCorrect);
+      const correctAnswer = answers.filter((answer) => answer.isCorrect);
+
       const wrongAnswer = answers
-        .filter((answer) => !answers.isCorrect)
+        .filter((answer) => !answer.isCorrect)
         .slice(2);
       const halfAnswers = [...correctAnswer, ...wrongAnswer];
       setAnswers(halfAnswers);
       dispatch(changeHalfHelper());
-      console.log(wrongAnswer);
-      console.log(halfAnswers);
     }
   };
   const helpFollow = () => {

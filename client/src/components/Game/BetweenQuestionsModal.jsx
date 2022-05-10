@@ -34,27 +34,9 @@ const style = {
 };
 
 const BetweenQuestionsModal = ({ open, handleClose }) => {
-  const [usersList, setUsersList] = useState([
-    { userName: "user 1", points: 11 },
-    { userName: "user 2", points: 8 },
-    { userName: "user 3", points: 5 },
-    { userName: "user 4", points: 3 },
-  ]);
+  const { currentAnswer, currentPlayersAnswers, currentQuestionNumber } =
+    useSelector((state) => state.quiz);
 
-  const currentQuestion = useSelector((state) =>
-    state.quiz.questions[state.quiz.currentQuestionIndex]
-      ? state.quiz.questions[state.quiz.currentQuestionIndex]
-      : state.quiz.questions[state.quiz.currentQuestionIndex - 1]
-  );
-
-  useEffect(() => {
-    open &&
-      setTimeout(() => {
-        handleClose();
-        console.log("closed");
-        console.log(open);
-      }, 2000);
-  }, [open]);
   return (
     <div>
       {" "}
@@ -71,8 +53,9 @@ const BetweenQuestionsModal = ({ open, handleClose }) => {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <div className="main-container" style={{ marginTop: "20%" }}>
-              <LeaderBoard usersList={usersList} />
+            <h2>Question {currentQuestionNumber}</h2>
+            <div className="main-container" style={{ marginTop: "5%" }}>
+              <LeaderBoard usersList={currentPlayersAnswers} />
 
               <div
                 className="right-answer"
@@ -96,10 +79,7 @@ const BetweenQuestionsModal = ({ open, handleClose }) => {
                   textAlign: "center",
                 }}
               >
-                {
-                  currentQuestion?.answers.find((answer) => answer.isCorrect)
-                    .text
-                }
+                {currentAnswer?.correctAnswer.text}
               </div>
             </div>
           </Box>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import MultiUsers from "../Game/MultiUsers";
 import { useDispatch } from "react-redux";
 import { restartGame, loadGame } from "../../features/game/gameSlice";
+import { fetchQuestions } from "../../features/quiz/quizSlice";
 // import OnlineUsers from "../components/Game/OnlineUsers";
 
 const GameOptions = () => {
@@ -64,9 +65,12 @@ const GameOptions = () => {
                   color="secondary"
                   size="large"
                   sx={{ borderRadius: 10, mt: 5 }}
-                  onClick={() => setMulti(true)}
+                  onClick={() => {
+                    dispatch(fetchQuestions());
+                    setMulti(true);
+                  }}
                 >
-                  Multipleyer
+                  Multiplayer
                 </Button>
               </Grid>
             </Grid>

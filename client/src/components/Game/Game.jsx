@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { WebSocketContext } from "../Websocket/WebSocket";
 import { finishGame } from "../../features/game/gameSlice";
 import {
   answerQuestion,
@@ -13,17 +14,19 @@ import Timer from "../Timer";
 import Helps from "../Helps";
 
 const Game = () => {
-  const currentQuestion = useSelector((state) =>
-    state.quiz.questions[state.quiz.currentQuestionIndex]
-      ? state.quiz.questions[state.quiz.currentQuestionIndex]
-      : state.quiz.questions[state.quiz.currentQuestionIndex - 1]
+  // const currentQuestion = useSelector((state) =>
+  //   state.quiz.questions[state.quiz.currentQuestionIndex]
+  //     ? state.quiz.questions[state.quiz.currentQuestionIndex]
+  //     : state.quiz.questions[state.quiz.currentQuestionIndex - 1]
+  // );
+  const { currentQuestion, currentQuestionNumber, currentAnswer } = useSelector(
+    (state) => state.quiz
   );
-
   const [open, setOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
   const [answers, setAnswers] = useState(currentQuestion.answers || []);
   const [clicked, setClicked] = useState(false);
-
+  const ws = useContext(WebSocketContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -43,34 +46,42 @@ const Game = () => {
   };
 
   const moveToNextQuestion = () => {
-    let nextQuestionTimer;
-    currentQuestionIndex < 9
-      ? (nextQuestionTimer = 4500)
-      : (nextQuestionTimer = 3500);
+    ws.nextQuestion();
+    setClicked(false);
+    // let nextQuestionTimer;
+    // currentQuestionIndex < 9
+    //   ? (nextQuestionTimer = 4500)
+    //   : (nextQuestionTimer = 3500);
 
-    delay(1500, handleOpen);
-
-    delay(nextQuestionTimer, () => {
-      setClicked(false);
-      dispatch(nextQuestion());
-    });
+    // delay(nextQuestionTimer, () => {
+    //   dispatch(nextQuestion());
+    // });
   };
 
   const handleAnswer = (answer) => {
     setClicked(true);
-    dispatch(answerQuestion({ answer }));
-    moveToNextQuestion();
+    ws.submitAnswer(answer);
+
+    // moveToNextQuestion();
   };
 
   useEffect(() => {
     console.log("currentQuestion changed");
-    setAnswers(currentQuestion.answers);
+    console.log(currentQuestion);
+    // setAnswers(currentQuestion.answers);
+    // if (currentQuestionIndex === 10) {
+    //   dispatch(finishGame());
+  }, [currentQuestion]);
 
-    if (currentQuestionIndex === 10) {
-      dispatch(finishGame());
+  useEffect(() => {
+    if (currentAnswer) {
+      setTimeout(() => {
+        handleOpen();
+      }, 1500);
+    } else {
+      handleClose();
     }
-  }, [currentQuestionIndex]);
-
+  }, [currentAnswer]);
   return (
     <>
       {" "}
@@ -111,8 +122,9 @@ const Game = () => {
         >
           Time left :{" "}
           <Timer
-            questionNumber={currentQuestionIndex}
-            setTimeOut={moveToNextQuestion}
+            currentQuestion={currentQuestionNumber}
+            moveToNextQuestion={moveToNextQuestion}
+            currentAnswer={currentAnswer}
           />
         </Typography>
         <Typography
@@ -154,7 +166,7 @@ const Game = () => {
                 >
                   Question{" "}
                   <span className={{ fontSize: "15px", color: "red" }}>
-                    {currentQuestionIndex + 1}
+                    {currentQuestionNumber}
                   </span>
                   /10
                 </Typography>
@@ -173,11 +185,11 @@ const Game = () => {
             </Grid>
             {answers.length &&
               answers.map((answer) => (
-                <Grid item xs={12} sm={6}>
+                <Grid key={answer.id} item xs={12} sm={6}>
                   <Button
                     variant="contained"
                     size="large"
-                    disabled={clicked}
+                    // disabled={clicked}
                     sx={{
                       minWidth: "150px",
                       borderRadius: 10,

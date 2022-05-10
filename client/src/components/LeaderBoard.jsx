@@ -1,10 +1,9 @@
 import LeaderBoardItem from "./../components/LeaderBoardItem";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-function LeaderBoard(props) {
+function LeaderBoard({ usersList }) {
   const { t } = useTranslation(["Game/LeaderBoard"]);
 
-  let { usersList } = props;
   return (
     <div>
       <div
