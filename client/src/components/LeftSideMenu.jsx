@@ -20,9 +20,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import { logout } from "../features/auth/authSlice";
 
 const LeftSideMenu = (props) => {
+  const dispatch = useDispatch();
   const { i18n, t } = useTranslation(["LeftSideMenu"]);
+
+  const handleLanguageChange = (e) => {
+    i18n.changeLanguage(e.target.value);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    props.open(false);
+  };
 
   useEffect(() => {
     let userLang = navigator.language || navigator.userLanguage;
@@ -31,10 +42,6 @@ const LeftSideMenu = (props) => {
       i18next.changeLanguage(userLang[0]);
     }
   }, []);
-
-  const handleLanguageChange = (e) => {
-    i18n.changeLanguage(e.target.value);
-  };
 
   return (
     <>
@@ -124,6 +131,7 @@ const LeftSideMenu = (props) => {
                 mt: 10,
                 color: "white",
               }}
+              onClick={handleLogout}
             >
               <ListItemIcon sx={{ color: "white" }}>
                 <Logout />

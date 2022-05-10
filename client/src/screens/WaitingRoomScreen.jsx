@@ -6,6 +6,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { WebSocketContext } from "../components/Websocket/WebSocket";
 import { useTranslation } from "react-i18next";
 import { styled } from "@mui/material/styles";
+import GoogleButton from "../components/Login/LoginButton";
+import { logout } from "../features/auth/authSlice";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -15,6 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const WaitingRoomScreen = () => {
+  const dispatch = useDispatch();
   const params = useParams();
   //   const { t } = useTranslation(["Waitingroom"]);
   console.log(params);
@@ -29,6 +33,7 @@ const WaitingRoomScreen = () => {
   const [name, setName] = useState("");
 
   const invitedPlayers = useSelector((state) => state.quiz.quizPlayers);
+  const { user } = useSelector((state) => state.auth);
   const ws = useContext(WebSocketContext);
 
   const navigate = useNavigate();
@@ -44,8 +49,12 @@ const WaitingRoomScreen = () => {
   //   };
 
   const handleJoin = () => {
-    const config = { room: params.id, name: name };
+    const config = { room: params.id, name: user.name };
     ws.joinGame(config);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   useEffect(() => {
@@ -65,6 +74,16 @@ const WaitingRoomScreen = () => {
 
   return (
     <>
+      <Button
+        variant="contained"
+        size="large"
+        color="secondary"
+        sx={{ borderRadius: 10, mt: 5 }}
+        onClick={handleLogout}
+        disabled={!user}
+      >
+        Log out
+      </Button>
       <Grid
         container
         spacing={2}
@@ -73,7 +92,10 @@ const WaitingRoomScreen = () => {
         alignItems="center"
         sx={{ width: "100%" }}
       >
-        {users.map((user) => (
+        <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
+          {user && <h4>Welcome , {user.name}</h4>}
+        </Grid>
+        {/* {users.map((user) => (
           <Grid key={user.id} item xs={12}>
             <Button
               variant="contained"
@@ -85,7 +107,13 @@ const WaitingRoomScreen = () => {
               {user.name}
             </Button>
           </Grid>
-        ))}
+        ))} */}
+        {!user && (
+          <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
+            <h5>Or SIGN UP with Google Account</h5>
+            <GoogleButton></GoogleButton>
+          </Grid>
+        )}
         <Grid item xs={12}>
           <Button
             variant="contained"
@@ -93,7 +121,7 @@ const WaitingRoomScreen = () => {
             color="secondary"
             sx={{ borderRadius: 10, mt: 5 }}
             onClick={handleJoin}
-            disabled={name.length > 0 ? false : true}
+            disabled={!user}
           >
             Join Game
           </Button>

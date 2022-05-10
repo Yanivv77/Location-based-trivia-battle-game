@@ -1,7 +1,8 @@
 import React from "react";
 import useRequest from "../../hooks/use-request";
 import LoginButton from "./LoginButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Link as linked } from "react-router-dom";
 import {
@@ -15,14 +16,16 @@ import {
   Checkbox,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { setUser } from "../../features/auth/authSlice";
 
 const Login = () => {
-
-  const { t } = useTranslation(['login'])
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState('')
+  const { t } = useTranslation(["login"]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { user } = useSelector((state) => state.auth);
+  // const [user, setUser] = useState("");
 
   const { doRequest, errors } = useRequest({
     url: "http://localhost:5000/api/users/login",
@@ -30,23 +33,22 @@ const Login = () => {
     body: {
       email,
       password,
-    }
+    },
+  });
 
-  })
-
-
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const onSubmit = async (event) => {
     event.preventDefault();
 
-
-    setUser(await doRequest())
-    await delay(1000)
-    console.log(user)
-    await navigate('/profile')
-  }
-
+    const user = await doRequest();
+    user.name = user.username;
+    console.log(user);
+    dispatch(setUser(user));
+    localStorage.setItem("user", JSON.stringify(user));
+    await delay(1000);
+    await navigate("/profile");
+  };
 
   const paperStyle = {
     padding: "30px 20px",
@@ -56,6 +58,12 @@ const Login = () => {
   };
 
   const btnStyle = { margin: "0px 0" };
+  useEffect(() => {
+    if (user) {
+      navigate("/profile");
+    }
+  });
+
   return (
     <>
       <Grid>
