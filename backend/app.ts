@@ -12,8 +12,10 @@ import { logoutRouter } from "./Users/src/routes/auth/logout";
 import { signupRouter } from "./Users/src/routes/auth/signup";
 import { errorHandler } from "./Users/src/middlewares/error-handler";
 import { NotFoundError } from "./Users/src/errors/not-found-error";
-import { questions } from "./Questions/src/routes/questions";
+import { questions } from "./questions/src/routes/questions";
 import { gamePlayers } from "./GamePlayers/src/routes/gamePlayers";
+import { gameRouter"} from "./Games/src/routes/createGame";
+
 
 const app = express();
 app.use(cors());
@@ -31,6 +33,7 @@ app.use(loginRouter);
 app.use(logoutRouter);
 app.use(signupRouter);
 app.use(authGoogleRouter);
+app.use(gameRouter);
 app.use("/api/questions", questions);
 app.use("/api/gamePlayers", gamePlayers);
 
