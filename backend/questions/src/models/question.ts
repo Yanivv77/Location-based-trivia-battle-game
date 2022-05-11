@@ -1,12 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 // An interface that describes the properties
 // that are requried to create a new Question
 interface QuestionAttrs {
-  location: string;
+  category: string;
+  location: { country: string; place: string };
+  difficulty: "Easy" | "Normal" | "Hard";
   question: string;
-  options: Array<string>;
-  correctAnswer: number;
+  answers: Array<{ text: string; isCorrect: boolean }>;
 }
 
 interface QuestionModel extends mongoose.Model<QuestionDoc> {
@@ -16,33 +17,27 @@ interface QuestionModel extends mongoose.Model<QuestionDoc> {
 // An interface that describes the properties
 // that a Question Document has
 interface QuestionDoc extends mongoose.Document {
-  location: string;
+  category: string;
+  location: { country: string; place: string };
+  difficulty: "Easy" | "Normal" | "Hard";
   question: string;
-  options: Array<string>;
-  correctAnswer: number;
-  
+  answers: Array<{ text: string; isCorrect: boolean }>;
 }
 
-
 const questionSchema = new mongoose.Schema({
+  category: { type: String },
   location: {
-    type: String,
-    required: true,
+    country: { type: String },
+    place: { type: String },
+    // required: true,
   },
+  difficulty: { type: String, required: true },
   question: {
     type: String,
     required: true,
   },
-  options: {
-    type: [],
-    required: true,
-  },
-  correctAnswer: {
-    type: Number,
-    range: {
-      min: { type: Number, min: 0 },
-      max: { type: Number, min: 3 },
-    },
+  answers: {
+    type: [{}],
     required: true,
   },
 });
@@ -52,7 +47,10 @@ questionSchema.statics.build = (attrs: QuestionAttrs) => {
 };
 // const Question: QuestionAttrs = mongoose.model("Question", questionSchema);
 
-const Question = mongoose.model<QuestionDoc, QuestionModel>('Question', questionSchema);
+const Question = mongoose.model<QuestionDoc, QuestionModel>(
+  "Question",
+  questionSchema
+);
 
 // exports.QuestionModel = Question;
-export  { Question as QuestionModel };
+export { Question as QuestionModel };

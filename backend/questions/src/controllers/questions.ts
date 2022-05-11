@@ -33,7 +33,7 @@ const addQuestion = async (req: Request, res: Response) => {
     return res.status(400).send(error.details[0].message);
   }
   //Check if question already exist in DB
-  let { location, question, options, correctAnswer } = req.body;
+  let { category, location, difficulty, question, answers } = req.body;
   let questionToFind = await QuestionModel.findOne({
     location,
     question,
@@ -46,10 +46,11 @@ const addQuestion = async (req: Request, res: Response) => {
   }
   // if question not exist create new question model and save to DB
   let newQuestion = new QuestionModel({
+    category,
     location,
+    difficulty,
     question,
-    options,
-    correctAnswer,
+    answers
   });
   let result = await newQuestion.save();
   return res.send(result);
