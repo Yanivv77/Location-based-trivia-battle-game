@@ -3,7 +3,7 @@ import { GamePlayerModel } from "../models/gamePlayer";
 
 const getAllGamePlayers = async (req: Request, res: Response) => {
   let gamePlayer = await GamePlayerModel.find();
-  res.send(gamePlayer);
+  return res.status(201).send(gamePlayer);
 };
 
 const getGamePlayerByName = async (req: Request, res: Response) => {
@@ -17,7 +17,7 @@ const getGamePlayerByName = async (req: Request, res: Response) => {
     return res.status(400).send({ message: "player not exist!" });
   }
 
-  res.send(gamePlayerToFind);
+  return res.status(201).send(gamePlayerToFind);
 };
 
 const addGamePlayer = async (req: Request, res: Response) => {
@@ -40,7 +40,7 @@ const addGamePlayer = async (req: Request, res: Response) => {
     helpers_used_status: helpersStatus,
   });
   let result = await newGamePlayer.save();
-  return res.send(result);
+  return res.status(201).send(result);
 };
 
 export { getAllGamePlayers, getGamePlayerByName, addGamePlayer };

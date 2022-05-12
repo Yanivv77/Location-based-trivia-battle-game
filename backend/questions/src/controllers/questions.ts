@@ -13,17 +13,17 @@ const getRandomQuestions = async (numberOfRandomQuestions:number) => {
 
 const getAllQuestions = async (req: Request, res: Response) => {
   let questions = await QuestionModel.find();
-  res.send(questions);
+  return res.status(201).send(questions);
 };
 
 const getSingleRandomQuestion = async (req: Request, res: Response) => {
-  res.send(await getRandomQuestions(1));
+  return res.status(201).send(await getRandomQuestions(1));
 };
 
 const getTenRandomQuestions = async (req: Request, res: Response) => {
   // number of questions in each game
   const questions_per_game: any = process.env.QUESTIONS_PER_GAME;
-  res.send(await getRandomQuestions(parseInt(questions_per_game)));
+  return res.status(201).send(await getRandomQuestions(parseInt(questions_per_game)));
 };
 
 const addQuestion = async (req: Request, res: Response) => {
@@ -53,18 +53,17 @@ const addQuestion = async (req: Request, res: Response) => {
     answers
   });
   let result = await newQuestion.save();
-  return res.send(result);
+  return res.status(201).send(result);
 };
 
 const deleteQuestion = async (req: Request, res: Response) => {
   let result = await QuestionModel.deleteOne({ _id: req.params.id });
-  res.send(result);
+  return res.status(201).send(result);
 };
 
 const deleteAllQuestion = async (req: Request, res: Response) => {
   let result = await QuestionModel.collection.drop();
-  console.log(result);
-  res.send(result);
+  return res.status(201).send(result);
 };
 
 export {
