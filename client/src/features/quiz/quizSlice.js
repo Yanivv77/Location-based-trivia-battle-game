@@ -7,7 +7,7 @@ const initialState = {
   currentQuestion: null,
   correctAnswer: null,
   error: null,
-  score: null,
+  score: 0,
   currentQuestionIndex: null,
   currentQuestionNumber: 0,
   currentAnswer: "",
@@ -41,11 +41,17 @@ const quizSlice = createSlice({
   name: "quiz",
   initialState,
   reducers: {
-    addPlayers(state, action) {
-      state.quizPlayers = action.payload;
+    addPlayer(state, action) {
+      state.quizPlayers.push(action.payload);
     },
     removePlayer(state, action) {
-      state.quizPlayers.filter((player) => player.id !== action.payload.id);
+      console.log(action.payload);
+      state.quizPlayers = state.quizPlayers.filter(
+        (player) => player.socketId !== action.payload.id
+      );
+    },
+    updatePlayers(state, action) {
+      state.quizPlayers = action.payload;
     },
     answerQuestion(state, action) {
       const currentQuestion = state.questions[state.currentQuestionIndex];
@@ -62,21 +68,27 @@ const quizSlice = createSlice({
     },
     setQuestion(state, action) {
       console.log(action.payload);
-      state.currentAnswer = null;
-      state.currentPlayersAnswers = [];
+      if (state.currentQuestionNumber !== 10) {
+        state.currentAnswer = null;
+        state.currentPlayersAnswers = [];
+      }
       state.currentQuestion = action.payload.question;
       state.currentQuestionNumber = action.payload.number;
     },
     setAnswer(state, action) {
-      state.correctAnswer = action.payload;
       state.currentAnswer = action.payload;
       state.playerAnswersData.push(action.payload);
-      console.log(state.correctAnswer);
+
       state.score = action.payload.player.score;
     },
     setAllAnswers(state, action) {
       state.currentPlayersAnswers.push(action.payload);
-      state.allPlayersAnswersData.push(action.payload);
+      if (!state.allPlayersAnswersData[state.currentQuestionNumber - 1]) {
+        state.allPlayersAnswersData[state.currentQuestionNumber - 1] = [];
+      }
+      state.allPlayersAnswersData[state.currentQuestionNumber - 1].push(
+        action.payload
+      );
     },
     nextQuestion(state) {
       state.currentQuestionIndex += 1;
@@ -108,7 +120,8 @@ export const {
   answerQuestion,
   nextQuestion,
   resetState,
-  addPlayers,
+  addPlayer,
+  updatePlayers,
   removePlayer,
   setQuestion,
   setAnswer,

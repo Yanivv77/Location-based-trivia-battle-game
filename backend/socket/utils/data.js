@@ -1,20 +1,3 @@
-import { v4 as uuid } from "uuid";
-
-export const game = {
-  id: uuid(),
-  host: { id: uuid(), name: "Jakob(host)" },
-  gameId: uuid(),
-  invitedPlayers: [
-    { id: 676767, name: "Yaniv", email: "yaniv@mail.com" },
-    { id: 676768, name: "Sharon", email: "sharon@mail.com" },
-  ],
-
-  isActive: false,
-  isFinished: false,
-  questions: [],
-  currentQuestionNumber: 1,
-};
-
 export const questions = [
   {
     category: "Geography",

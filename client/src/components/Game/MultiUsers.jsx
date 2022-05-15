@@ -13,15 +13,18 @@ import MultipleUsersSelect from "../MultipleUsersSelect";
 
 const MultiUsers = () => {
   const [invited, setInvited] = useState({ name: "", email: "" });
+  const [clicked, setClicked] = useState(false);
   const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
   const onlinePlayers = useSelector((state) => state.quiz.quizPlayers);
+  const { game } = useSelector((state) => state.game);
   const invitedPlayers = useSelector(
     (state) => state.game.gameOptions.invitedPlayers
   );
 
   const handleCreateGame = () => {
-    ws.createGame("770");
+    setClicked(true);
+    ws.createGame(game);
   };
 
   const handleStartGame = () => {
@@ -140,6 +143,12 @@ const MultiUsers = () => {
             <br />
           </div>
         </div>
+        {game && clicked && (
+          <div>
+            <h6>Now players can join the game with this link : </h6>
+            <h6>localhost:3000/waitingroom/{game.gameId}</h6>
+          </div>
+        )}
         <div
           className="options-buttons"
           style={{ margin: "auto", width: "50%" }}
@@ -155,6 +164,7 @@ const MultiUsers = () => {
               marginBottom: "20px",
             }}
             onClick={handleCreateGame}
+            disabled={clicked}
           >
             Create game
           </Button>
