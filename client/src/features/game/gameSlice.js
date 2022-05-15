@@ -1,15 +1,33 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import gameService from "./gameService";
 import { resetState } from "../quiz/quizSlice";
 import {
   INIT_GAME,
   LOADING_GAME,
   GAME_OPTIONS,
   GAME,
-  BETWEEN_QUESTIONS,
   END_GAME,
 } from "../../utils/gameConstants";
 
+export const createGame = createAsyncThunk(
+  "game/create",
+  async (_, thunkAPI) => {
+    try {
+      return await gameService.createGame();
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const initialState = {
+  game: null,
   stage: INIT_GAME,
   gameOptions: {
     timeOut: false,
@@ -57,14 +75,23 @@ const gameState = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(resetState, (state) => {
-      state.stage = INIT_GAME;
-      state.helpers = {
-        isHalfAnswersUsed: false,
-        isStatisticsUsed: false,
-        isFolowUsed: false,
-      };
-    });
+    builder
+      .addCase(resetState, (state) => {
+        state.stage = INIT_GAME;
+        state.helpers = {
+          isHalfAnswersUsed: false,
+          isStatisticsUsed: false,
+          isFolowUsed: false,
+        };
+      })
+
+      .addCase(createGame.fulfilled, (state, action) => {
+        state.game = action.payload;
+      })
+      .addCase(createGame.rejected, (state, action) => {
+        state.isError = true;
+        state.message = action.payload;
+      });
   },
 });
 

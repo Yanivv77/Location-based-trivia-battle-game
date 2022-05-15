@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  addPlayers,
+  addPlayer,
+  updatePlayers,
   removePlayer,
   setQuestion,
   setAnswer,
@@ -18,6 +19,8 @@ const WebSocketContext = createContext(null);
 export { WebSocketContext };
 
 export default ({ children }) => {
+  const { user } = useSelector((state) => state.auth);
+  const players = useSelector((state) => state.quiz.quizPlayers);
   const socket = useRef();
   //   if (!socket.current) {
   //     socket.current = io("http://localhost:7000");
@@ -25,15 +28,10 @@ export default ({ children }) => {
   //   }
 
   const dispatch = useDispatch();
-  const questions = useSelector((state) => state.quiz.questions);
+  const { game } = useSelector((state) => state.game);
 
-  const createGame = (roomId) => {
-    console.log(roomId);
-    const payload = {
-      room: roomId,
-      name: "Host",
-    };
-    socket.current.emit("createRoom", payload, (res) => {
+  const createGame = (game) => {
+    socket.current.emit("createGame", game, (res) => {
       console.log(res);
     });
     //    dispatch(updateChatLog(payload));
@@ -60,14 +58,13 @@ export default ({ children }) => {
       socket.current = io("http://localhost:7000");
       console.log("socket:", socket);
 
-      socket.current.on("joinedGame", (players) => {
-        console.log(players);
-        dispatch(addPlayers(players));
+      socket.current.on("update-players", (players) => {
+        dispatch(updatePlayers(players));
       });
 
-      socket.current.on("PLAYER-DISCONNECT", (player) => {
+      socket.current.on("player-disconected", (player) => {
         console.log(player);
-        dispatch(removePlayer(player.name));
+        dispatch(removePlayer(player));
       });
 
       socket.current.on("ALL-DISCONNECT", () => {
@@ -121,7 +118,7 @@ export default ({ children }) => {
 
       socket.current.on("gameFinished", (scoreboard) => {
         console.log(scoreboard);
-        dispatch(finishGame());
+        setTimeout(() => dispatch(finishGame()), 1500);
       });
 
       //  socket.current.on("newQuestion", (res) => {

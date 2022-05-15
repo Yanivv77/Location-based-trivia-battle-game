@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
+import {
+  Grid,
+  Button,
+  Typography,
+  Box,
+  Paper,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -21,16 +29,11 @@ const WaitingRoomScreen = () => {
   const dispatch = useDispatch();
   const params = useParams();
   //   const { t } = useTranslation(["Waitingroom"]);
-  console.log(params);
 
-  const [users, setUsers] = useState([
-    { id: 22, name: "John" },
-    { id: 23, name: "David" },
-
-    { id: 24, name: "Miri" },
-  ]);
   const [gameStarted, setGameStarted] = useState(false);
-  const [name, setName] = useState("");
+  const [guestName, setGuestName] = useState("");
+  const [guestInput, setGuestInput] = useState(false);
+  const [joined, setJoined] = useState(false);
 
   const invitedPlayers = useSelector((state) => state.quiz.quizPlayers);
   const { user } = useSelector((state) => state.auth);
@@ -41,7 +44,7 @@ const WaitingRoomScreen = () => {
   const delay = (timer, callback) => {
     setTimeout(() => callback(), timer);
   };
-  const handleClick = (name) => setName(name);
+  const handleClick = (name) => setGuestName(name);
 
   //   const handleExitGame = () => {
   //     dispatch(resetState());
@@ -49,7 +52,11 @@ const WaitingRoomScreen = () => {
   //   };
 
   const handleJoin = () => {
-    const config = { room: params.id, name: user.name };
+    setJoined(true);
+    const userToJoin = user
+      ? { ...user, roomId: params.id }
+      : { name: guestName, roomId: params.id };
+    const config = { room: params.id, user: userToJoin };
     ws.joinGame(config);
   };
 
@@ -58,6 +65,7 @@ const WaitingRoomScreen = () => {
   };
 
   useEffect(() => {
+    console.log(params);
     console.log(ws.socket.current);
     if (ws.socket.current) {
       console.log(ws.socket.current.connected);
@@ -94,25 +102,47 @@ const WaitingRoomScreen = () => {
       >
         <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
           {user && <h4>Welcome , {user.name}</h4>}
+          {!user && guestName && <h3>Welcome , {guestName}</h3>}
         </Grid>
-        {/* {users.map((user) => (
-          <Grid key={user.id} item xs={12}>
-            <Button
-              variant="contained"
-              size="large"
-              color="secondary"
-              sx={{ borderRadius: 10, mt: 5 }}
-              onClick={() => handleClick(user.name)}
-            >
-              {user.name}
-            </Button>
-          </Grid>
-        ))} */}
-        {!user && (
-          <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
-            <h5>Or SIGN UP with Google Account</h5>
-            <GoogleButton></GoogleButton>
-          </Grid>
+        {joined ? (
+          <h4>Please wait till Host will start the game</h4>
+        ) : (
+          !user && (
+            <>
+              <Grid item xs={12} sx={{ mt: 2, mb: 2 }}>
+                <Stack justifyContent="center" alignItems="center" spacing={2}>
+                  <h5> SIGN UP with Google Account</h5>
+                  <GoogleButton></GoogleButton>
+                </Stack>
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 2 }}>
+                <Stack justifyContent="center" alignItems="center" spacing={2}>
+                  <h5>Or Join as guest</h5>
+                  {guestInput ? (
+                    <TextField
+                      required
+                      id="standard-required"
+                      label="Name"
+                      variant="standard"
+                      value={guestName}
+                      onChange={(e) => setGuestName(e.target.value)}
+                      sx={{ p: 2 }}
+                    />
+                  ) : (
+                    <Button
+                      variant="contained"
+                      size="large"
+                      color="secondary"
+                      sx={{ borderRadius: 10, mt: 5 }}
+                      onClick={() => setGuestInput(true)}
+                    >
+                      For GUESTS
+                    </Button>
+                  )}
+                </Stack>
+              </Grid>
+            </>
+          )
         )}
         <Grid item xs={12}>
           <Button
@@ -121,7 +151,7 @@ const WaitingRoomScreen = () => {
             color="secondary"
             sx={{ borderRadius: 10, mt: 5 }}
             onClick={handleJoin}
-            disabled={!user}
+            disabled={(!user && !guestName) || joined}
           >
             Join Game
           </Button>

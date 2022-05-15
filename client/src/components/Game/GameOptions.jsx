@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { Grid, Button, Typography, Box, Paper } from "@mui/material";
+import { Grid, Button, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MultiUsers from "../Game/MultiUsers";
 import { useDispatch } from "react-redux";
-import { restartGame, loadGame } from "../../features/game/gameSlice";
-import { fetchQuestions } from "../../features/quiz/quizSlice";
-// import OnlineUsers from "../components/Game/OnlineUsers";
+import {
+  restartGame,
+  loadGame,
+  createGame,
+} from "../../features/game/gameSlice";
 
 const GameOptions = () => {
   const [multi, setMulti] = useState(false);
-  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   return (
     <>
@@ -66,7 +68,8 @@ const GameOptions = () => {
                   size="large"
                   sx={{ borderRadius: 10, mt: 5 }}
                   onClick={() => {
-                    dispatch(fetchQuestions());
+                    // dispatch(fetchQuestions());
+                    dispatch(createGame());
                     setMulti(true);
                   }}
                 >

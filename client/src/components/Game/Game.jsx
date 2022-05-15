@@ -14,23 +14,17 @@ import Timer from "../Timer";
 import Helps from "../Helps";
 
 const Game = () => {
-  // const currentQuestion = useSelector((state) =>
-  //   state.quiz.questions[state.quiz.currentQuestionIndex]
-  //     ? state.quiz.questions[state.quiz.currentQuestionIndex]
-  //     : state.quiz.questions[state.quiz.currentQuestionIndex - 1]
-  // );
-  const { currentQuestion, currentQuestionNumber, currentAnswer } = useSelector(
-    (state) => state.quiz
-  );
+  const { currentQuestion, currentQuestionNumber, currentAnswer, score } =
+    useSelector((state) => state.quiz);
   const [open, setOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeFinished, setTimeFinished] = useState(false);
   const [answers, setAnswers] = useState(currentQuestion?.answers || []);
   const [clicked, setClicked] = useState(false);
+
   const ws = useContext(WebSocketContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { currentQuestionIndex, score } = useSelector((state) => state.quiz);
   const { isHalfAnswersUsed } = useSelector((state) => state.game.helpers);
 
   const handleOpen = () => setOpen(true);
@@ -56,6 +50,10 @@ const Game = () => {
 
     // moveToNextQuestion();
   };
+  const handleTimeout = () => {
+    setTimeFinished(true);
+    setOpen(true);
+  };
 
   useEffect(() => {
     console.log("currentQuestion changed");
@@ -72,8 +70,10 @@ const Game = () => {
       }, 1500);
     } else {
       handleClose();
+      setTimeFinished(false);
+      setAnswers(currentQuestion.answers);
     }
-  }, [currentAnswer]);
+  }, [currentAnswer, currentQuestion]);
   return (
     <>
       {" "}
@@ -117,6 +117,7 @@ const Game = () => {
             currentQuestion={currentQuestionNumber}
             moveToNextQuestion={moveToNextQuestion}
             currentAnswer={currentAnswer}
+            handleTimeout={handleTimeout}
           />
         </Typography>
         <Typography
@@ -202,7 +203,11 @@ const Game = () => {
           <Helps answers={answers} setAnswers={setAnswers}></Helps>
         </Box>
       </Box>
-      <BetweenQuestionsModal open={open} handleClose={handleClose} />
+      <BetweenQuestionsModal
+        open={open}
+        handleClose={handleClose}
+        timeFinished={timeFinished}
+      />
     </>
   );
 };

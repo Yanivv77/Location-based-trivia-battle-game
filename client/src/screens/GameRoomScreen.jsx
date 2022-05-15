@@ -2,12 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { finishGame } from "../features/game/gameSlice";
-import {
-  answerQuestion,
-  nextQuestion,
-  resetState,
-} from "../features/quiz/quizSlice";
+
+import { resetState } from "../features/quiz/quizSlice";
 import BetweenQuestionsModal from "../components/Game/BetweenQuestionsModal";
 import Timer from "../components/Timer";
 import Helps from "../components/Helps";
@@ -18,12 +14,11 @@ const GameRoomScreen = () => {
     useSelector((state) => state.quiz);
 
   const [open, setOpen] = useState(false);
+  const [timeFinished, setTimeFinished] = useState(false);
 
-  const [gameFinished,setGameFinished] = useState(false);
+  const [gameFinished, setGameFinished] = useState(false);
 
-  const [name, setName] = useState("");
-
-  const [answers, setAnswers] = useState(currentQuestion?.answers || []);
+  const [answers, setAnswers] = useState(currentQuestion.answers || []);
   const [clicked, setClicked] = useState(false);
 
   const ws = useContext(WebSocketContext);
@@ -43,6 +38,11 @@ const GameRoomScreen = () => {
     navigate("/profile");
   };
 
+  const handleTimeout = () => {
+    setTimeFinished(true);
+    setOpen(true);
+  };
+
   const moveToNextQuestion = () => {
     console.log("MoveToNextQuestion");
   };
@@ -54,22 +54,6 @@ const GameRoomScreen = () => {
     //     moveToNextQuestion();
   };
 
-  //   useEffect(() => {
-  //     console.log("currentQuestion changed");
-  //     setAnswers(currentQuestion.answers);
-
-  //     if (currentQuestionIndex === 10) {
-  //       dispatch(finishGame());
-  //     }
-  //   }, [currentQuestionIndex]);
-  useEffect(() => {
-    console.log(ws.socket.current);
-    //     if (ws.socket.current) {
-    //       ws.socket.current?.on("newQuestion", (game) => {
-    //         console.log("game", game);
-    //       });
-    //     }
-  }, [ws]);
   useEffect(() => {
     if (currentAnswer) {
       setTimeout(() => {
@@ -77,22 +61,24 @@ const GameRoomScreen = () => {
       }, 1500);
     } else {
       handleClose();
+      setTimeFinished(false);
+      setAnswers(currentQuestion.answers);
     }
-  }, [currentAnswer]);
+  }, [currentAnswer, currentQuestion]);
   useEffect(() => {
-     console.log(ws.socket.current);
-     if (ws.socket.current) {
-       console.log(ws.socket.current.connected);
-       ws.socket.current?.on("gameFinished", () => {
-         setGameFinished(true);
-       });
-     }
-   }, [ws]);
-   useEffect(() => {
-     if (gameFinished) {
-       navigate(`/endgamescreen`);
-     }
-   }, [gameFinished]);
+    console.log(ws.socket.current);
+    if (ws.socket.current) {
+      console.log(ws.socket.current.connected);
+      ws.socket.current?.on("gameFinished", () => {
+        setGameFinished(true);
+      });
+    }
+  }, [ws]);
+  useEffect(() => {
+    if (gameFinished) {
+      setTimeout(() => navigate(`/endgamescreen`), 1500);
+    }
+  }, [gameFinished]);
   return (
     <>
       {currentQuestion && (
@@ -125,6 +111,7 @@ const GameRoomScreen = () => {
                 currentQuestion={currentQuestionNumber}
                 moveToNextQuestion={moveToNextQuestion}
                 currentAnswer={currentAnswer}
+                handleTimeout={handleTimeout}
               />
             </Typography>
             <Typography
@@ -210,7 +197,11 @@ const GameRoomScreen = () => {
               <Helps answers={answers} setAnswers={setAnswers}></Helps>
             </Box>
           </Box>
-          <BetweenQuestionsModal open={open} handleClose={handleClose} />
+          <BetweenQuestionsModal
+            open={open}
+            handleClose={handleClose}
+            timeFinished={timeFinished}
+          />
         </>
       )}
     </>
