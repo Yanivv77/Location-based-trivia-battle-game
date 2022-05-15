@@ -60,4 +60,4 @@ const GamePlayer = mongoose.model<GamePlayerDoc, GamePlayerModel>(
 );
 
 // exports.GamePlayerModel = GamePlayer;
-export { GamePlayer as GamePlayerModel };
+export { GamePlayer as GamePlayerModel , gamePlayerSchema };
