@@ -2,8 +2,8 @@ import express, { Request, Response } from "express";
 import { GamePlayerModel } from "../models/gamePlayer";
 
 const getAllGamePlayers = async (req: Request, res: Response) => {
-  let gamePlayer = await GamePlayerModel.find();
-  return res.status(201).send(gamePlayer);
+  let gamePlayers = await GamePlayerModel.find();
+  return res.status(201).send(gamePlayers);
 };
 
 const getGamePlayerByName = async (req: Request, res: Response) => {
