@@ -31,7 +31,7 @@ const style = {
 const NearByModal = ({ open, handleClose }) => {
   const dispatch = useDispatch();
   const location = useGeoLocation();
-  console.log(location);
+  // console.log(location);
 
   const handleNextButton = () => {
     dispatch(setGame());

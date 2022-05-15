@@ -23,6 +23,7 @@ const style = {
   width: "70%",
   bgcolor: "background.paper",
   border: "2px solid #000",
+  borderRadius: "5px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -33,7 +34,7 @@ const style = {
   p: 4,
 };
 
-const BetweenQuestionsModal = ({ open, handleClose }) => {
+const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
   const { currentAnswer, currentPlayersAnswers, currentQuestionNumber } =
     useSelector((state) => state.quiz);
 
@@ -54,23 +55,26 @@ const BetweenQuestionsModal = ({ open, handleClose }) => {
         <Fade in={open}>
           <Box sx={style}>
             <h2>Question {currentQuestionNumber}</h2>
-            <div className="main-container" style={{ marginTop: "5%" }}>
-              <LeaderBoard usersList={currentPlayersAnswers} />
+            {timeFinished ? (
+              <div className="main-container" style={{ marginTop: "5%" }}>
+                {currentPlayersAnswers.length ? (
+                  <LeaderBoard usersList={currentPlayersAnswers} />
+                ) : null}
 
-              <div
-                className="right-answer"
-                style={{
-                  width: "fit-content",
-                  margin: "auto",
-                  textAlign: "center",
-                  marginTop: "40px",
-                  marginBottom: "40px",
-                }}
-              >
-                <h1>The right answer is:</h1>
-              </div>
+                <div
+                  className="right-answer"
+                  style={{
+                    width: "fit-content",
+                    margin: "auto",
+                    textAlign: "center",
+                    marginTop: "40px",
+                    marginBottom: "40px",
+                  }}
+                >
+                  <h1>Sorry the time is finished</h1>
+                </div>
 
-              <div
+                {/* <div
                 className="random-fact"
                 style={{
                   backgroundColor: "white",
@@ -80,8 +84,40 @@ const BetweenQuestionsModal = ({ open, handleClose }) => {
                 }}
               >
                 {currentAnswer?.correctAnswer.text}
+              </div> */}
               </div>
-            </div>
+            ) : (
+              <>
+                <div className="main-container" style={{ marginTop: "5%" }}>
+                  <LeaderBoard usersList={currentPlayersAnswers} />
+
+                  <div
+                    className="right-answer"
+                    style={{
+                      width: "fit-content",
+                      margin: "auto",
+                      textAlign: "center",
+                      marginTop: "40px",
+                      marginBottom: "40px",
+                    }}
+                  >
+                    <h1>The right answer is:</h1>
+                  </div>
+
+                  <div
+                    className="random-fact"
+                    style={{
+                      backgroundColor: "white",
+                      width: "50%",
+                      margin: "auto",
+                      textAlign: "center",
+                    }}
+                  >
+                    {currentAnswer?.correctAnswer.text}
+                  </div>
+                </div>
+              </>
+            )}
           </Box>
         </Fade>
       </Modal>

@@ -1,71 +1,72 @@
 // const { GameManager } = require("js-gamemanager");
-const { getQuestions } = require("./questionService");
+import { getQuestions } from "./questionService";
 
-class GameManager {
+export default class GameManager {
   constructor() {
     this.quizzes = {};
     this.players = [];
     this.games = [];
   }
 
-  addGame(hostId, game) {
-    game.hostId = hostId;
-
+  addGame(hostID, roomName) {
+    const game = {
+      host: hostID,
+      roomId: roomName,
+      active: false,
+    };
     this.games.push(game);
 
     const quiz = {
-      qs: game.questions,
-      currentQuestionNumber: game.currentQuestionNumber,
+      qs: getQuestions(),
+      currentQuestionNumber: 1,
       waiting: 0,
     };
 
-    this.quizzes[game.gameId] = quiz;
+    this.quizzes[roomName] = quiz;
 
     return game;
   }
 
-  addPlayer(player) {
-    this.players.push(player);
+  addPlayer(room, name, socketId) {
+    this.players.push({ id: socketId, name, roomId: room, score: 0 });
+    return { id: socketId, name, roomId: room, score: 0 };
   }
 
   removePlayer(socketId) {
     const player = this.getPlayerBySocket(socketId);
-    if (player) {
-      this.players = this.players.filter(
-        (player) => player.socketId !== socketId
-      );
-      console.log(this.players);
-      return player;
-    } else {
-      return null;
-    }
+    console.log("before deleting:", player);
+    console.log("players:", this.players);
+    this.players = this.players.filter((player) => player.id !== socketId);
+    console.log("after deleting:", player);
+    console.log(this.players);
+    return player;
   }
   getPlayersByRoom(roomID) {
     return this.players.filter((player) => player.roomId === roomID);
   }
   getGameByHost(hostId) {
-    return this.games.find((game) => game.hostId === hostId);
-  }
-
-  getGameByRoom(roomId) {
-    let game = this.games.find((game) => game.gameId === roomId);
-    return game;
+    return this.games.find((game) => game.host === hostId);
   }
 
   getPlayerBySocket(socketId) {
-    let player = this.players.find((p) => p.socketId === socketId);
+    let player = this.players.find((p) => p.id === socketId);
     return player;
+  }
+
+  getGameByRoom(roomId) {
+    let game = this.games.find((game) => game.roomId === roomId);
+    return game;
   }
 
   checkHostOrPlayer(socketId) {
     let type = this.games.find((game) =>
-      game.hostId === socketId ? "HOST" : "PLAYER"
+      game.host === socketId ? "HOST" : "PLAYER"
     );
     return type;
   }
 
   checkIsAvailable(roomId) {
-    let isNotAvailable = this.games.find((game) => game.gameId === roomId);
+    let isNotAvailable = this.games.find((game) => game.roomId === roomId);
     return isNotAvailable ? false : true;
   }
 
@@ -118,5 +119,3 @@ class GameManager {
     return player;
   }
 }
-
-module.exports = { GameManager };

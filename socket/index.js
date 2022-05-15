@@ -1,73 +1,49 @@
 const { Server } = require("socket.io");
 const express = require("express");
 const http = require("http");
-// const path = require("path");
+
 const cors = require("cors");
 const { GameManager } = require("./utils/GameManager");
 const { isValidString } = require("./utils/validate");
-// const { getCategories, shuffleArray } = require("./utils/questions");
 
 const port = process.env.PORT || 7000;
 const app = express();
 app.use(cors());
-// const publicPath = path.join(__dirname, "..", "public");
+
 const server = http.createServer(app);
-var io = new Server(server, {
+const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
   },
 });
-var games = new GameManager();
+const games = new GameManager();
 
 io.on("connection", (socket) => {
   console.log(`${socket.id} connected!`);
 
-  //     getCategories().then((res) => {
-  //         socket.emit("categories", res.trivia_categories);
-  //     }).catch((err) => {
-  //         console.log(err);
-  //     });
+  socket.on("createGame", (game) => {
+    games.addGame(socket.id, game);
+    const host = {
+      ...game.host,
+      roomId: game.gameId,
+      socketId: socket.id,
+      score: 0,
+    };
+    games.addPlayer(host);
+    socket.join(game.gameId);
 
-  //     socket.on("msg", () => {
-  //         console.log("Called")
-  //         socket.emit("new", new Date().toTimeString());
-  //     });
-
-  socket.on("createRoom", (config, callback) => {
-    games.addGame(socket.id, config.room);
-    let player = games.addPlayer(config.room, config.name, socket.id);
-    socket.join(config.room);
-    let players = games.getPlayersByRoom(config.room);
-    io.to(config.room).emit("joinedGame", players);
+    io.to(game.gameId).emit("update-players", [host]);
     console.log(games);
-    //     if (isValidString(config.roomId)) {
-    //       if (games.checkIsAvailable(config.roomId)) {
-    //         games.addGame(socket.id, config.roomId, config.questions);
-    //         let player = games.addPlayer(config.room, config.name, socket.id);
-    //         socket.join(config.roomId);
-    //         console.log(games);
-    //         io.to(config.roomId).emit("PLAYER-CONNECTED", player);
-    //         callback({ code: "success" });
-    //       } else {
-    //         callback({
-    //           code: "ROOMERROR",
-    //           msg: `Room name ${config.roomId} is taken. Please try another name.`,
-    //         });
-    //       }
-    //     } else {
-    //       callback({
-    //         code: "ROOMERROR",
-    //         msg: `Cannot use empty string for room name.`,
-    //       });
-    //     }
   });
 
   socket.on("joinGame", (config) => {
-    games.addPlayer(config.room, config.name, socket.id);
+    const player = { ...config.user, socketId: socket.id, score: 0 };
+    games.addPlayer(player);
     let players = games.getPlayersByRoom(config.room);
     socket.join(config.room);
     console.log(games.players);
-    io.to(config.room).emit("joinedGame", players);
+    io.to(config.room).emit("update-players", players);
+
     //     if (isValidString(config.name) && isValidString(config.room)) {
     //       let g = games.getGameByRoom(config.room);
     //       if (g && g.active) {
@@ -107,7 +83,7 @@ io.on("connection", (socket) => {
 
   // Game start by Host
   socket.on("startGame", (undefined, callback) => {
-    let roomId = games.getGameByHost(socket.id).roomId;
+    let roomId = games.getGameByHost(socket.id).gameId;
     if (roomId) {
       let players = games.getPlayersByRoom(roomId);
 
@@ -131,7 +107,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("getNextQuestion", () => {
-    let roomId = games.getGameByHost(socket.id).roomId;
+    let roomId = games.getGameByHost(socket.id).gameId;
     let remaining = games.availableQuestions(roomId);
     if (remaining === 0) {
       const players = games.getPlayersByRoom(roomId);
@@ -159,7 +135,7 @@ io.on("connection", (socket) => {
       const correctAnswer = question.answers.find((answer) => answer.isCorrect);
       console.log(correctAnswer);
       if (correctAnswer.text === answer) {
-        games.updateScore(player.id, 1);
+        games.updateScore(player.socketId, 1);
         //    callback({ code: "correct", score: p.score });
         //    var g = games.getGameByRoom(p.room);
         io.to(socket.id).emit("answerResult", {
@@ -220,9 +196,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log(socket.id, "disconnected");
     let roomId = games.getPlayerBySocket(socket.id)?.roomId;
+    console.log(roomId);
     games.removePlayer(socket.id);
     let players = games.getPlayersByRoom(roomId);
-    io.to(roomId).emit("joinedGame", players);
+    io.to(roomId).emit("update-players", players);
     //     let type = games.checkHostOrPlayer(socket.id);
     //     let game, player, players;
     //     if (type === "HOST") {
