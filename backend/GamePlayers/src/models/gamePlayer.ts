@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 // that are requried to create a new GamePlayer
 interface GamePlayerAttrs {
   user_name: string;
-  game_id: string;
+  game_id: number;
   answers: Array<string>;
   helpers_used_status: {
     follow: boolean;
@@ -21,7 +21,7 @@ interface GamePlayerModel extends mongoose.Model<GamePlayerDoc> {
 // that a GamePlayer Document has
 interface GamePlayerDoc extends mongoose.Document {
   user_name: string;
-  game_id: string;
+  game_id: number;
   answers: Array<string>;
   helpers_used_status: {
     follow: boolean;
