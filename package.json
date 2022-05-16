@@ -6,7 +6,8 @@
   "scripts": {
     "client": "cd client && npm start",
     "backend": "cd backend && npm start",
-    "dev": "concurrently \"npm run backend\" \"npm run client\"",
+    "socket": "cd socket && npm start",
+    "dev": "concurrently \"npm run backend\" \"npm run client\" \"npm run socket\"   ",
     "test": "jest --watchAll --no-cache"
   },
   "jest": {
