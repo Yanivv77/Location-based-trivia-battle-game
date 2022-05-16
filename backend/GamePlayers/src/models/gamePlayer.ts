@@ -1,3 +1,4 @@
+import { string } from "joi";
 import mongoose from "mongoose";
 
 // An interface that describes the properties
@@ -5,7 +6,7 @@ import mongoose from "mongoose";
 interface GamePlayerAttrs {
   user_name: string;
   game_id: number;
-  answers: Array<string>;
+  answers: Array<any>;
   helpers_used_status: {
     follow: boolean;
     statistics: boolean;
@@ -22,7 +23,7 @@ interface GamePlayerModel extends mongoose.Model<GamePlayerDoc> {
 interface GamePlayerDoc extends mongoose.Document {
   user_name: string;
   game_id: number;
-  answers: Array<string>;
+  answers: Array<any>;
   helpers_used_status: {
     follow: boolean;
     statistics: boolean;
@@ -60,4 +61,4 @@ const GamePlayer = mongoose.model<GamePlayerDoc, GamePlayerModel>(
 );
 
 // exports.GamePlayerModel = GamePlayer;
-export { GamePlayer as GamePlayerModel , gamePlayerSchema };
+export { GamePlayer as GamePlayerModel, gamePlayerSchema };
