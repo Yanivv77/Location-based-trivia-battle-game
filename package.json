@@ -10,7 +10,6 @@
   },
 
   "scripts": {
-    "start": "node backend/index.ts",
     "backend": "cd backend && npm start",
     "socket": "cd socket && npm start",
     "client": "cd client && npm start",
