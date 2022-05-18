@@ -8,6 +8,7 @@
     "backend": "cd backend && npm start",
     "socket": "cd socket && npm start",
     "dev": "concurrently \"npm run backend\" \"npm run client\" \"npm run socket\"   ",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend",
     "test": "jest --watchAll --no-cache"
   },
   "jest": {
