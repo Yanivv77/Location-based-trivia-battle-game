@@ -1,79 +1,94 @@
-import React, { useState } from "react";
-import { Grid, Button, Typography, Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Grid, Button, Typography, Box, Slider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MultiUsers from "../Game/MultiUsers";
-import { useDispatch } from "react-redux";
-import {
-  restartGame,
-  loadGame,
-  createGame,
-} from "../../features/game/gameSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { initGame, createGame, setTimer } from "../../features/game/gameSlice";
 
 const GameOptions = () => {
+  const { secondsPerQuestion } = useSelector((state) => state.game.gameOptions);
   const [multi, setMulti] = useState(false);
+  const [value, setValue] = useState(secondsPerQuestion || 30);
 
   const dispatch = useDispatch();
+
+  const handleChange = (event, newValue) => {
+    // setValue(newValue);
+    dispatch(setTimer(newValue));
+  };
+
+  useEffect(() => {
+    console.log(secondsPerQuestion);
+  }, [value]);
   return (
     <>
       {!multi ? (
         <>
-          {" "}
+          <Typography
+            variant="h5"
+            sx={{
+              textAlign: "center",
+              mt: 2,
+
+              fontWeight: "bold",
+              color: "##eeeeee",
+            }}
+          >
+            Choose Game Options
+          </Typography>
           <Button
             variant="contained"
             color="success"
-            size="large"
-            sx={{ borderRadius: 10, mt: 5 }}
+            size="medium"
+            sx={{ borderRadius: 10, mb: 1 }}
             onClick={() => {
-              dispatch(restartGame());
+              dispatch(initGame());
             }}
           >
             Go Back
           </Button>
           <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
-            <Typography
-              variant="h5"
-              sx={{
-                textAlign: "center",
-                mt: 3,
-                mb: 3,
-                fontWeight: "bold",
-                color: "##eeeeee",
-              }}
-            >
-              Now choose how many players you want in your game
-            </Typography>
             <Grid
               container
               spacing={2}
               direction="column"
               justifyContent="center"
               alignItems="center"
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", mt: 3 }}
             >
               <Grid item xs={12}>
-                <Button
-                  variant="contained"
-                  size="large"
-                  color="secondary"
-                  sx={{ borderRadius: 10, mt: 5 }}
-                  onClick={() => dispatch(loadGame())}
-                >
-                  Single Player
-                </Button>
+                <Box sx={{ width: 200 }}>
+                  <Typography
+                    color="primary"
+                    id="discrete-slider-custom"
+                    gutterBottom
+                  >
+                    {secondsPerQuestion} Seconds Per Question
+                  </Typography>
+                  <Slider
+                    value={secondsPerQuestion}
+                    aria-label="Timer"
+                    onChange={handleChange}
+                    valueLabelDisplay="auto"
+                    min={10}
+                    max={30}
+                    color="secondary"
+                  />
+                </Box>
               </Grid>
               <Grid item xs={12}>
                 <Button
                   variant="contained"
                   color="secondary"
                   size="large"
-                  sx={{ borderRadius: 10, mt: 5 }}
+                  sx={{ borderRadius: 10, mt: 6, mb: 3 }}
                   onClick={() => {
                     // dispatch(fetchQuestions());
                     dispatch(createGame());
                     setMulti(true);
                   }}
                 >
-                  Multiplayer
+                  Continue
                 </Button>
               </Grid>
             </Grid>

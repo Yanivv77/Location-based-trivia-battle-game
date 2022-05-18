@@ -8,9 +8,7 @@ class GameManager {
     this.games = [];
   }
 
-  addGame(hostId, game) {
-    game.hostId = hostId;
-
+  addGame(game) {
     this.games.push(game);
 
     const quiz = {
@@ -20,8 +18,15 @@ class GameManager {
     };
 
     this.quizzes[game.gameId] = quiz;
+    console.log(this.quizzes[game.gameId]);
 
     return game;
+  }
+  removeGame(hostId) {
+    this.games = this.games.filter((game) => game.hostId !== hostId);
+  }
+  removeGameByRoom(roomId) {
+    this.games = this.games.filter((game) => game.gameId !== roomId);
   }
 
   addPlayer(player) {
@@ -40,6 +45,10 @@ class GameManager {
       return null;
     }
   }
+  removePlayersByRoom(roomId) {
+    this.players = this.players.filter((player) => player.roomId !== roomId);
+  }
+
   getPlayersByRoom(roomID) {
     return this.players.filter((player) => player.roomId === roomID);
   }
@@ -58,9 +67,11 @@ class GameManager {
   }
 
   checkHostOrPlayer(socketId) {
-    let type = this.games.find((game) =>
-      game.hostId === socketId ? "HOST" : "PLAYER"
+    const hostCandidate = this.players.find(
+      (player) => player.socketId === socketId
     );
+    let type = hostCandidate.role === "host" ? "HOST" : "PLAYER";
+
     return type;
   }
 
@@ -83,9 +94,12 @@ class GameManager {
   }
 
   availableQuestions(room) {
-    return (
-      this.quizzes[room].qs.length - this.quizzes[room].currentQuestionNumber
-    );
+    console.log("available questions:");
+    console.log(this.quizzes[room].qs.length);
+    console.log(this.quizzes[room].currentQuestionNumber);
+    let remaining =
+      this.quizzes[room].qs.length - this.quizzes[room].currentQuestionNumber;
+    return remaining;
   }
 
   setWaiting(room) {

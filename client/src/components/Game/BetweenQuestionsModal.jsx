@@ -35,8 +35,12 @@ const style = {
 };
 
 const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
-  const { currentAnswer, currentPlayersAnswers, currentQuestionNumber } =
-    useSelector((state) => state.quiz);
+  const {
+    correctAnswer,
+    currentAnswer,
+    currentPlayersAnswers,
+    currentQuestionNumber,
+  } = useSelector((state) => state.quiz);
 
   return (
     <div>
@@ -71,7 +75,7 @@ const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
                     marginBottom: "40px",
                   }}
                 >
-                  <h1>Sorry the time is finished</h1>
+                  <h1>Sorry the time is up!</h1>
                 </div>
 
                 {/* <div
@@ -113,7 +117,7 @@ const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
                       textAlign: "center",
                     }}
                   >
-                    {currentAnswer?.correctAnswer.text}
+                    {correctAnswer.text}
                   </div>
                 </div>
               </>

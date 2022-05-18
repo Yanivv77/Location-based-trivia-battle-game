@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import Input from "../Input";
-import { Button, TextField, Stack, Grid } from "@mui/material";
+import { Button, TextField, Stack, Grid, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { WebSocketContext } from "../Websocket/WebSocket";
+import Copy from "../Copy";
 import {
-  restartGame,
+  initGame,
   loadGame,
   addInvitedPlayer,
 } from "../../features/game/gameSlice";
@@ -18,9 +19,7 @@ const MultiUsers = () => {
   const ws = useContext(WebSocketContext);
   const onlinePlayers = useSelector((state) => state.quiz.quizPlayers);
   const { game } = useSelector((state) => state.game);
-  const invitedPlayers = useSelector(
-    (state) => state.game.gameOptions.invitedPlayers
-  );
+  const { invitedPlayers } = useSelector((state) => state.game.gameOptions);
 
   const handleCreateGame = () => {
     setClicked(true);
@@ -28,7 +27,7 @@ const MultiUsers = () => {
   };
 
   const handleStartGame = () => {
-    ws.startGame();
+    ws.startGame(game.gameId);
     dispatch(loadGame());
   };
 
@@ -41,7 +40,16 @@ const MultiUsers = () => {
     console.log(onlinePlayers);
   }, [onlinePlayers]);
   return (
-    <div>
+    <Box
+      sx={{
+        filter: "opacity(60%)",
+        bgcolor: "background.paper",
+        borderRadius: "5px",
+        width: "90%",
+        m: "0 auto",
+        p: 2,
+      }}
+    >
       <div className="main-container" style={{ marginTop: "20px" }}>
         <div className="invite-options">
           <div className="users-by-link">
@@ -144,10 +152,10 @@ const MultiUsers = () => {
           </div>
         </div>
         {game && clicked && (
-          <div>
-            <h6>Now players can join the game with this link : </h6>
-            <h6>localhost:3000/waitingroom/{game.gameId}</h6>
-          </div>
+          <Stack justifyContent="center" alignItems="center" sx={{ mb: 4 }}>
+            <h6>You can copy a link to invite players : </h6>
+            <Copy joinGameId={`localhost:3000/waitingroom/${game.gameId}`} />
+          </Stack>
         )}
         <div
           className="options-buttons"
@@ -179,12 +187,13 @@ const MultiUsers = () => {
               marginBottom: "10px",
             }}
             onClick={handleStartGame}
+            disabled={!clicked}
           >
             Start game
           </Button>
         </div>
       </div>
-    </div>
+    </Box>
   );
 };
 

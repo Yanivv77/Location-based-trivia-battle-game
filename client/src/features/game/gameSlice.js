@@ -25,13 +25,30 @@ export const createGame = createAsyncThunk(
     }
   }
 );
+export const createGamePlayer = createAsyncThunk(
+  "game/createPlayer",
+  async (player, thunkAPI) => {
+    try {
+      return await gameService.addGamePlayer(player);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 const initialState = {
   game: null,
   stage: INIT_GAME,
   gameOptions: {
+    numberOfQuestions: 10,
     timeOut: false,
-    gameDuration: 30,
+    secondsPerQuestion: 30,
     invitedPlayers: [],
   },
   helpers: {
@@ -61,7 +78,7 @@ const gameState = createSlice({
     finishGame(state) {
       state.stage = END_GAME;
     },
-    restartGame(state) {
+    initGame(state) {
       state.stage = INIT_GAME;
     },
     changeHalfHelper(state) {
@@ -73,6 +90,9 @@ const gameState = createSlice({
     addInvitedPlayer(state, action) {
       state.gameOptions.invitedPlayers.push(action.payload);
     },
+    setTimer(state, action) {
+      state.gameOptions.secondsPerQuestion = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -83,12 +103,21 @@ const gameState = createSlice({
           isStatisticsUsed: false,
           isFolowUsed: false,
         };
+        state.game = null;
       })
 
       .addCase(createGame.fulfilled, (state, action) => {
         state.game = action.payload;
       })
       .addCase(createGame.rejected, (state, action) => {
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(createGamePlayer.fulfilled, (state, action) => {
+        // state.helpers = action.payload;
+        console.log(action.payload);
+      })
+      .addCase(createGamePlayer.rejected, (state, action) => {
         state.isError = true;
         state.message = action.payload;
       });
@@ -100,11 +129,11 @@ export const {
   loadGame,
   startGame,
   finishGame,
-  restartGame,
-
+  initGame,
   changeHalfHelper,
   changeStatisticsHelper,
   addInvitedPlayer,
+  setTimer,
 } = gameState.actions;
 
 export default gameState.reducer;

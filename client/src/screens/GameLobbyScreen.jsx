@@ -12,8 +12,6 @@ import LeftSideMenu from "../components/LeftSideMenu";
 
 import { useSelector } from "react-redux";
 
-import TriviaLocation from "./../components/Game/TriviaLocation";
-
 import {
   INIT_GAME,
   LOADING_GAME,
