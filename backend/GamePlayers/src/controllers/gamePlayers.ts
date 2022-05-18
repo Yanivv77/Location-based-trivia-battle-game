@@ -22,7 +22,7 @@ const getGamePlayerByName = async (req: Request, res: Response) => {
 
 const addGamePlayer = async (req: Request, res: Response) => {
   //Check if player already exist in DB
-  let { userName, gameId, answers, helpersStatus } = req.body;
+  let { userName, gameId } = req.body;
   let gamePlayerToFind = await GamePlayerModel.findOne({
     user_name: userName,
   });
@@ -36,11 +36,77 @@ const addGamePlayer = async (req: Request, res: Response) => {
   let newGamePlayer = new GamePlayerModel({
     user_name: userName,
     game_id: gameId,
-    answers: answers,
-    helpers_used_status: helpersStatus,
+    answers: [],
+    helpers_used_status: {
+      follow: false,
+      statistics: false,
+      halfAnswers: false,
+    },
   });
   let result = await newGamePlayer.save();
   return res.status(201).send(result);
 };
 
-export { getAllGamePlayers, getGamePlayerByName, addGamePlayer };
+const updatePlayerHelpers = async (req: Request, res: Response) => {
+  let { user_name, helper } = req.body;
+  let result: any;
+  switch (helper) {
+    case "follow":
+      result = await GamePlayerModel.updateOne(
+        //where user_name == user_name
+        { user_name },
+        {
+          $set: {
+            "helpers_used_status.follow": false,
+          },
+        }
+      );
+      break;
+    case "statistics":
+      result = await GamePlayerModel.updateOne(
+        //where user_name == user_name
+        { user_name },
+        {
+          $set: {
+            "helpers_used_status.statistics": false,
+          },
+        }
+      );
+      break;
+    case "halfAnswers":
+      result = await GamePlayerModel.updateOne(
+        //where user_name == user_name
+        { user_name },
+        {
+          $set: {
+            "helpers_used_status.halfAnswers": false,
+          },
+        }
+      );
+      break;
+  }
+
+  return res.status(201).send(result);
+};
+
+const updatePlayerAnswers = async (req: Request, res: Response) => {
+  let { user_name, answer } = req.body;
+
+  let result = await GamePlayerModel.updateOne(
+    //where user_name == user_name
+    { user_name },
+    {
+      $push: { answers: answer },
+    }
+  );
+
+  return res.status(201).send(result);
+};
+
+export {
+  getAllGamePlayers,
+  getGamePlayerByName,
+  addGamePlayer,
+  updatePlayerHelpers,
+  updatePlayerAnswers,
+};

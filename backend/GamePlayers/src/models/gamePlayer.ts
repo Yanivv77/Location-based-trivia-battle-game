@@ -1,11 +1,12 @@
+import { string } from "joi";
 import mongoose from "mongoose";
 
 // An interface that describes the properties
 // that are requried to create a new GamePlayer
 interface GamePlayerAttrs {
   user_name: string;
-  game_id: string;
-  answers: Array<string>;
+  game_id: number;
+  answers: Array<any>;
   helpers_used_status: {
     follow: boolean;
     statistics: boolean;
@@ -21,8 +22,8 @@ interface GamePlayerModel extends mongoose.Model<GamePlayerDoc> {
 // that a GamePlayer Document has
 interface GamePlayerDoc extends mongoose.Document {
   user_name: string;
-  game_id: string;
-  answers: Array<string>;
+  game_id: number;
+  answers: Array<any>;
   helpers_used_status: {
     follow: boolean;
     statistics: boolean;
@@ -60,4 +61,4 @@ const GamePlayer = mongoose.model<GamePlayerDoc, GamePlayerModel>(
 );
 
 // exports.GamePlayerModel = GamePlayer;
-export { GamePlayer as GamePlayerModel , gamePlayerSchema };
+export { GamePlayer as GamePlayerModel, gamePlayerSchema };

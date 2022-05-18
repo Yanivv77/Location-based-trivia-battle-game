@@ -1,39 +1,42 @@
-const { Server } = require("socket.io");
-const express = require("express");
-const http = require("http");
+const { Server } = require('socket.io')
+const express = require('express')
+const http = require('http')
 
-const cors = require("cors");
-const { GameManager } = require("./utils/GameManager");
-const { isValidString } = require("./utils/validate");
+const cors = require('cors')
+const { GameManager } = require('./utils/GameManager')
+const { isValidString } = require('./utils/validate')
 
-const port = process.env.PORT || 7000;
-const app = express();
-app.use(cors());
+const port = process.env.PORT || 7001
+const app = express()
+app.use(cors())
 
-const server = http.createServer(app);
+const server = http.createServer(app)
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: 'http://localhost:3000',
   },
-});
-const games = new GameManager();
+})
+const games = new GameManager()
 
-io.on("connection", (socket) => {
-  console.log(`${socket.id} connected!`);
+io.on('connection', (socket) => {
+  console.log(`${socket.id} connected!`)
+
 
   socket.on("createGame", (game) => {
     console.log(`${game.gameId} created,`);
     game.hostId = socket.id;
     games.addGame(game);
+
     const host = {
       role: "host",
       ...game.host,
       roomId: game.gameId,
       socketId: socket.id,
       score: 0,
-    };
-    games.addPlayer(host);
-    socket.join(game.gameId);
+    }
+    games.addPlayer(host)
+    socket.join(game.gameId)
+
 
     io.to(game.gameId).emit("update-players", [host]);
   });
@@ -50,6 +53,8 @@ io.on("connection", (socket) => {
     socket.join(config.room);
     console.log(games.players);
     io.to(config.room).emit("update-players", players);
+
+ 
 
     //     if (isValidString(config.name) && isValidString(config.room)) {
     //       let g = games.getGameByRoom(config.room);
@@ -86,9 +91,10 @@ io.on("connection", (socket) => {
     //         msg: `Please enter both the room name and username.`,
     //       });
     //     }
-  });
+  })
 
   // Game start by Host
+
   socket.on("startGame", (gameId, callback) => {
     console.log(`game started , game id: ${gameId}`);
     // let roomId = games.getGameByHost(socket.id).gameId;
@@ -105,6 +111,7 @@ io.on("connection", (socket) => {
         io.to(gameId).emit("gameStarted", gameId);
         console.log("waiting: " + waiting);
         io.to(gameId).emit("newQuestion", questionData);
+
         //    callback({ code: "success" });
       } else {
         //    callback({
@@ -115,29 +122,35 @@ io.on("connection", (socket) => {
     } else {
       // Add error handling!
     }
-  });
+  })
+
 
   socket.on("getNextQuestion", (roomId) => {
     let remaining = games.availableQuestions(roomId);
     console.log("remaining questions: ", remaining);
+
+ 
     if (remaining === 0) {
-      const players = games.getPlayersByRoom(roomId);
-      const response = [];
+      const players = games.getPlayersByRoom(roomId)
+      const response = []
       players.forEach((player) => {
-        response.push(player);
-      });
+        response.push(player)
+      })
       //  io.to(player.roomId).emit("msg");
-      io.to(roomId).emit("gameFinished", response);
-      console.log(`${roomId} finished!`);
+      io.to(roomId).emit('gameFinished', response)
+      console.log(`${roomId} finished!`)
     } else {
+
       games.nextQuestion(roomId);
       let questionData = games.getCurrentQuestion(roomId);
       console.log("next question", questionData.question);
+
       //  var res = setupQuestion(player.room);
-      games.setWaiting(roomId);
-      io.to(roomId).emit("newQuestion", questionData);
+      games.setWaiting(roomId)
+      io.to(roomId).emit('newQuestion', questionData)
     }
-  });
+  })
+
 
   socket.on("submitAnswer", (answer, callback) => {
     const player = games.getPlayerBySocket(socket.id);
@@ -148,6 +161,7 @@ io.on("connection", (socket) => {
       let isCorrect = correctAnswer.text === answer ? true : false;
       if (isCorrect) {
         games.updateScore(player.socketId, 1);
+
       }
       //    callback({ code: "correct", score: p.score });
       //    var g = games.getGameByRoom(p.room);
@@ -161,6 +175,7 @@ io.on("connection", (socket) => {
         question,
         isCorrect,
       });
+
 
       //    callback({
       //      code: "incorrect",
@@ -179,13 +194,15 @@ io.on("connection", (socket) => {
       if (waiting === 0) {
         let remaining = games.availableQuestions(player.roomId);
         console.log("remaining questions: ", remaining);
+
         if (remaining === 0) {
-          const players = games.getPlayersByRoom(player.roomId);
-          const response = [];
+          const players = games.getPlayersByRoom(player.roomId)
+          const response = []
           players.forEach((player) => {
-            response.push(player);
-          });
+            response.push(player)
+          })
           // io.to(player.room).emit("msg");
+
           io.to(player.roomId).emit("gameFinished", response);
           console.log(`${player.roomId} finished!`);
           const removedPlayers = games.removePlayersByRoom(player.roomId);
@@ -198,6 +215,7 @@ io.on("connection", (socket) => {
 
           games.setWaiting(player.roomId);
           io.to(player.roomId).emit("newQuestion", questionData);
+
         }
       } else {
         console.log("Players that not answerd :", waiting);
@@ -205,7 +223,8 @@ io.on("connection", (socket) => {
     } else {
       console.log("player is not available");
     }
-  });
+  })
+
 
   socket.on("disconnect", () => {
     console.log(socket.id, "disconnected");
@@ -230,6 +249,7 @@ io.on("connection", (socket) => {
       }
     }
 
+
     //       if (game.active) {
     //         if (players.length > 0) {
     //           games.setWaiting(player.room);
@@ -253,23 +273,21 @@ io.on("connection", (socket) => {
     //       }
     //     }
     //   });
-  });
-});
+  })
+})
 
 function setupQuestion(roomName) {
-  var fullQuestion = games.getCurrentQuestion(roomName);
-  var options = fullQuestion.incorrect_answers.concat(
-    fullQuestion.correct_answer
-  );
-  var shuffledOptions = shuffleArray(options);
+  var fullQuestion = games.getCurrentQuestion(roomName)
+  var options = fullQuestion.incorrect_answers.concat(fullQuestion.correct_answer)
+  var shuffledOptions = shuffleArray(options)
   var question = {
     category: decodeURIComponent(fullQuestion.category),
     type: fullQuestion.type,
     question: decodeURIComponent(fullQuestion.question),
     options: shuffledOptions,
-  };
+  }
 
-  return question;
+  return question
 }
 
 // app.use(express.static(publicPath));
@@ -279,5 +297,5 @@ function setupQuestion(roomName) {
 // });
 
 server.listen(port, () => {
-  console.log("Socket Server Running!", port);
-});
+  console.log('Socket Server Running!', port)
+})
