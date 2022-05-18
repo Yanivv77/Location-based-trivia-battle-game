@@ -10,7 +10,7 @@
   },
 
   "scripts": {
-    "start": "nodemon backend/index.js",
+    "start": "node backend/index.js",
     "backend": "cd backend && npm start",
     "socket": "cd socket && npm start",
     "client": "cd client && npm start",
