@@ -12,7 +12,7 @@ import {
   setAnswer,
   setAllAnswers,
 } from "../../features/quiz/quizSlice";
-import { finishGame } from "../../features/game/gameSlice";
+import { finishGame, createGamePlayer } from "../../features/game/gameSlice";
 
 const WebSocketContext = createContext(null);
 
@@ -36,12 +36,13 @@ export default ({ children }) => {
     });
     //    dispatch(updateChatLog(payload));
   };
-  const startGame = () => {
-    socket.current.emit("startGame");
+  const startGame = (gameId) => {
+    socket.current.emit("startGame", gameId);
   };
 
   const joinGame = (config) => {
     socket.current.emit("joinGame", config);
+    dispatch(createGamePlayer({ userName: user?.name || config.name }));
   };
 
   const submitAnswer = (answer) => {
@@ -49,13 +50,13 @@ export default ({ children }) => {
   };
 
   const nextQuestion = () => {
-    socket.current.emit("getNextQuestion");
+    socket.current.emit("getNextQuestion", game.gameId);
   };
 
   useEffect(() => console.log("useEffect"), []);
   useEffect(() => {
     if (!socket.current) {
-      socket.current = io("http://localhost:7000");
+      socket.current = io("http://localhost:7001");
       console.log("socket:", socket);
 
       socket.current.on("update-players", (players) => {

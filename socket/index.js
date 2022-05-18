@@ -21,9 +21,14 @@ const games = new GameManager()
 io.on('connection', (socket) => {
   console.log(`${socket.id} connected!`)
 
-  socket.on('createGame', (game) => {
-    games.addGame(socket.id, game)
+
+  socket.on("createGame", (game) => {
+    console.log(`${game.gameId} created,`);
+    game.hostId = socket.id;
+    games.addGame(game);
+
     const host = {
+      role: "host",
       ...game.host,
       roomId: game.gameId,
       socketId: socket.id,
@@ -32,17 +37,24 @@ io.on('connection', (socket) => {
     games.addPlayer(host)
     socket.join(game.gameId)
 
-    io.to(game.gameId).emit('update-players', [host])
-    console.log(games)
-  })
 
-  socket.on('joinGame', (config) => {
-    const player = { ...config.user, socketId: socket.id, score: 0 }
-    games.addPlayer(player)
-    let players = games.getPlayersByRoom(config.room)
-    socket.join(config.room)
-    console.log(games.players)
-    io.to(config.room).emit('update-players', players)
+    io.to(game.gameId).emit("update-players", [host]);
+  });
+
+  socket.on("joinGame", (config) => {
+    const player = {
+      ...config.user,
+      socketId: socket.id,
+      score: 0,
+      role: "player",
+    };
+    games.addPlayer(player);
+    let players = games.getPlayersByRoom(config.room);
+    socket.join(config.room);
+    console.log(games.players);
+    io.to(config.room).emit("update-players", players);
+
+ 
 
     //     if (isValidString(config.name) && isValidString(config.room)) {
     //       let g = games.getGameByRoom(config.room);
@@ -82,18 +94,24 @@ io.on('connection', (socket) => {
   })
 
   // Game start by Host
-  socket.on('startGame', (undefined, callback) => {
-    let roomId = games.getGameByHost(socket.id).gameId
-    if (roomId) {
-      let players = games.getPlayersByRoom(roomId)
+
+  socket.on("startGame", (gameId, callback) => {
+    console.log(`game started , game id: ${gameId}`);
+    // let roomId = games.getGameByHost(socket.id).gameId;
+    if (gameId) {
+      let players = games.getPlayersByRoom(gameId);
+      console.log(`players: ${players[0].name}, ${players}`);
 
       if (players.length > 0) {
-        let questionData = games.getCurrentQuestion(roomId)
-        games.getGameByHost(socket.id).active = true
-        console.log('questionData: ' + questionData)
-        games.setWaiting(roomId)
-        io.to(roomId).emit('gameStarted', roomId)
-        io.to(roomId).emit('newQuestion', questionData)
+        let questionData = games.getCurrentQuestion(gameId);
+        games.getGameByHost(socket.id).active = true;
+        console.log("first question: " + questionData.question);
+        games.setWaiting(gameId);
+        let waiting = games.getWaiting(gameId);
+        io.to(gameId).emit("gameStarted", gameId);
+        console.log("waiting: " + waiting);
+        io.to(gameId).emit("newQuestion", questionData);
+
         //    callback({ code: "success" });
       } else {
         //    callback({
@@ -106,9 +124,12 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('getNextQuestion', () => {
-    let roomId = games.getGameByHost(socket.id).gameId
-    let remaining = games.availableQuestions(roomId)
+
+  socket.on("getNextQuestion", (roomId) => {
+    let remaining = games.availableQuestions(roomId);
+    console.log("remaining questions: ", remaining);
+
+ 
     if (remaining === 0) {
       const players = games.getPlayersByRoom(roomId)
       const response = []
@@ -119,61 +140,61 @@ io.on('connection', (socket) => {
       io.to(roomId).emit('gameFinished', response)
       console.log(`${roomId} finished!`)
     } else {
-      games.nextQuestion(roomId)
-      let questionData = games.getCurrentQuestion(roomId)
-      console.log(questionData)
+
+      games.nextQuestion(roomId);
+      let questionData = games.getCurrentQuestion(roomId);
+      console.log("next question", questionData.question);
+
       //  var res = setupQuestion(player.room);
       games.setWaiting(roomId)
       io.to(roomId).emit('newQuestion', questionData)
     }
   })
 
-  socket.on('submitAnswer', (answer, callback) => {
-    const player = games.getPlayerBySocket(socket.id)
+
+  socket.on("submitAnswer", (answer, callback) => {
+    const player = games.getPlayerBySocket(socket.id);
+    console.log("player:", player.name);
     if (player) {
-      const { question } = games.getCurrentQuestion(player.roomId)
-      const correctAnswer = question.answers.find((answer) => answer.isCorrect)
-      console.log(correctAnswer)
-      if (correctAnswer.text === answer) {
-        games.updateScore(player.socketId, 1)
-        //    callback({ code: "correct", score: p.score });
-        //    var g = games.getGameByRoom(p.room);
-        io.to(socket.id).emit('answerResult', {
-          player,
-          correctAnswer,
-          isCorrect: true,
-        })
-        io.to(player.roomId).emit('otherAnswersResult', {
-          player,
-          correctAnswer,
-          isCorrect: true,
-        })
-      } else {
-        io.to(socket.id).emit('answerResult', {
-          player,
-          correctAnswer,
-          isCorrect: false,
-        })
-        io.to(player.roomId).emit('otherAnswersResult', {
-          player,
-          correctAnswer,
-          isCorrect: true,
-        })
-        //    callback({
-        //      code: "incorrect",
-        //      score: player.score,
-        //      correct: decodeURIComponent(question.correct_answer),
-        //    });
-        //    var g = games.getGameByRoom(player.room);
-        //    io.to(g.host).emit("incorrectAnswer", player.username);
+      const { question } = games.getCurrentQuestion(player.roomId);
+      const correctAnswer = question.answers.find((answer) => answer.isCorrect);
+      let isCorrect = correctAnswer.text === answer ? true : false;
+      if (isCorrect) {
+        games.updateScore(player.socketId, 1);
+
       }
+      //    callback({ code: "correct", score: p.score });
+      //    var g = games.getGameByRoom(p.room);
+      io.to(socket.id).emit("answerResult", {
+        player,
+        question,
+        isCorrect,
+      });
+      io.to(player.roomId).emit("otherAnswersResult", {
+        player,
+        question,
+        isCorrect,
+      });
 
-      games.updateWaiting(player.roomId)
 
-      let waiting = games.getWaiting(player.roomId)
+      //    callback({
+      //      code: "incorrect",
+      //      score: player.score,
+      //      correct: decodeURIComponent(question.correct_answer),
+      //    });
+      //    var g = games.getGameByRoom(player.room);
+      //    io.to(g.host).emit("incorrectAnswer", player.username);
+      let waiting = games.getWaiting(player.roomId);
+      console.log("waiting before update after answer:", waiting);
+      games.updateWaiting(player.roomId);
+
+      waiting = games.getWaiting(player.roomId);
+      console.log("waiting after update aftereach answer:", waiting);
 
       if (waiting === 0) {
-        let remaining = games.availableQuestions(player.roomId)
+        let remaining = games.availableQuestions(player.roomId);
+        console.log("remaining questions: ", remaining);
+
         if (remaining === 0) {
           const players = games.getPlayersByRoom(player.roomId)
           const response = []
@@ -181,37 +202,53 @@ io.on('connection', (socket) => {
             response.push(player)
           })
           // io.to(player.room).emit("msg");
-          io.to(player.roomId).emit('gameFinished', response)
-          console.log(`${player.roomId} finished!`)
+
+          io.to(player.roomId).emit("gameFinished", response);
+          console.log(`${player.roomId} finished!`);
+          const removedPlayers = games.removePlayersByRoom(player.roomId);
+          console.log(`Removed players: ${removedPlayers}`);
+          console.log(`Players: ${games.players}`);
+          game = games.removeGameByRoom(player.roomId);
         } else {
-          games.nextQuestion(player.roomId)
-          const questionData = games.getCurrentQuestion(player.roomId)
-          games.setWaiting(player.roomId)
-          io.to(player.roomId).emit('newQuestion', questionData)
+          games.nextQuestion(player.roomId);
+          const questionData = games.getCurrentQuestion(player.roomId);
+
+          games.setWaiting(player.roomId);
+          io.to(player.roomId).emit("newQuestion", questionData);
+
         }
+      } else {
+        console.log("Players that not answerd :", waiting);
       }
+    } else {
+      console.log("player is not available");
     }
   })
 
-  socket.on('disconnect', () => {
-    console.log(socket.id, 'disconnected')
-    let roomId = games.getPlayerBySocket(socket.id)?.roomId
-    console.log(roomId)
-    games.removePlayer(socket.id)
-    let players = games.getPlayersByRoom(roomId)
-    io.to(roomId).emit('update-players', players)
-    //     let type = games.checkHostOrPlayer(socket.id);
-    //     let game, player, players;
-    //     if (type === "HOST") {
-    //       game = games.removeGame(socket.id);
-    //       players = games.removeFromRoom(game.room);
-    //       players.forEach((player) => {
-    //         io.emit("HOST-DISCONNECT");
-    //       });
-    //     } else if (type === "PLAYER") {
-    //       player = games.removePlayer(socket.id);
-    //       players = games.getFromRoom(player.room);
-    //       game = games.getGameByRoom(player.room);
+
+  socket.on("disconnect", () => {
+    console.log(socket.id, "disconnected");
+    let roomId = games.getPlayerBySocket(socket.id)?.roomId;
+    if (roomId) {
+      let type = games.checkHostOrPlayer(socket.id);
+      console.log("GameId:", roomId);
+      console.log("Type:", type);
+
+      let game, player;
+      if (type === "HOST") {
+        game = games.removeGame(socket.id);
+        // players = games.removeFromRoom(game.room);
+        // players.forEach((player) => {
+        //   io.emit("HOST-DISCONNECT");
+        // });
+      } else if (type === "PLAYER") {
+        player = games.removePlayer(socket.id);
+        let players = games.getPlayersByRoom(roomId);
+        io.to(roomId).emit("update-players", players);
+        // game = games.getGameByRoom(player.room);
+      }
+    }
+
 
     //       if (game.active) {
     //         if (players.length > 0) {

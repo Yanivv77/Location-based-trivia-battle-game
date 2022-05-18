@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
 
-import { restartGame } from "../../features/game/gameSlice";
+import { initGame } from "../../features/game/gameSlice";
 
 import LeaderBoard from "../LeaderBoard";
 import { resetState } from "../../features/quiz/quizSlice";
@@ -17,6 +17,11 @@ const EndGame = () => {
   const handleExitGame = () => {
     dispatch(resetState());
     navigate("/profile");
+  };
+
+  const handleAgainButton = () => {
+    dispatch(resetState());
+    dispatch(initGame());
   };
 
   return (
@@ -59,9 +64,7 @@ const EndGame = () => {
             color="success"
             size="large"
             sx={{ borderRadius: 10 }}
-            onClick={() => {
-              dispatch(restartGame());
-            }}
+            onClick={handleAgainButton}
           >
             Play Again !
           </Button>

@@ -1,9 +1,6 @@
 import { v4 as uuid } from "uuid";
 
 export const game = {
-  id: uuid(),
-  host: { id: uuid(), name: "Jakob(host)" },
-  gameId: uuid(),
   invitedPlayers: [
     { id: 676767, name: "Yaniv", email: "yaniv@mail.com" },
     { id: 676768, name: "Sharon", email: "sharon@mail.com" },
@@ -70,10 +67,10 @@ export const questions = [
     difficulty: "easy",
     question: "The body of the Egyptian Sphinx was based on which animal?",
     answers: [
-      { id: 1, text: "Lion", isCorrect: true, falsyLevel: "1" },
-      { id: 2, text: "Bull", isCorrect: false, falsyLevel: "1" },
-      { id: 3, text: "Horse", isCorrect: false, falsyLevel: "1" },
-      { id: 4, text: "Dog", isCorrect: false, falsyLevel: "1" },
+      { id: "A", text: "Lion", isCorrect: true, falsyLevel: "1" },
+      { id: "B", text: "Bull", isCorrect: false, falsyLevel: "1" },
+      { id: "C", text: "Horse", isCorrect: false, falsyLevel: "1" },
+      { id: "D", text: "Dog", isCorrect: false, falsyLevel: "1" },
     ],
   },
   {

@@ -72,11 +72,15 @@ const quizSlice = createSlice({
         state.currentAnswer = null;
         state.currentPlayersAnswers = [];
       }
+      state.correctAnswer = action.payload.question.answers.find(
+        (answer) => answer.isCorrect
+      );
       state.currentQuestion = action.payload.question;
       state.currentQuestionNumber = action.payload.number;
     },
     setAnswer(state, action) {
       state.currentAnswer = action.payload;
+
       state.playerAnswersData.push(action.payload);
 
       state.score = action.payload.player.score;
@@ -94,7 +98,20 @@ const quizSlice = createSlice({
       state.currentQuestionIndex += 1;
     },
     resetState(state) {
-      state = initialState;
+      state.questions = [];
+      state.currentQuestion = null;
+      state.correctAnswer = null;
+      state.error = null;
+      state.score = 0;
+      state.currentQuestionIndex = null;
+      state.currentQuestionNumber = 0;
+      state.currentAnswer = "";
+      state.currentPlayersAnswers = [];
+      state.playerAnswersData = [];
+      state.allPlayersAnswersData = [];
+      state.answers = [];
+      state.quizPlayers = [];
+      state.isLoading = false;
     },
   },
   extraReducers: (builder) => {
