@@ -22,6 +22,10 @@ const quizService = {
 
 const changeQuestions = (questions) => {
   const newQuestions = questions.map((q) => {
+    const statistics = {
+      total: { " correctAnswers": 100, notCorrectAnswers: 30 },
+      perAnswer: [],
+    };
     const answers = q.incorrect_answers.map((answer, i) => {
       const newAnswer = {
         id: i + 1,
@@ -29,6 +33,7 @@ const changeQuestions = (questions) => {
         isCorrect: false,
         falsyLevel: "1",
       };
+      statistics.perAnswer.push({ text: answer, count: 10 });
       return newAnswer;
     });
     answers.push({
@@ -36,6 +41,7 @@ const changeQuestions = (questions) => {
       text: q.correct_answer,
       isCorrect: true,
     });
+    statistics.perAnswer.push({ text: q.correct_answer, count: 40 });
     const question = {
       question: q.question,
       location: {
@@ -44,6 +50,7 @@ const changeQuestions = (questions) => {
       },
       category: "Geography",
       answers: answers,
+      statistics,
     };
     return question;
   });

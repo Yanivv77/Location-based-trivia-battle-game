@@ -10,22 +10,27 @@ import {
   resetState,
 } from "../../features/quiz/quizSlice";
 import BetweenQuestionsModal from "../Game/BetweenQuestionsModal";
+import HelperModal from "../Game/HelperModal";
 import Timer from "../Timer";
 import Helps from "../Helps";
 
 const Game = () => {
-  const { currentQuestion, currentQuestionNumber, currentAnswer, score } =
-    useSelector((state) => state.quiz);
+  const {
+    quizPlayers,
+    currentQuestion,
+    currentQuestionNumber,
+    currentAnswer,
+    score,
+  } = useSelector((state) => state.quiz);
   const [open, setOpen] = useState(false);
   const [timeFinished, setTimeFinished] = useState(false);
   const [answers, setAnswers] = useState(currentQuestion?.answers || []);
   const [clicked, setClicked] = useState(false);
+  const [helperOpen, setHelperOpen] = useState(false);
 
   const ws = useContext(WebSocketContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { isHalfAnswersUsed } = useSelector((state) => state.game.helpers);
 
   const handleOpen = () => setOpen(true);
 
@@ -40,37 +45,35 @@ const Game = () => {
   };
 
   const moveToNextQuestion = () => {
-    ws.nextQuestion();
     setClicked(false);
+    ws.nextQuestion();
   };
 
   const handleAnswer = (answer) => {
-    setClicked(true);
-    ws.submitAnswer(answer);
+    if (!clicked) {
+      setClicked(true);
+      ws.submitAnswer(answer);
+    }
 
     // moveToNextQuestion();
   };
   const handleTimeout = () => {
-    setTimeFinished(true);
-    setOpen(true);
+    if (!clicked) {
+      setTimeFinished(true);
+      setOpen(true);
+    }
   };
-
-  useEffect(() => {
-    console.log("currentQuestion changed");
-    console.log(currentQuestion);
-    // setAnswers(currentQuestion.answers);
-    // if (currentQuestionIndex === 10) {
-    //   dispatch(finishGame());
-  }, [currentQuestion]);
 
   useEffect(() => {
     if (currentAnswer) {
       setTimeout(() => {
         handleOpen();
-      }, 1500);
+      }, 1000);
     } else {
-      handleClose();
+      setClicked(false);
+      setOpen(false);
       setTimeFinished(false);
+      handleClose();
       setAnswers(currentQuestion.answers);
     }
   }, [currentAnswer, currentQuestion]);
@@ -118,6 +121,8 @@ const Game = () => {
             moveToNextQuestion={moveToNextQuestion}
             currentAnswer={currentAnswer}
             handleTimeout={handleTimeout}
+            clicked={clicked}
+            players={quizPlayers}
           />
         </Typography>
         <Typography
@@ -200,13 +205,22 @@ const Game = () => {
                 </Grid>
               ))}
           </Grid>
-          <Helps answers={answers} setAnswers={setAnswers}></Helps>
+          <Helps
+            answers={answers}
+            setAnswers={setAnswers}
+            setOpen={() => setHelperOpen(true)}
+          ></Helps>
         </Box>
       </Box>
       <BetweenQuestionsModal
         open={open}
         handleClose={handleClose}
         timeFinished={timeFinished}
+      />
+      <HelperModal
+        open={helperOpen}
+        handleClose={() => setHelperOpen(false)}
+        statisticAnswers={currentQuestion.statistics.perAnswer}
       />
     </>
   );

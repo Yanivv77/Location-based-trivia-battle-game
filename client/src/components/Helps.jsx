@@ -1,13 +1,20 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Grid, Avatar } from "@mui/material";
-import { changeHalfHelper } from "../features/game/gameSlice";
+import {
+  changeHalfHelper,
+  changeStatisticsHelper,
+} from "../features/game/gameSlice";
 
-function Helps({ answers, setAnswers }) {
+function Helps({ answers, setAnswers, setOpen }) {
   const dispatch = useDispatch();
   const helpOptions = useSelector((state) => state.game.helpers);
+
   const helpStatistics = () => {
-    console.log("help statistics");
+    if (!helpOptions.isStatisticsUsed) {
+      setOpen();
+      dispatch(changeStatisticsHelper());
+    }
   };
   const helpHalf = () => {
     if (!helpOptions.isHalfAnswersUsed) {
@@ -28,35 +35,39 @@ function Helps({ answers, setAnswers }) {
   return (
     <>
       <Grid sx={{ mt: 5, textAlign: "center", width: "100%" }}>
-        <Button
-          onClick={() => helpStatistics()}
-          sx={{ mr: 5, mt: 1, width: "20vh" }}
-          variant="contained"
-          color="secondary"
-          startIcon={
-            <Avatar
-              src={
-                "https://cdn-icons.flaticon.com/png/512/2936/premium/2936709.png?token=exp=1650995228~hmac=1db2c77cfcc9548ff209d1f03865845d"
-              }
-            />
-          }
-        >
-          Statistics
-        </Button>
+        {!helpOptions.isStatisticsUsed && (
+          <Button
+            onClick={() => helpStatistics()}
+            sx={{ mr: 5, mt: 1, width: "20vh" }}
+            variant="contained"
+            color="secondary"
+            startIcon={
+              <Avatar
+                src={
+                  "https://cdn-icons.flaticon.com/png/512/2936/premium/2936709.png"
+                }
+              />
+            }
+          >
+            Statistics
+          </Button>
+        )}
 
-        <Button
-          onClick={() => helpHalf()}
-          sx={{ mr: 5, mt: 1, width: "20vh" }}
-          variant="contained"
-          color="secondary"
-          startIcon={
-            <Avatar
-              src={"https://cdn-icons-png.flaticon.com/512/6663/6663212.png"}
-            />
-          }
-        >
-          50/50
-        </Button>
+        {!helpOptions.isHalfAnswersUsed && (
+          <Button
+            onClick={() => helpHalf()}
+            sx={{ mr: 5, mt: 1, width: "20vh" }}
+            variant="contained"
+            color="secondary"
+            startIcon={
+              <Avatar
+                src={"https://cdn-icons-png.flaticon.com/512/6663/6663212.png"}
+              />
+            }
+          >
+            50/50
+          </Button>
+        )}
 
         <Button
           onClick={() => helpFollow()}

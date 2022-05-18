@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { resetState } from "../features/quiz/quizSlice";
 import BetweenQuestionsModal from "../components/Game/BetweenQuestionsModal";
+import HelperModal from "../components/Game/HelperModal";
 import Timer from "../components/Timer";
 import Helps from "../components/Helps";
 import { WebSocketContext } from "../components/Websocket/WebSocket";
@@ -20,6 +21,7 @@ const GameRoomScreen = () => {
 
   const [answers, setAnswers] = useState(currentQuestion.answers || []);
   const [clicked, setClicked] = useState(false);
+  const [helperOpen, setHelperOpen] = useState(false);
 
   const ws = useContext(WebSocketContext);
   const dispatch = useDispatch();
@@ -39,8 +41,10 @@ const GameRoomScreen = () => {
   };
 
   const handleTimeout = () => {
-    setTimeFinished(true);
-    setOpen(true);
+    if (!currentAnswer) {
+      setTimeFinished(true);
+      setOpen(true);
+    }
   };
 
   const moveToNextQuestion = () => {
@@ -48,10 +52,10 @@ const GameRoomScreen = () => {
   };
 
   const handleAnswer = (answer) => {
-    setClicked(true);
-    ws.submitAnswer(answer);
-    //     dispatch(answerQuestion({ answer }));
-    //     moveToNextQuestion();
+    if (!clicked) {
+      setClicked(true);
+      ws.submitAnswer(answer);
+    }
   };
 
   useEffect(() => {
@@ -60,8 +64,9 @@ const GameRoomScreen = () => {
         handleOpen();
       }, 1500);
     } else {
-      handleClose();
+      setOpen(false);
       setTimeFinished(false);
+      handleClose();
       setAnswers(currentQuestion.answers);
     }
   }, [currentAnswer, currentQuestion]);
@@ -194,13 +199,22 @@ const GameRoomScreen = () => {
                     </Grid>
                   ))}
               </Grid>
-              <Helps answers={answers} setAnswers={setAnswers}></Helps>
+              <Helps
+                answers={answers}
+                setAnswers={setAnswers}
+                setOpen={() => setHelperOpen(true)}
+              ></Helps>
             </Box>
           </Box>
           <BetweenQuestionsModal
             open={open}
             handleClose={handleClose}
             timeFinished={timeFinished}
+          />
+          <HelperModal
+            open={helperOpen}
+            handleClose={() => setHelperOpen(false)}
+            statisticAnswers={currentQuestion.statistics.perAnswer}
           />
         </>
       )}
