@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+
+  "engines" : { 
+    "npm" : ">=8.3.1",
+    "node" : ">=17.8.0"
+  },
+
   "scripts": {
     "client": "cd client && npm start",
     "backend": "cd backend && npm start",
