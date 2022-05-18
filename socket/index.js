@@ -1,48 +1,48 @@
-const { Server } = require("socket.io");
-const express = require("express");
-const http = require("http");
+const { Server } = require('socket.io')
+const express = require('express')
+const http = require('http')
 
-const cors = require("cors");
-const { GameManager } = require("./utils/GameManager");
-const { isValidString } = require("./utils/validate");
+const cors = require('cors')
+const { GameManager } = require('./utils/GameManager')
+const { isValidString } = require('./utils/validate')
 
-const port = process.env.PORT || 7000;
-const app = express();
-app.use(cors());
+const port = process.env.PORT || 7001
+const app = express()
+app.use(cors())
 
-const server = http.createServer(app);
+const server = http.createServer(app)
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: 'http://localhost:3000',
   },
-});
-const games = new GameManager();
+})
+const games = new GameManager()
 
-io.on("connection", (socket) => {
-  console.log(`${socket.id} connected!`);
+io.on('connection', (socket) => {
+  console.log(`${socket.id} connected!`)
 
-  socket.on("createGame", (game) => {
-    games.addGame(socket.id, game);
+  socket.on('createGame', (game) => {
+    games.addGame(socket.id, game)
     const host = {
       ...game.host,
       roomId: game.gameId,
       socketId: socket.id,
       score: 0,
-    };
-    games.addPlayer(host);
-    socket.join(game.gameId);
+    }
+    games.addPlayer(host)
+    socket.join(game.gameId)
 
-    io.to(game.gameId).emit("update-players", [host]);
-    console.log(games);
-  });
+    io.to(game.gameId).emit('update-players', [host])
+    console.log(games)
+  })
 
-  socket.on("joinGame", (config) => {
-    const player = { ...config.user, socketId: socket.id, score: 0 };
-    games.addPlayer(player);
-    let players = games.getPlayersByRoom(config.room);
-    socket.join(config.room);
-    console.log(games.players);
-    io.to(config.room).emit("update-players", players);
+  socket.on('joinGame', (config) => {
+    const player = { ...config.user, socketId: socket.id, score: 0 }
+    games.addPlayer(player)
+    let players = games.getPlayersByRoom(config.room)
+    socket.join(config.room)
+    console.log(games.players)
+    io.to(config.room).emit('update-players', players)
 
     //     if (isValidString(config.name) && isValidString(config.room)) {
     //       let g = games.getGameByRoom(config.room);
@@ -79,21 +79,21 @@ io.on("connection", (socket) => {
     //         msg: `Please enter both the room name and username.`,
     //       });
     //     }
-  });
+  })
 
   // Game start by Host
-  socket.on("startGame", (undefined, callback) => {
-    let roomId = games.getGameByHost(socket.id).gameId;
+  socket.on('startGame', (undefined, callback) => {
+    let roomId = games.getGameByHost(socket.id).gameId
     if (roomId) {
-      let players = games.getPlayersByRoom(roomId);
+      let players = games.getPlayersByRoom(roomId)
 
       if (players.length > 0) {
-        let questionData = games.getCurrentQuestion(roomId);
-        games.getGameByHost(socket.id).active = true;
-        console.log("questionData: " + questionData);
-        games.setWaiting(roomId);
-        io.to(roomId).emit("gameStarted", roomId);
-        io.to(roomId).emit("newQuestion", questionData);
+        let questionData = games.getCurrentQuestion(roomId)
+        games.getGameByHost(socket.id).active = true
+        console.log('questionData: ' + questionData)
+        games.setWaiting(roomId)
+        io.to(roomId).emit('gameStarted', roomId)
+        io.to(roomId).emit('newQuestion', questionData)
         //    callback({ code: "success" });
       } else {
         //    callback({
@@ -104,61 +104,61 @@ io.on("connection", (socket) => {
     } else {
       // Add error handling!
     }
-  });
+  })
 
-  socket.on("getNextQuestion", () => {
-    let roomId = games.getGameByHost(socket.id).gameId;
-    let remaining = games.availableQuestions(roomId);
+  socket.on('getNextQuestion', () => {
+    let roomId = games.getGameByHost(socket.id).gameId
+    let remaining = games.availableQuestions(roomId)
     if (remaining === 0) {
-      const players = games.getPlayersByRoom(roomId);
-      const response = [];
+      const players = games.getPlayersByRoom(roomId)
+      const response = []
       players.forEach((player) => {
-        response.push(player);
-      });
+        response.push(player)
+      })
       //  io.to(player.roomId).emit("msg");
-      io.to(roomId).emit("gameFinished", response);
-      console.log(`${roomId} finished!`);
+      io.to(roomId).emit('gameFinished', response)
+      console.log(`${roomId} finished!`)
     } else {
-      games.nextQuestion(roomId);
-      let questionData = games.getCurrentQuestion(roomId);
-      console.log(questionData);
+      games.nextQuestion(roomId)
+      let questionData = games.getCurrentQuestion(roomId)
+      console.log(questionData)
       //  var res = setupQuestion(player.room);
-      games.setWaiting(roomId);
-      io.to(roomId).emit("newQuestion", questionData);
+      games.setWaiting(roomId)
+      io.to(roomId).emit('newQuestion', questionData)
     }
-  });
+  })
 
-  socket.on("submitAnswer", (answer, callback) => {
-    const player = games.getPlayerBySocket(socket.id);
+  socket.on('submitAnswer', (answer, callback) => {
+    const player = games.getPlayerBySocket(socket.id)
     if (player) {
-      const { question } = games.getCurrentQuestion(player.roomId);
-      const correctAnswer = question.answers.find((answer) => answer.isCorrect);
-      console.log(correctAnswer);
+      const { question } = games.getCurrentQuestion(player.roomId)
+      const correctAnswer = question.answers.find((answer) => answer.isCorrect)
+      console.log(correctAnswer)
       if (correctAnswer.text === answer) {
-        games.updateScore(player.socketId, 1);
+        games.updateScore(player.socketId, 1)
         //    callback({ code: "correct", score: p.score });
         //    var g = games.getGameByRoom(p.room);
-        io.to(socket.id).emit("answerResult", {
+        io.to(socket.id).emit('answerResult', {
           player,
           correctAnswer,
           isCorrect: true,
-        });
-        io.to(player.roomId).emit("otherAnswersResult", {
+        })
+        io.to(player.roomId).emit('otherAnswersResult', {
           player,
           correctAnswer,
           isCorrect: true,
-        });
+        })
       } else {
-        io.to(socket.id).emit("answerResult", {
+        io.to(socket.id).emit('answerResult', {
           player,
           correctAnswer,
           isCorrect: false,
-        });
-        io.to(player.roomId).emit("otherAnswersResult", {
+        })
+        io.to(player.roomId).emit('otherAnswersResult', {
           player,
           correctAnswer,
           isCorrect: true,
-        });
+        })
         //    callback({
         //      code: "incorrect",
         //      score: player.score,
@@ -168,38 +168,38 @@ io.on("connection", (socket) => {
         //    io.to(g.host).emit("incorrectAnswer", player.username);
       }
 
-      games.updateWaiting(player.roomId);
+      games.updateWaiting(player.roomId)
 
-      let waiting = games.getWaiting(player.roomId);
+      let waiting = games.getWaiting(player.roomId)
 
       if (waiting === 0) {
-        let remaining = games.availableQuestions(player.roomId);
+        let remaining = games.availableQuestions(player.roomId)
         if (remaining === 0) {
-          const players = games.getPlayersByRoom(player.roomId);
-          const response = [];
+          const players = games.getPlayersByRoom(player.roomId)
+          const response = []
           players.forEach((player) => {
-            response.push(player);
-          });
+            response.push(player)
+          })
           // io.to(player.room).emit("msg");
-          io.to(player.roomId).emit("gameFinished", response);
-          console.log(`${player.roomId} finished!`);
+          io.to(player.roomId).emit('gameFinished', response)
+          console.log(`${player.roomId} finished!`)
         } else {
-          games.nextQuestion(player.roomId);
-          const questionData = games.getCurrentQuestion(player.roomId);
-          games.setWaiting(player.roomId);
-          io.to(player.roomId).emit("newQuestion", questionData);
+          games.nextQuestion(player.roomId)
+          const questionData = games.getCurrentQuestion(player.roomId)
+          games.setWaiting(player.roomId)
+          io.to(player.roomId).emit('newQuestion', questionData)
         }
       }
     }
-  });
+  })
 
-  socket.on("disconnect", () => {
-    console.log(socket.id, "disconnected");
-    let roomId = games.getPlayerBySocket(socket.id)?.roomId;
-    console.log(roomId);
-    games.removePlayer(socket.id);
-    let players = games.getPlayersByRoom(roomId);
-    io.to(roomId).emit("update-players", players);
+  socket.on('disconnect', () => {
+    console.log(socket.id, 'disconnected')
+    let roomId = games.getPlayerBySocket(socket.id)?.roomId
+    console.log(roomId)
+    games.removePlayer(socket.id)
+    let players = games.getPlayersByRoom(roomId)
+    io.to(roomId).emit('update-players', players)
     //     let type = games.checkHostOrPlayer(socket.id);
     //     let game, player, players;
     //     if (type === "HOST") {
@@ -236,23 +236,21 @@ io.on("connection", (socket) => {
     //       }
     //     }
     //   });
-  });
-});
+  })
+})
 
 function setupQuestion(roomName) {
-  var fullQuestion = games.getCurrentQuestion(roomName);
-  var options = fullQuestion.incorrect_answers.concat(
-    fullQuestion.correct_answer
-  );
-  var shuffledOptions = shuffleArray(options);
+  var fullQuestion = games.getCurrentQuestion(roomName)
+  var options = fullQuestion.incorrect_answers.concat(fullQuestion.correct_answer)
+  var shuffledOptions = shuffleArray(options)
   var question = {
     category: decodeURIComponent(fullQuestion.category),
     type: fullQuestion.type,
     question: decodeURIComponent(fullQuestion.question),
     options: shuffledOptions,
-  };
+  }
 
-  return question;
+  return question
 }
 
 // app.use(express.static(publicPath));
@@ -262,5 +260,5 @@ function setupQuestion(roomName) {
 // });
 
 server.listen(port, () => {
-  console.log("Socket Server Running!", port);
-});
+  console.log('Socket Server Running!', port)
+})
