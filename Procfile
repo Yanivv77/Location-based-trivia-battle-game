@@ -1,1 +1,1 @@
-web:ts-node/backend/index.ts
+web: npm start
