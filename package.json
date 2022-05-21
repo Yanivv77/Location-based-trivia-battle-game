@@ -10,9 +10,9 @@
   },
 
   "scripts": {
-    "start": "node backend/index.js",
-    "backend": "cd backend && npm start",
-    "socket": "cd socket && npm start",
+    "start": " ts-node ./index.ts",
+    "backend": "nodemon backend/index.ts",
+    "socket": "nodemon socket/index.js",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run backend\" \"npm run client\" \"npm run socket\"   ",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --legacy-peer-deps --prefix client && npm run build --prefix client",
@@ -25,6 +25,7 @@
       "./backend/testSetup.ts"
     ]
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -35,10 +36,37 @@
     "jest": "^28.0.3",
     "nodemon": "^2.0.15",
     "supertest": "^6.2.3",
-    "ts-jest": "^27.1.4"
-  },
-  "dependencies": {
-    "mongoose": "^6.3.0",
-    "npm": "^8.8.0"
+    "ts-jest": "^27.1.4",
+    "@types/cookie-session": "^2.0.44",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.8",
+    "axios": "^0.27.2",
+    "chalk": "^4.1.2",
+    "colors": "^1.4.0",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-async-errors": "^3.1.1",
+    "express-validator": "^6.14.0",
+    "google-auth-library": "^8.0.1",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.1",
+    "nodemailer": "^6.7.5",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "ts-node": "^10.7.0",
+    "ts-node-dev": "^1.1.8",
+    "winston": "^3.7.2",
+    "winston-mongodb": "^5.0.7",
+    "@types/cors": "^2.8.12",
+    "@types/node": "^17.0.23",
+    "mongodb-memory-server": "^8.4.2",
+    "typescript": "^4.6.3",
+    "npm": "^8.8.0",
+    "http": "^0.0.1-security",
+    "socket.io": "^4.5.0"
   }
+  
+
 }
