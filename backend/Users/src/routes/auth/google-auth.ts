@@ -7,14 +7,14 @@ import { validateRequest } from '../../middlewares/validate-request';
 import { BadRequestError } from '../../errors/bad-request-error';
 
 const router = express.Router();
-const client = new OAuth2Client( "602070662525-cg5up3456lcbdngu7nhji2j6inpi8t1b.apps.googleusercontent.com" );
+const client = new OAuth2Client( "321821941550-rvnh0fb7hm2ojefcrkq0ckdpgehtb3ne.apps.googleusercontent.com" );
 router.post("/api/users/googlelogin", (req, res) => {
     const { tokenId } = req.body;
 
 async (req: Request, res: Response) => {
   const { tokenId } = req.body;
 
-  client.verifyIdToken({ idToken: tokenId, audience: "602070662525-cg5up3456lcbdngu7nhji2j6inpi8t1b.apps.googleusercontent.com", })
+  client.verifyIdToken({ idToken: tokenId, audience: "321821941550-rvnh0fb7hm2ojefcrkq0ckdpgehtb3ne.apps.googleusercontent.com", })
   .then (async(response:any) => {
     const { email_verified, email } = response.payload;
     console.log({email})
