@@ -37,9 +37,6 @@ app.use(roomRouter);
 app.use("/api/questions", questions);
 app.use("/api/gamePlayers", gamePlayers);
 
-app.all("*", async (req, res) => {
-  throw new NotFoundError();
-});
 
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {
@@ -53,6 +50,11 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   app.get('/', (req, res) => res.send('Please set to production'))
 }
+
+app.all("*", async (req, res) => {
+  throw new NotFoundError();
+});
+
 
 app.use(errorHandler);
 
