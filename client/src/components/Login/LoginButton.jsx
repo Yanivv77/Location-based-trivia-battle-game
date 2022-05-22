@@ -42,7 +42,7 @@ export default function LoginButton() {
     <Box className="main">
       <GoogleLogin
         className="socButton"
-        clientId="321821941550-ktsshq8guudrkcacfaaf86sj86k9pev2.apps.googleusercontent.com"
+        clientId="321821941550-abro7f88ajd5n3mo24dao6carm2u8soo.apps.googleusercontent.com"
         buttonText="Login with Google"
         onSuccess={responseSuccessGoogle}
         onFailure={responseErrorGoogle}
