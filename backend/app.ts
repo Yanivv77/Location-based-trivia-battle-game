@@ -14,7 +14,7 @@ import { errorHandler } from "./Users/src/middlewares/error-handler";
 import { NotFoundError } from "./Users/src/errors/not-found-error";
 import { questions } from "./questions/src/routes/questions";
 import { gamePlayers } from "./GamePlayers/src/routes/gamePlayers";
-import { roomRouter } from "./Games/src/routes/room.route";
+
 const path = require('path')
 
 const app = express();
@@ -33,26 +33,28 @@ app.use(loginRouter);
 app.use(logoutRouter);
 app.use(signupRouter);
 app.use(authGoogleRouter);
-app.use(roomRouter);
+
 app.use("/api/questions", questions);
 app.use("/api/gamePlayers", gamePlayers);
 
-app.all("*", async (req, res) => {
-  throw new NotFoundError();
-});
 
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')))
+  app.use(express.static(path.join(__dirname, '../client/build')))
 
   app.get('*', (req, res) =>
     res.sendFile(
-      path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')
+      path.resolve(__dirname, '../', 'client', 'build', 'index.html')
     )
   )
 } else {
   app.get('/', (req, res) => res.send('Please set to production'))
 }
+
+app.all("*", async (req, res) => {
+  throw new NotFoundError();
+});
+
 
 app.use(errorHandler);
 

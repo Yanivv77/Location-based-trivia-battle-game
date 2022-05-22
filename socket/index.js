@@ -11,10 +11,10 @@ const app = express()
 app.use(cors())
 
 const server = http.createServer(app)
+
 const io = new Server(server, {
   cors: {
-    origin: `http://worldtrivia.herokuapp.com`,
-    methods: ['GET', 'POST'],
+    origin: ['http://localhost:3000', 'http://worldtrivia.herokuapp.com'],
     credentials: true,
   },
 })
