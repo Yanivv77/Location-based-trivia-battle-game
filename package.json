@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": " ts-node src/index.ts",
+    "start": " ts-node backend/index.ts",
     "backend": "nodemon backend/index.ts",
     "socket": "nodemon socket/index.js",
     "client": "cd client && npm start",
