@@ -21,7 +21,7 @@ export default function LoginButton() {
 
     const user = {
       id: profile.clientId,
-      //name: profile.getGivenName(),
+      name: ""
       //fullName: profile.getName(),
       //email: profile.getEmail(),
     }
