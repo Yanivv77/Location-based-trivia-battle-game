@@ -7,14 +7,14 @@ import { validateRequest } from '../../middlewares/validate-request';
 import { BadRequestError } from '../../errors/bad-request-error';
 
 const router = express.Router();
-const client = new OAuth2Client( "321821941550-rvnh0fb7hm2ojefcrkq0ckdpgehtb3ne.apps.googleusercontent.com" );
+const client = new OAuth2Client( "321821941550-ktsshq8guudrkcacfaaf86sj86k9pev2.apps.googleusercontent.com" );
 router.post("/api/users/googlelogin", (req, res) => {
     const { tokenId } = req.body;
 
 async (req: Request, res: Response) => {
   const { tokenId } = req.body;
 
-  client.verifyIdToken({ idToken: tokenId, audience: "321821941550-rvnh0fb7hm2ojefcrkq0ckdpgehtb3ne.apps.googleusercontent.com", })
+  client.verifyIdToken({ idToken: tokenId, audience: "321821941550-ktsshq8guudrkcacfaaf86sj86k9pev2.apps.googleusercontent.com", })
   .then (async(response:any) => {
     const { email_verified, email } = response.payload;
     console.log({email})
@@ -26,15 +26,15 @@ async (req: Request, res: Response) => {
 
           if (googleUser) {
         const token = jwt.sign({ userId: googleUser.id }
-          , "It is a big secret"
-          , { expiresIn: "4h", }
+          , "token"
+          , { expiresIn: "5h", }
           );
         
           console.log("User has login!");
           return res.json({ token, userId: googleUser.id });
           }
 
-        let password = email + "222";
+        let password = email + "123";
         let newUser = new User({ email, password }).save();
 
         

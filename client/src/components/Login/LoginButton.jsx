@@ -33,7 +33,7 @@ export default function LoginButton() {
       url: 'http://localhost:5000/api/users/googlelogin',
       data: { tokenId: response.tokenId },
     }).then((response) => {})
-    // navigate("/profile");
+    navigate('/profile')
   }
 
   const responseErrorGoogle = (response) => {}
@@ -42,7 +42,7 @@ export default function LoginButton() {
     <Box className="main">
       <GoogleLogin
         className="socButton"
-        clientId="321821941550-rvnh0fb7hm2ojefcrkq0ckdpgehtb3ne.apps.googleusercontent.com"
+        clientId="321821941550-ktsshq8guudrkcacfaaf86sj86k9pev2.apps.googleusercontent.com"
         buttonText="Login with Google"
         onSuccess={responseSuccessGoogle}
         onFailure={responseErrorGoogle}
