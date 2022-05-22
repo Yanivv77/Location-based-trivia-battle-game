@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
+   "type": "module" ,
   "engines": {
     "npm": "8.3.1",
     "node": "17.8.0"
   },
+
+
+
   "scripts": {
-    "build": "tsc",
     "start": " ts-node backend/index.ts",
+    "build": "tsc",
     "backend": "nodemon backend/index.ts",
     "socket": "nodemon socket/index.js",
     "client": "cd client && npm start",
