@@ -49,7 +49,7 @@ export default ({ children }) => {
   useEffect(() => console.log('useEffect'), [])
   useEffect(() => {
     if (!socket.current) {
-      socket.current = io('https://worldtrivia.herokuapp.com')
+      socket.current = io()
       console.log('socket:', socket)
 
       socket.current.on('update-players', (players) => {
