@@ -50,6 +50,7 @@ export default ({ children }) => {
   useEffect(() => {
     if (!socket.current) {
       socket.current = io('https://triviasocket.herokuapp.com')
+      //socket.current = io('http://localhost:7001')
       console.log('socket:', socket)
 
       socket.current.on('update-players', (players) => {

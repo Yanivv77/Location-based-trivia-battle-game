@@ -61,7 +61,7 @@ const NearByModal = ({ open, handleClose }) => {
 
   useEffect(() => {
     getLoc(location.coordinates.lat, location.coordinates.lng)
-  }, [])
+  }, [location.coordinates.lat, location.coordinates.lng])
 
   return (
     <div>
