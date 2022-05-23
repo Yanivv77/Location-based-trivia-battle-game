@@ -58,8 +58,6 @@ const NearByModal = ({ open, handleClose }) => {
     dispatch(setGame())
   }
 
-  getLoc(location.coordinates.lat, location.coordinates.lng)
-
   return (
     <div>
       <Modal
@@ -80,6 +78,7 @@ const NearByModal = ({ open, handleClose }) => {
             </Typography>
             <Paper elevation={2} sx={{ m: '0 auto', width: '90%', minHeight: '120px' }}>
               <Typography id="transition-modal-title" variant="body" component="p">
+                {getLoc(location.coordinates.lat, location.coordinates.lng)}
                 {city}
               </Typography>
             </Paper>

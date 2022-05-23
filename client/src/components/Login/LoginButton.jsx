@@ -8,10 +8,6 @@ import { setUser } from '../../features/auth/authSlice'
 
 import axios from 'axios'
 
-
-
-
-
 export default function LoginButton() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
