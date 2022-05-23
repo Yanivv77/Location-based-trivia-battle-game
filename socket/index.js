@@ -8,18 +8,12 @@ const { isValidString } = require('./utils/validate')
 
 const port = process.env.PORT || 7001
 const app = express()
-app.use(
-  cors({
-    credentials: true,
-    origin: 'https://worldtrivia.herokuapp.com',
-  })
-)
 
 const server = http.createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: 'https://worldtrivia.herokuapp.com',
+    origin: ['https://worldtrivia.herokuapp.com', 'http://localhost:3000'],
     credentials: true,
   },
 })

@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux'
 import { setGame } from '../../features/game/gameSlice'
 import useGeoLocation from '../../hooks/useGeoLocation'
 import Geocode from 'react-geocode'
+import { useEffect } from 'react'
 
 const style = {
   position: 'absolute',
@@ -58,6 +59,8 @@ const NearByModal = ({ open, handleClose }) => {
     dispatch(setGame())
   }
 
+  useEffect(() => {}, [getLoc(location.coordinates.lat, location.coordinates.lng)])
+
   return (
     <div>
       <Modal
@@ -78,7 +81,6 @@ const NearByModal = ({ open, handleClose }) => {
             </Typography>
             <Paper elevation={2} sx={{ m: '0 auto', width: '90%', minHeight: '120px' }}>
               <Typography id="transition-modal-title" variant="body" component="p">
-                {getLoc(location.coordinates.lat, location.coordinates.lng)}
                 {city}
               </Typography>
             </Paper>
