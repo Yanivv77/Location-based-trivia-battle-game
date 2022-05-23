@@ -59,7 +59,9 @@ const NearByModal = ({ open, handleClose }) => {
     dispatch(setGame())
   }
 
-  useEffect(() => {}, [getLoc(location.coordinates.lat, location.coordinates.lng)])
+  useEffect(() => {
+    getLoc(location.coordinates.lat, location.coordinates.lng)
+  }, [])
 
   return (
     <div>
