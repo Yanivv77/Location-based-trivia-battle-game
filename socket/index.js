@@ -14,7 +14,6 @@ const server = http.createServer(app)
 const io = new Server(server, {
   cors: {
     origin: ['https://worldtrivia.herokuapp.com', 'http://localhost:3000'],
-    credentials: true,
   },
 })
 const games = new GameManager()
