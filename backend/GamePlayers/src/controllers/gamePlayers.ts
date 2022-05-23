@@ -57,7 +57,7 @@ const updatePlayerHelpers = async (req: Request, res: Response) => {
         { user_name },
         {
           $set: {
-            "helpers_used_status.follow": false,
+            "helpers_used_status.follow": true,
           },
         }
       );
@@ -68,7 +68,7 @@ const updatePlayerHelpers = async (req: Request, res: Response) => {
         { user_name },
         {
           $set: {
-            "helpers_used_status.statistics": false,
+            "helpers_used_status.statistics": true,
           },
         }
       );
@@ -79,7 +79,7 @@ const updatePlayerHelpers = async (req: Request, res: Response) => {
         { user_name },
         {
           $set: {
-            "helpers_used_status.halfAnswers": false,
+            "helpers_used_status.halfAnswers": true,
           },
         }
       );
