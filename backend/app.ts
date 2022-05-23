@@ -18,12 +18,9 @@ import { gamePlayers } from "./GamePlayers/src/routes/gamePlayers";
 const path = require('path')
 
 const app = express();
-app.use(
-  cors({
-    origin: ['https://worldtrivia.herokuapp.com', 'http://localhost:3000'],
-    
-  })
-);
+app.use(cors())
+  
+
 
 
 app.set("trust proxy", true);
