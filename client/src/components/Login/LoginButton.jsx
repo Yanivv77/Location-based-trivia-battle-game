@@ -8,12 +8,17 @@ import { setUser } from '../../features/auth/authSlice'
 
 import axios from 'axios'
 
+
+
+
+
 export default function LoginButton() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const responseSuccessGoogle = (credentialResponse) => {
     var profile = credentialResponse
+    console.log(credentialResponse)
     //console.log('ID: ' + profile.getId())
     //console.log('Name: ' + profile.getName())
     //console.log('First Name: ' + profile.getGivenName())
@@ -21,7 +26,7 @@ export default function LoginButton() {
 
     const user = {
       id: profile.clientId,
-      name: ""
+      name: '',
       //fullName: profile.getName(),
       //email: profile.getEmail(),
     }
