@@ -3,7 +3,7 @@ const express = require('express')
 const http = require('http')
 
 const cors = require('cors')
-const { GameManager } = require('./utils/GameManager')
+const GameManager = require('./utils/gameManager')
 const { isValidString } = require('./utils/validate')
 
 const port = process.env.PORT || 7001

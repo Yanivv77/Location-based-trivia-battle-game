@@ -1,9 +1,9 @@
 import React, { createContext, useEffect, useRef } from 'react'
 import io from 'socket.io-client'
 // import { WS_BASE } from './config';
-import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
+// eslint-disable-next-line no-unused-vars
 import { addPlayer, updatePlayers, removePlayer, setQuestion, setAnswer, setAllAnswers } from '../../features/quiz/quizSlice'
 import { finishGame, createGamePlayer } from '../../features/game/gameSlice'
 
@@ -49,14 +49,14 @@ export default ({ children }) => {
   useEffect(() => console.log('useEffect'), [])
   useEffect(() => {
     if (!socket.current) {
-      socket.current = io('http://localhost:7001')
+      socket.current = io('https://triviasocket.herokuapp.com')
       console.log('socket:', socket)
 
       socket.current.on('update-players', (players) => {
         dispatch(updatePlayers(players))
       })
 
-      socket.current.on('player-disconected', (player) => {
+      socket.current.on('player-disconnected', (player) => {
         console.log(player)
         dispatch(removePlayer(player))
       })
@@ -129,6 +129,7 @@ export default ({ children }) => {
       //       }
       //  });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
