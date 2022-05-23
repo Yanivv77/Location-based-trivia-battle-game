@@ -11,7 +11,7 @@ const app = express()
 app.use(
   cors({
     credentials: true,
-    origin: 'https://worldtrivia.herokuapp.com'
+    origin: 'https://worldtrivia.herokuapp.com',
   })
 )
 
@@ -19,7 +19,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://worldtrivia.herokuapp.com',
+    origin: 'https://worldtrivia.herokuapp.com',
     credentials: true,
   },
 })
