@@ -10,7 +10,8 @@ const router = express.Router();
 const client = new OAuth2Client( "197031847913-ikgmujluer7f5bjng4bfpee43hsipl1q.apps.googleusercontent.com" );
 router.post("/api/users/googlelogin", (req, res) => {
     const { tokenId } = req.body;
-
+console.log(res)
+console.log("dsf")
 async (req: Request, res: Response) => {
   const { tokenId } = req.body;
 

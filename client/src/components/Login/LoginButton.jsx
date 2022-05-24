@@ -34,7 +34,9 @@ export default function LoginButton() {
       method: 'POST',
       url: 'http://localhost:5000/api/users/googlelogin',
       data: { tokenId: credentialResponse.clientId },
-    }).then((response) => {})
+    }).then((response) => {
+      console.log(response)
+    })
     navigate('/profile')
   }
 
