@@ -19,7 +19,7 @@ import { useGoogleApi } from 'react-gapi'
   const container = document.getElementById('root')
   const root = ReactDOM.createRoot(container)
   root.render(
-    <useGoogleApi clientId="197031847913-ikgmujluer7f5bjng4bfpee43hsipl1q.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="197031847913-ikgmujluer7f5bjng4bfpee43hsipl1q.apps.googleusercontent.com">
       <React.StrictMode>
         <Provider store={store}>
           <WebSocketProvider>
@@ -27,6 +27,6 @@ import { useGoogleApi } from 'react-gapi'
           </WebSocketProvider>
         </Provider>
       </React.StrictMode>
-    </useGoogleApi>
+    </GoogleOAuthProvider>
   )
 }
