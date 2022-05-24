@@ -1,4 +1,4 @@
-import React from 'react'
+import { React, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Box } from '@mui/material'
@@ -12,9 +12,9 @@ export default function LoginButton() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const responseSuccessGoogle = (credentialResponse) => {
-    var profile = credentialResponse
-    console.log(credentialResponse)
+  const responseGoogle = (response) => {
+    var profile = response.tokenId
+    console.log(profile)
     //console.log('ID: ' + profile.getId())
     //console.log('Name: ' + profile.getName())
     //console.log('First Name: ' + profile.getGivenName())
@@ -33,7 +33,7 @@ export default function LoginButton() {
     axios({
       method: 'POST',
       url: 'http://localhost:5000/api/users/googlelogin',
-      data: { tokenId: credentialResponse.clientId },
+      data: { tokenId: response.clientId },
     }).then((response) => {
       console.log(response)
     })
@@ -42,16 +42,43 @@ export default function LoginButton() {
 
   const responseErrorGoogle = (response) => {}
 
+  const [loginData, setLoginData] = useState(localStorage.getItem('loginData') ? JSON.parse(localStorage.getItem('loginData')) : null)
+
+  const handleFailure = (result) => {
+    alert(result)
+  }
+
+  const handleLogin = async (googleData) => {
+    const res = await fetch('api/google-login', {
+      method: 'POST',
+      body: JSON.stringify({
+        token: googleData.tokenId,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    const data = await res.json()
+    console.log(data)
+    setLoginData(data)
+    localStorage.setItem('loginData', JSON.stringify(data))
+    navigate('/profile')
+  }
+  const handleLogout = () => {
+    localStorage.removeItem('loginData')
+    setLoginData(null)
+  }
+
   return (
     <Box className="main">
       <GoogleLogin
-        className="socButton"
-        clientId="321821941550-abro7f88ajd5n3mo24dao6carm2u8soo.apps.googleusercontent.com"
-        buttonText="Login with Google"
-        onSuccess={responseSuccessGoogle}
-        onFailure={responseErrorGoogle}
+        clientId={'321821941550-75ebsv7rpq6appdh0l5o88n6uvb34hvc.apps.googleusercontent.com'}
+        buttonText="Log in with Google"
+        onSuccess={handleLogin}
+        onFailure={handleFailure}
         cookiePolicy={'single_host_origin'}
-      />
+      ></GoogleLogin>
     </Box>
   )
 }
