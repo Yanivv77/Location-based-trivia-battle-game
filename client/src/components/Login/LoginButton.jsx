@@ -7,6 +7,7 @@ import GoogleLogin from 'react-google-login'
 import { setUser } from '../../features/auth/authSlice'
 
 import axios from 'axios'
+import { useGoogleApi } from 'react-gapi'
 
 export default function LoginButton() {
   const navigate = useNavigate()
@@ -70,15 +71,29 @@ export default function LoginButton() {
     setLoginData(null)
   }
 
-  return (
-    <Box className="main">
-      <GoogleLogin
-        clientId={'321821941550-75ebsv7rpq6appdh0l5o88n6uvb34hvc.apps.googleusercontent.com'}
-        buttonText="Log in with Google"
-        onSuccess={handleLogin}
-        onFailure={handleFailure}
-        cookiePolicy={'single_host_origin'}
-      ></GoogleLogin>
-    </Box>
-  )
+  export function MyAuthComponent() {
+    const gapi = useGoogleApi({
+      scopes: ['profile'],
+      plugin_name: 'chat',
+    })
+
+    const auth = gapi?.auth2.getAuthInstance()
+
+    return (
+      <Box className="main">
+        <div>
+          !auth ? <span>Loading...</span>: auth?.isSignedIn.get() ? `Logged in as "${auth.currentUser.get().getBasicProfile().getName()}"` :{' '}
+          <button onClick={() => auth.signIn()}>Login</button>
+        </div>
+
+        <GoogleLogin
+          clientId={'321821941550-75ebsv7rpq6appdh0l5o88n6uvb34hvc.apps.googleusercontent.com'}
+          buttonText="Log in with Google"
+          onSuccess={handleLogin}
+          onFailure={handleFailure}
+          cookiePolicy={'single_host_origin'}
+        ></GoogleLogin>
+      </Box>
+    )
+  }
 }
