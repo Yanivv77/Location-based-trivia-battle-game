@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   List,
   ListItem,
@@ -14,66 +14,64 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@mui/material";
-import { Language, IosShare, Phone, Logout } from "@mui/icons-material";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import i18next from "i18next";
-import { logout } from "../features/auth/authSlice";
+} from '@mui/material'
+import { Language, IosShare, Phone, Logout } from '@mui/icons-material'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
+import { logout } from '../features/auth/authSlice'
 
 const LeftSideMenu = (props) => {
-  const dispatch = useDispatch();
-  const { i18n, t } = useTranslation(["LeftSideMenu"]);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { i18n, t } = useTranslation(['LeftSideMenu'])
 
   const handleLanguageChange = (e) => {
-    i18n.changeLanguage(e.target.value);
-  };
+    i18n.changeLanguage(e.target.value)
+  }
 
   const handleLogout = () => {
-    dispatch(logout());
-    props.open(false);
-  };
+    dispatch(logout())
+    props.open(false)
+    navigate('/')
+  }
 
   useEffect(() => {
-    let userLang = navigator.language || navigator.userLanguage;
-    userLang = userLang.split("-");
-    if (localStorage.getItem("i18nextLng")?.length > 2) {
-      i18next.changeLanguage(userLang[0]);
+    let userLang = navigator.language || navigator.userLanguage
+    userLang = userLang.split('-')
+    if (localStorage.getItem('i18nextLng')?.length > 2) {
+      i18next.changeLanguage(userLang[0])
     }
-  }, []);
+  }, [])
 
   return (
     <>
-      <Drawer
-        anchor="left"
-        open={props.isOpen}
-        onClose={() => props.open(false)}
-      >
+      <Drawer anchor="left" open={props.isOpen} onClose={() => props.open(false)}>
         <Box
           sx={{
-            maxWidth: "350px",
+            maxWidth: '350px',
 
-            background: "#006064",
-            height: "100%",
+            background: '#006064',
+            height: '100%',
           }}
         >
-          <Typography variant="h5" sx={{ textAlign: "center", mt: 3 }}>
-            {t("settings")}
+          <Typography variant="h5" sx={{ textAlign: 'center', mt: 3 }}>
+            {t('settings')}
           </Typography>
 
           <List>
             <ListItem
               button
               sx={{
-                width: "90%",
+                width: '90%',
                 ml: 1,
-                background: "#0097a7",
+                background: '#0097a7',
                 mt: 3,
-                color: "white",
+                color: 'white',
               }}
             >
-              <ListItemIcon sx={{ color: "white" }}>
+              <ListItemIcon sx={{ color: 'white' }}>
                 <Language />
               </ListItemIcon>
               <FormControl fullWidth>
@@ -81,7 +79,7 @@ const LeftSideMenu = (props) => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={localStorage.getItem("i18nextLng")}
+                  value={localStorage.getItem('i18nextLng')}
                   label="Language"
                   onChange={handleLanguageChange}
                 >
@@ -94,55 +92,55 @@ const LeftSideMenu = (props) => {
             <ListItem
               button
               sx={{
-                width: "90%",
+                width: '90%',
                 ml: 1,
-                background: "#0097a7",
+                background: '#0097a7',
                 mt: 3,
-                color: "white",
+                color: 'white',
               }}
             >
-              <ListItemIcon sx={{ color: "white" }}>
+              <ListItemIcon sx={{ color: 'white' }}>
                 <IosShare />
               </ListItemIcon>
-              <ListItemText primary={t("apply for expert")} />
+              <ListItemText primary={t('apply for expert')} />
             </ListItem>
             <ListItem
               button
               sx={{
-                width: "90%",
+                width: '90%',
                 ml: 1,
-                background: "#0097a7",
+                background: '#0097a7',
                 mt: 3,
-                color: "white",
+                color: 'white',
               }}
             >
-              <ListItemIcon sx={{ color: "white" }}>
+              <ListItemIcon sx={{ color: 'white' }}>
                 <Phone />
               </ListItemIcon>
-              <ListItemText primary={t("contact us")} />
+              <ListItemText primary={t('contact us')} />
             </ListItem>
             <Divider />
             <ListItem
               button
               sx={{
-                width: "90%",
+                width: '90%',
                 ml: 1,
-                background: "#0097a7",
+                background: '#0097a7',
                 mt: 10,
-                color: "white",
+                color: 'white',
               }}
               onClick={handleLogout}
             >
-              <ListItemIcon sx={{ color: "white" }}>
+              <ListItemIcon sx={{ color: 'white' }}>
                 <Logout />
               </ListItemIcon>
-              <ListItemText primary={t("logout")} />
+              <ListItemText primary={t('logout')} />
             </ListItem>
           </List>
         </Box>
       </Drawer>
     </>
-  );
-};
+  )
+}
 
-export default LeftSideMenu;
+export default LeftSideMenu

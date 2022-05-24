@@ -33,18 +33,19 @@ const Signup = () => {
     await doRequest()
   }
 
-  const divStyle = {
-    overflowY: 'auto',
-
-    height: '500px',
+  const divStyle = {}
+  const paperStyle = {
+    padding: '30px 20px',
+    height: '76vh',
+    width: 300,
+    margin: '20px auto',
   }
-  const paperStyle = { padding: '30px 20px', width: 300, margin: '-20px auto' }
   const headerStyle = { margin: 0 }
 
   return (
     <div style={divStyle}>
       <Grid>
-        <Paper elevation={20} style={paperStyle}>
+        <Paper elevation={22} style={paperStyle}>
           <Grid align="center">
             <div className=" w-50 h-75 container d-flex justify-content-center width">
               <lottie-player

@@ -5,7 +5,6 @@ import Signup from '../components/Signup/Signup'
 function SignupScreen() {
   return (
     <>
-      <Header />
       <Signup />
     </>
   )
