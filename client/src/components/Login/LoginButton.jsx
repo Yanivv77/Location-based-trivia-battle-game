@@ -60,7 +60,7 @@ export default function LoginButton() {
     })
 
     const data = await res.json()
-    console.log(data)
+    console.log(JSON.stringify(data))
     setLoginData(data)
     localStorage.setItem('loginData', JSON.stringify(data))
     navigate('/profile')
