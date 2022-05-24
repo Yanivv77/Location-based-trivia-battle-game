@@ -45,7 +45,7 @@ export default function LoginButton() {
   const [loginData, setLoginData] = useState(localStorage.getItem('loginData') ? JSON.parse(localStorage.getItem('loginData')) : null)
 
   const handleFailure = (result) => {
-    alert(result)
+    console.log(result)
   }
 
   const handleLogin = async (googleData) => {
