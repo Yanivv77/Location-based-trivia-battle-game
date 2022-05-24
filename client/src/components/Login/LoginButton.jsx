@@ -47,7 +47,7 @@ export default function LoginButton() {
     }).then((response) => {
       console.log(response)
     })
-    navigate('/profile')
+    navigate('/gamelobby')
   }
 
   const responseErrorGoogle = (response) => {

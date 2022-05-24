@@ -38,7 +38,7 @@ const Login = () => {
     dispatch(setUser(user))
     localStorage.setItem('user', JSON.stringify(user))
     await delay(1000)
-    await navigate('/profile')
+    await navigate('/gamelobby')
   }
 
   const paperStyle = {
@@ -51,7 +51,7 @@ const Login = () => {
   const btnStyle = { margin: '0px 0' }
   useEffect(() => {
     if (user) {
-      navigate('/profile')
+      navigate('/gamelobby')
     }
   })
 
