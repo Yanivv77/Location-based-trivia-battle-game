@@ -2,6 +2,7 @@ import express from "express";
 import "express-async-errors";
 import "dotenv/config";
 import cors from "cors";
+const { OAuth2Client } = require('google-auth-library');
 import cookieSession from "cookie-session";
 import { json } from "body-parser";
 import { currentUserRouter } from "./Users/src/routes/auth/current-user";
@@ -15,9 +16,15 @@ import { NotFoundError } from "./Users/src/errors/not-found-error";
 import { questions } from "./questions/src/routes/questions";
 import { gamePlayers } from "./GamePlayers/src/routes/gamePlayers";
 
+
+
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID );
 const path = require('path')
+const users = [];
 
 const app = express();
+app.use(express.json());
 app.use(cors())
   
 
@@ -42,9 +49,20 @@ app.use(authGoogleRouter);
 
 app.use("/api/questions", questions);
 app.use("/api/gamePlayers", gamePlayers);
-
+app.post('/api/google-login', async (req, res) => {
+  const { token } = req.body;
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+  const { name, email, picture } = ticket.getPayload();
+  upsert(users, { name, email, picture });
+  res.status(201);
+  res.json({ name, email, picture });
+});
 
 // Serve frontend
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')))
 
@@ -60,6 +78,15 @@ if (process.env.NODE_ENV === 'production') {
 app.all("*", async (req, res) => {
   throw new NotFoundError();
 });
+
+function upsert(array, item) {
+  const i = array.findIndex((_item) => _item.email === item.email);
+  if (i > -1) array[i] = item;
+  else array.push(item);
+}
+
+
+
 
 
 app.use(errorHandler);
