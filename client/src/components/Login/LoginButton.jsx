@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Box } from '@mui/material'
 
-import { GoogleLogin } from '@react-oauth/google'
+import GoogleLogin from 'react-google-login'
 import { setUser } from '../../features/auth/authSlice'
 
 import axios from 'axios'
