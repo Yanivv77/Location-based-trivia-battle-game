@@ -45,7 +45,7 @@ const Login = () => {
     padding: '30px 20px',
     height: '76vh',
     width: 300,
-    margin: '-20px auto',
+    margin: '20px auto',
   }
 
   const btnStyle = { margin: '0px 0' }
@@ -96,12 +96,12 @@ const Login = () => {
             <Button type="submit" color="primary" variant="contained" style={btnStyle} fullWidth>
               {t('sign in')}
             </Button>
+            <Typography component={'span'}>
+              {t("don't have an account yet")}
+              <Link href="signup"> {t('sign up')}</Link>
+              <LoginButton></LoginButton>
+            </Typography>
           </form>
-          <Typography component={'span'}>
-            {t("don't have an account yet")}
-            <Link href="signup"> {t('sign up')}</Link>
-            <LoginButton></LoginButton>
-          </Typography>
 
           <Button variant="contained" color="secondary" size="medium" sx={{ borderRadius: 10, mt: 2, p: 0 }} component={linked} to="/">
             back

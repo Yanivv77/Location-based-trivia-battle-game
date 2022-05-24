@@ -40,7 +40,6 @@ export default function LoginButton() {
 
     dispatch(setUser(user))
     localStorage.setItem('user', JSON.stringify(user))
-    navigate('/profile')
     axios({
       method: 'POST',
       url: 'http://localhost:5000/api/users/googlelogin',
@@ -76,7 +75,7 @@ export default function LoginButton() {
     console.log(JSON.stringify(data))
     setLoginData(data)
     localStorage.setItem('loginData', JSON.stringify(data))
-    navigate('/profile')
+    navigate('/gamelobby')
   }
   const handleLogout = () => {
     localStorage.removeItem('loginData')
