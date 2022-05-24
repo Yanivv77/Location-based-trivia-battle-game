@@ -9,7 +9,7 @@ import WebSocketProvider from '../src/components/Websocket/WebSocket'
 import './i18n'
 
 import { GoogleOAuthProvider } from '@react-oauth/google'
-
+import { useGoogleApi } from 'react-gapi'
 function MyAuthComponent() {
   const gapi = useGoogleApi({
     scopes: ['profile'],
