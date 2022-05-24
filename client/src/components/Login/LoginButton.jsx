@@ -71,7 +71,7 @@ export default function LoginButton() {
     setLoginData(null)
   }
 
-  export function MyAuthComponent() {
+  function MyAuthComponent() {
     const gapi = useGoogleApi({
       scopes: ['profile'],
       plugin_name: 'chat',
