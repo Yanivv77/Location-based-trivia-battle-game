@@ -9,12 +9,9 @@ import WebSocketProvider from '../src/components/Websocket/WebSocket'
 import './i18n'
 
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import { useGoogleApi } from 'react-gapi'
 
-  const gapi = useGoogleApi({
-    scopes: ['profile'],
-    plugin_name: 'chat',
-  })
+
+
 
   const container = document.getElementById('root')
   const root = ReactDOM.createRoot(container)
