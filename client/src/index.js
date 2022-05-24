@@ -10,20 +10,16 @@ import './i18n'
 
 import { GoogleOAuthProvider } from '@react-oauth/google'
 
-
-
-
-  const container = document.getElementById('root')
-  const root = ReactDOM.createRoot(container)
-  root.render(
-    <GoogleOAuthProvider clientId="197031847913-ikgmujluer7f5bjng4bfpee43hsipl1q.apps.googleusercontent.com">
-      <React.StrictMode>
-        <Provider store={store}>
-          <WebSocketProvider>
-            <App />
-          </WebSocketProvider>
-        </Provider>
-      </React.StrictMode>
-    </GoogleOAuthProvider>
-  )
-}
+const container = document.getElementById('root')
+const root = ReactDOM.createRoot(container)
+root.render(
+  <GoogleOAuthProvider clientId="197031847913-ikgmujluer7f5bjng4bfpee43hsipl1q.apps.googleusercontent.com">
+    <React.StrictMode>
+      <Provider store={store}>
+        <WebSocketProvider>
+          <App />
+        </WebSocketProvider>
+      </Provider>
+    </React.StrictMode>
+  </GoogleOAuthProvider>
+)

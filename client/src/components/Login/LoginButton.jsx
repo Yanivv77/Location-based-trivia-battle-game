@@ -71,42 +71,38 @@ export default function LoginButton() {
     setLoginData(null)
   }
 
-   function MyAuthComponent() {
+  function MyAuthComponent() {
     const gapi = useGoogleApi({
-      scopes: [
-        'profile',
-      ],
-      plugin_name: "chat"
+      scopes: ['profile'],
+      plugin_name: 'chat',
     })
-  
-    const auth = gapi?.auth2.getAuthInstance()
-  
-    return <div>{
-      !auth
-        ? <span>Loading...</span>
-        : auth?.isSignedIn.get()
-          ? `Logged in as "${auth.currentUser.get().getBasicProfile().getName()}"`
-          : <button onClick={() => auth.signIn()}>Login</button>
-    }</div>
-  }
 
     const auth = gapi?.auth2.getAuthInstance()
 
-
-
-    
     return (
-      <Box className="main">
-        <MyAuthComponent/>
-
-        <GoogleLogin
-          clientId={'321821941550-75ebsv7rpq6appdh0l5o88n6uvb34hvc.apps.googleusercontent.com'}
-          buttonText="Log in with Google"
-          onSuccess={handleLogin}
-          onFailure={handleFailure}
-          cookiePolicy={'single_host_origin'}
-        ></GoogleLogin>
-      </Box>
+      <div>
+        {!auth ? (
+          <span>Loading...</span>
+        ) : auth?.isSignedIn.get() ? (
+          `Logged in as "${auth.currentUser.get().getBasicProfile().getName()}"`
+        ) : (
+          <button onClick={() => auth.signIn()}>Login</button>
+        )}
+      </div>
     )
   }
+
+  return (
+    <Box className="main">
+      <MyAuthComponent />
+
+      <GoogleLogin
+        clientId={'321821941550-75ebsv7rpq6appdh0l5o88n6uvb34hvc.apps.googleusercontent.com'}
+        buttonText="Log in with Google"
+        onSuccess={handleLogin}
+        onFailure={handleFailure}
+        cookiePolicy={'single_host_origin'}
+      ></GoogleLogin>
+    </Box>
+  )
 }
