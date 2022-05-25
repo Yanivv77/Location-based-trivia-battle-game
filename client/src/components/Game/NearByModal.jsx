@@ -13,18 +13,21 @@ import Geocode from 'react-geocode'
 import { useEffect } from 'react'
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  background: '#90caf9',
+
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "80%",
+  bgcolor: "background.paper",
+  border: "none",
+  borderRadius: "10px",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  background: "#90caf9",
+
 
   boxShadow: 24,
   p: 4,
@@ -81,9 +84,21 @@ const NearByModal = ({ open, handleClose }) => {
             <Typography id="transition-modal-title" variant="h6" component="h2" sx={{ textAlign: 'center', mt: 2, mb: 3 }}>
               Current Location
             </Typography>
-            <Paper elevation={2} sx={{ m: '0 auto', width: '90%', minHeight: '120px' }}>
-              <Typography id="transition-modal-title" variant="body" component="p">
+
+            <Paper
+              elevation={2}
+              sx={{ m: "0 auto", width: "90%", minHeight: "120px", p: 2 }}
+            >
+              <Typography
+                id="transition-modal-title"
+                variant="body"
+                component="p"
+              >
+             
+
+            
                 {city}
+
               </Typography>
             </Paper>
             <Button variant="contained" color="success" size="medium" sx={{ borderRadius: 5, mt: 5 }} onClick={handleNextButton}>

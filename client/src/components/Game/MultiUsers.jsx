@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import Input from "../Input";
-import { Button, TextField, Stack, Grid, Box } from "@mui/material";
+import { Button, TextField, Stack, Grid, Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { WebSocketContext } from "../Websocket/WebSocket";
 import Copy from "../Copy";
@@ -18,12 +18,12 @@ const MultiUsers = () => {
   const dispatch = useDispatch();
   const ws = useContext(WebSocketContext);
   const onlinePlayers = useSelector((state) => state.quiz.quizPlayers);
-  const { game } = useSelector((state) => state.game);
+  const { game, gameOptions } = useSelector((state) => state.game);
   const { invitedPlayers } = useSelector((state) => state.game.gameOptions);
 
   const handleCreateGame = () => {
     setClicked(true);
-    ws.createGame(game);
+    ws.createGame({ ...game, gameOptions });
   };
 
   const handleStartGame = () => {
@@ -42,24 +42,24 @@ const MultiUsers = () => {
   return (
     <Box
       sx={{
-        filter: "opacity(60%)",
+        filter: "opacity(70%)",
         bgcolor: "background.paper",
         borderRadius: "5px",
-        width: "90%",
+        width: "100%",
         m: "0 auto",
-        p: 2,
+        p: 1,
       }}
     >
-      <div className="main-container" style={{ marginTop: "20px" }}>
+      <div className="main-container" style={{ marginTop: "10px" }}>
         <div className="invite-options">
           <div className="users-by-link">
-            <h5> Send invitation link to friends and family to play with</h5>
+            <h6> Send invitation link to friends and family to play with</h6>
             <Grid
               container
               justifyContent="center"
               alignItems="center"
-              spacing={5}
-              sx={{ mt: 2 }}
+              spacing={2}
+              sx={{ mt: 1 }}
             >
               <Grid item xs={6}>
                 <Stack spacing={1}>
@@ -98,61 +98,73 @@ const MultiUsers = () => {
             </Grid>
           </div>
 
-          <div
-            style={{
-              backgroundColor: "white",
-              width: "fit-content",
-              margin: "auto",
-            }}
+          <Grid
+            container
+            spacing={1}
+            sx={{ width: "100%", mt: 1, mr: 1, mb: 1 }}
           >
-            <br />
-            {invitedPlayers.length > 0 &&
-              invitedPlayers.map((user) => {
-                return (
-                  <p key={user.name}>
-                    {user.name} is invited <br />
-                  </p>
-                );
-              })}
-            <br />
-          </div>
+            <Grid item xs={6}>
+              <Typography>Invited Players:</Typography>
+              <Stack
+                justifyContent="center"
+                sx={{
+                  minHeight: "50px",
+                  bgcolor: "#f0f4c3",
 
-          <div
+                  borderRadius: "10px",
+                  pl: "5px",
+                }}
+              >
+                {invitedPlayers.length > 0 &&
+                  invitedPlayers.map((user) => {
+                    return (
+                      <Typography variant="body2" key={user.name}>
+                        {user.name} <br />
+                      </Typography>
+                    );
+                  })}
+                {/* <p>Total invited: {invitedPlayers.length}</p> */}
+              </Stack>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>Players online:</Typography>
+              <Stack
+                justifyContent="center"
+                sx={{
+                  minHeight: "50px",
+                  bgcolor: "#f0f4c3",
+
+                  borderRadius: "10px",
+                  pl: "5px",
+                }}
+              >
+                {onlinePlayers.length > 0 &&
+                  onlinePlayers.map((user, i) => {
+                    return (
+                      <Typography variant="body2" key={i}>
+                        {user.name}
+                      </Typography>
+                    );
+                  })}
+              </Stack>
+            </Grid>
+          </Grid>
+
+          {/* <div
             className="users-from-list"
             style={{ display: "inline-grid", marginBottom: "20px" }}
           >
             <p>Or you can add online users from list:</p>
-            {/* <MultipleUsersSelect usersList={invitedPlayers} /> */}
-          </div>
+             <MultipleUsersSelect usersList={invitedPlayers} /> 
+          </div> */}
         </div>
-        <div
-          className="total-invited"
-          style={{ textAlign: "center", marginBottom: "30px" }}
-        >
-          <p>Total invited: {invitedPlayers.length}</p>
-          <h2>Invited Players</h2>
 
-          <div
-            style={{
-              backgroundColor: "white",
-              width: "fit-content",
-              margin: "auto",
-            }}
-          >
-            <br />
-            {onlinePlayers.length > 0 &&
-              onlinePlayers.map((user) => {
-                return (
-                  <p key={user.id}>
-                    {user.name}: is online <br />
-                  </p>
-                );
-              })}
-            <br />
-          </div>
-        </div>
         {game && clicked && (
-          <Stack justifyContent="center" alignItems="center" sx={{ mb: 4 }}>
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ mt: 1, mb: 4 }}
+          >
             <h6>You can copy a link to invite players : </h6>
             <Copy joinGameId={`localhost:3000/waitingroom/${game.gameId}`} />
           </Stack>

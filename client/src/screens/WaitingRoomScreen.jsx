@@ -27,9 +27,12 @@ const WaitingRoomScreen = () => {
   const [guestInput, setGuestInput] = useState(false)
   const [joined, setJoined] = useState(false)
 
-  const invitedPlayers = useSelector((state) => state.quiz.quizPlayers)
-  const { user } = useSelector((state) => state.auth)
-  const ws = useContext(WebSocketContext)
+
+  const invitedPlayers = useSelector((state) => state.quiz.quizPlayers);
+  const { user } = useSelector((state) => state.auth);
+  const { isActive } = useSelector((state) => state.game.gameOptions);
+  const ws = useContext(WebSocketContext);
+
 
   const navigate = useNavigate()
 
@@ -65,10 +68,12 @@ const WaitingRoomScreen = () => {
     }
   }, [ws])
   useEffect(() => {
-    if (gameStarted) {
-      navigate(`/loadinggame/${params.id}`)
+
+    if (gameStarted || isActive) {
+      navigate(`/loadinggame/${params.id}`);
     }
-  }, [gameStarted])
+  }, [gameStarted, isActive]);
+
 
   return (
     <>

@@ -1,11 +1,14 @@
-// const { GameManager } = require("js-gamemanager");
-const { getQuestions } = require('./questionService')
+
+
+const { getQuestions } = require("./questionService");
 
 class GameManager {
   constructor() {
-    this.quizzes = {}
-    this.players = []
-    this.games = []
+    this.quizzes = {};
+    this.players = [];
+    this.waitingPlayers = [];
+    this.games = [];
+
   }
 
   addGame(game) {
@@ -30,7 +33,17 @@ class GameManager {
   }
 
   addPlayer(player) {
-    this.players.push(player)
+
+    if (Array.isArray(player) && player.length) {
+      console.log("Adding waiting player", player);
+      this.players = [...this.players, ...player];
+      this.waitingPlayers = this.waitingPlayers.filter(
+        (p) => p.roomId !== player[0].roomId
+      );
+    } else {
+      this.players.push(player);
+    }
+
   }
 
   removePlayer(socketId) {
@@ -43,6 +56,18 @@ class GameManager {
       return null
     }
   }
+  addWaitingPlayer(player) {
+    this.waitingPlayers.push(player);
+    console.log(this.waitingPlayers[0]);
+  }
+
+  getWaitingPlayersByGame(gameId) {
+    const waitingPlayers = this.waitingPlayers.filter(
+      (p) => p.roomId === gameId
+    );
+    return waitingPlayers;
+  }
+
   removePlayersByRoom(roomId) {
     this.players = this.players.filter((player) => player.roomId !== roomId)
   }
@@ -101,6 +126,17 @@ class GameManager {
     let val = this.getPlayersByRoom(room).length
     this.quizzes[room].waiting = val
     //console.log("waiting", val);
+  }
+  setRoundStartTime(room) {
+    let startedAt = (this.quizzes[room].startedAt = Date.now());
+    console.log("started at", startedAt);
+    return startedAt;
+  }
+  getRoundTime(room) {
+    let startedAt = this.quizzes[room].startedAt;
+    let pastTillNow = Date.now() - startedAt;
+    const currentSeconds = Math.floor(pastTillNow / 1000);
+    return currentSeconds;
   }
 
   updateWaiting(room) {

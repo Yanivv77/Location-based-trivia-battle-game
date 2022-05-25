@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, Button, Typography, Box, Slider } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
-import MultiUsers from '../Game/MultiUsers'
-import { useDispatch, useSelector } from 'react-redux'
-import { initGame, createGame, setTimer } from '../../features/game/gameSlice'
+
+import React, { useEffect, useState } from "react";
+import { Grid, Button, Typography, Box, Slider, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import MultiUsers from "../Game/MultiUsers";
+import { useDispatch, useSelector } from "react-redux";
+import { initGame, createGame, setTimer } from "../../features/game/gameSlice";
+
 
 const GameOptions = () => {
   const { secondsPerQuestion } = useSelector((state) => state.game.gameOptions)
@@ -27,26 +29,28 @@ const GameOptions = () => {
           <Typography
             variant="h5"
             sx={{
-              textAlign: 'center',
-              mt: 1,
+
+              textAlign: "center",
+
 
               fontWeight: 'bold',
               color: '##eeeeee',
             }}
-          ></Typography>
-          <Button
-            variant="contained"
-            color="success"
-            size="medium"
-            sx={{ borderRadius: 10, mb: 1 }}
-            onClick={() => {
-              dispatch(initGame())
-            }}
+
           >
-            Go Back
-          </Button>
-          <Box sx={{ maxWidth: '400px', m: '0 auto' }}>
-            <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%', mt: 3 }}>
+            Choose Game Options
+          </Typography>
+
+          <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
+            <Grid
+              container
+              spacing={2}
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ width: "100%", mt: 3 }}
+            >
+
               <Grid item xs={12}>
                 <Box sx={{ width: 200 }}>
                   <Typography
@@ -74,20 +78,35 @@ const GameOptions = () => {
                   />
                 </Box>
               </Grid>
-              <Grid item xs={12}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  sx={{ borderRadius: 10, mt: 1, mb: 1 }}
-                  onClick={() => {
-                    // dispatch(fetchQuestions());
-                    dispatch(createGame())
-                    setMulti(true)
-                  }}
-                >
-                  Start Game
-                </Button>
+
+              <Grid item xs={12} sx={{ mt: 8, mb: 3 }}>
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="large"
+                    sx={{ borderRadius: 10 }}
+                    onClick={() => {
+                      dispatch(initGame());
+                    }}
+                  >
+                    Go Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="large"
+                    sx={{ borderRadius: 10 }}
+                    onClick={() => {
+                      // dispatch(fetchQuestions());
+                      dispatch(createGame());
+                      setMulti(true);
+                    }}
+                  >
+                    Continue
+                  </Button>
+                </Stack>
+
               </Grid>
               <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
                 <Box sx={{ width: 300, height: 250, display: { xs: 'block', sm: 'none', md: 'block' } }}>

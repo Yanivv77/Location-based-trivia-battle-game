@@ -13,7 +13,8 @@ export const createGame = createAsyncThunk(
   "game/create",
   async (_, thunkAPI) => {
     try {
-      return await gameService.createGame();
+      let { auth } = thunkAPI.getState();
+      return await gameService.createGame(auth.user);
     } catch (error) {
       const message =
         (error.response &&
@@ -49,7 +50,10 @@ const initialState = {
     numberOfQuestions: 10,
     timeOut: false,
     secondsPerQuestion: 30,
+    updatedSecondsPerQuestion: 30,
     invitedPlayers: [],
+    isActive: false,
+    waitTillNextQuestion: false,
   },
   helpers: {
     isHalfAnswersUsed: false,
@@ -93,6 +97,19 @@ const gameState = createSlice({
     setTimer(state, action) {
       state.gameOptions.secondsPerQuestion = action.payload;
     },
+    setUpdatedTimer(state, action) {
+      state.gameOptions.updatedSecondsPerQuestion = action.payload;
+    },
+    setGameToActive(state, game) {
+      state.gameOptions.isActive = true;
+    },
+    setWait(state, action) {
+      if (action.payload === true) {
+        state.gameOptions.waitTillNextQuestion = true;
+      } else {
+        state.gameOptions.waitTillNextQuestion = false;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -104,6 +121,9 @@ const gameState = createSlice({
           isFolowUsed: false,
         };
         state.game = null;
+        state.gameOptions.isActive = false;
+        state.gameOptions.secondsPerQuestion = 30;
+        state.gameOptions.updatedSecondsPerQuestion = 30;
       })
 
       .addCase(createGame.fulfilled, (state, action) => {
@@ -134,6 +154,9 @@ export const {
   changeStatisticsHelper,
   addInvitedPlayer,
   setTimer,
+  setGameToActive,
+  setUpdatedTimer,
+  setWait,
 } = gameState.actions;
 
 export default gameState.reducer;

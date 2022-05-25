@@ -31,6 +31,11 @@ const style = {
 };
 
 const HelperModal = ({ open, handleClose, statisticAnswers }) => {
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => handleClose(), 4000);
+    }
+  }, [open]);
   return (
     <Modal
       aria-labelledby="transition-modal-title"

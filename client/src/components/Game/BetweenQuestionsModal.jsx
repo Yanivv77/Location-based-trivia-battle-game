@@ -21,14 +21,15 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "70%",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  borderRadius: "5px",
+  bgcolor: "#f0f4c3",
+  filter: " opacity(95%)",
+  border: "none",
+  borderRadius: "10px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  background: "#90caf9",
+  // background: "#90caf9",
 
   boxShadow: 24,
   p: 4,
@@ -42,8 +43,12 @@ const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
     currentQuestionNumber,
   } = useSelector((state) => state.quiz);
 
+  useEffect(() => {
+    console.log("open in modal: ", open);
+  }, [open]);
+
   return (
-    <div>
+    <>
       {" "}
       <Modal
         aria-labelledby="transition-modal-title"
@@ -105,7 +110,12 @@ const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
                       marginBottom: "40px",
                     }}
                   >
-                    <h1>The right answer is:</h1>
+                    {currentAnswer && currentAnswer.isCorrect ? (
+                      <h3>Verry Good !</h3>
+                    ) : (
+                      <h3>Sorry your answer is not correct</h3>
+                    )}
+                    <h2 style={{ marginTop: "1opx" }}>The right answer is:</h2>
                   </div>
 
                   <div
@@ -125,7 +135,7 @@ const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
           </Box>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 };
 

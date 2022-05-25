@@ -6,19 +6,18 @@ export default function Timer({
   currentQuestion,
   currentAnswer,
   handleTimeout,
-  clicked,
+
   players,
 }) {
-  const game = useSelector((state) => state.game.gameOptions);
-  const [timer, setTimer] = useState(game.secondsPerQuestion || 30);
+  const { secondsPerQuestion } = useSelector((state) => state.game.gameOptions);
+  const [timer, setTimer] = useState(secondsPerQuestion || 30);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => prev - 1);
     }, 1000);
 
-    if (currentAnswer && players.length === 1) {
-      console.log("clicked:", clicked);
+    if (currentAnswer && players?.length === 1) {
       clearInterval(interval);
     }
 
@@ -46,7 +45,8 @@ export default function Timer({
   }, [timer, currentAnswer]);
 
   useEffect(() => {
-    setTimer(game.secondsPerQuestion || 30);
+    setTimer(secondsPerQuestion || 30);
   }, [currentQuestion]);
+
   return timer;
 }

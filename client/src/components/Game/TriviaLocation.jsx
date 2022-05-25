@@ -18,15 +18,17 @@ const TriviaLocation = () => {
       {/*<Button
         variant="contained"
         color="success"
-        size="large"
-        sx={{ borderRadius: 10, mt: 5 }}
+        size="medium"
+        sx={{ borderRadius: 10, mt: 1 }}
         onClick={() => {
           navigate('/gamelobby')
         }}
       >
-        {t('go back')}
-      </Button>*/}
-      <Box sx={{ maxWidth: '600px', m: '0 auto' }}>
+
+        {t("go back")}
+      </Button>
+      <Box sx={{ maxWidth: "400px", m: "0 auto", mb: 4 }}>
+
         <Typography
           sx={{
             fontSize: 38,

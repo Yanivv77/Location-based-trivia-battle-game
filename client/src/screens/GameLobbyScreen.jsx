@@ -50,9 +50,14 @@ const GameLobbyScreen = () => {
           width: '100%',
           height: '100%',
           background:
-            'url(https://imgc.allpostersimages.com/img/posters/aged-treasure-map-background_u-L-F78UCO0.jpg?artHeight=1800&artPerspective=n&artWidth=1800) no-repeat fixed center',
-          backgroundSize: 'cover',
-          p: 3,
+
+            "url(https://imgc.allpostersimages.com/img/posters/aged-treasure-map-background_u-L-F78UCO0.jpg?artHeight=900&artPerspective=n&artWidth=900) no-repeat fixed center",
+          backgroundSize: "cover",
+          pt: 1,
+          pb: 3,
+          pl: 1,
+          pr: 1,
+
         }}
       >
         {gameStage}

@@ -24,20 +24,20 @@ const Game = () => {
 
   const handleOpen = () => setOpen(true)
 
-  const delay = (timer, callback) => {
-    setTimeout(() => callback(), timer)
-  }
-  const handleClose = () => setOpen(false)
+
+  const handleClose = () => setOpen(false);
 
   const handleExitGame = () => {
-    dispatch(resetState())
-    navigate('/gamelobby')
-  }
+    dispatch(resetState());
+    ws.socket.current.disconnect();
+    ws.socket.current.connect();
+    navigate("/profile");
+  };
 
   const moveToNextQuestion = () => {
-    setClicked(false)
-    ws.nextQuestion()
-  }
+    ws.nextQuestion();
+  };
+
 
   const handleAnswer = (answer) => {
     if (!clicked) {
@@ -49,43 +49,46 @@ const Game = () => {
   }
   const handleTimeout = () => {
     if (!clicked) {
-      setTimeFinished(true)
-      setOpen(true)
+
+      setTimeFinished(true);
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 4000);
+
     }
   }
 
   useEffect(() => {
     if (currentAnswer) {
+      console.log("got answer ,opening modal");
       setTimeout(() => {
         handleOpen()
       }, 1000)
     } else {
-      setClicked(false)
-      setOpen(false)
-      setTimeFinished(false)
-      handleClose()
-      setAnswers(currentQuestion.answers)
+
+      console.log("next question setup");
+      setClicked(false);
+      setHelperOpen(false);
+      setOpen(false);
+      setTimeFinished(false);
+      setAnswers(currentQuestion.answers);
+
     }
   }, [currentAnswer, currentQuestion])
   return (
     <>
-      {' '}
-      <Button variant="contained" color="success" size="large" sx={{ borderRadius: 10, mt: 5 }} onClick={handleExitGame}>
+
+      <Button
+        variant="contained"
+        color="success"
+        size="small"
+        sx={{ borderRadius: 10, mt: 1 }}
+        onClick={handleExitGame}
+      >
         EXIT GAME
       </Button>
-      <Box sx={{ maxWidth: '400px', m: '0 auto', position: 'relative' }}>
-        {/* <Typography
-          variant="h3"
-          sx={{
-            textAlign: "center",
-            mt: 3,
-            mb: 3,
-            fontWeight: "bold",
-            color: "##eeeeee",
-          }}
-        >
-          Trivia
-        </Typography> */}
+      <Box sx={{ maxWidth: "400px", m: "0 auto", position: "relative" }}>
 
         <Typography
           variant="h6"
@@ -96,7 +99,7 @@ const Game = () => {
             color: '##eeeeee',
             position: 'absolute',
             top: 0,
-            right: 0,
+            right: 10,
           }}
         >
           Time left :{' '}
@@ -124,16 +127,20 @@ const Game = () => {
           Score : {score}
         </Typography>
         <Box>
-          <Grid container spacing={2} sx={{ width: '100%', mt: 3 }}>
+
+          <Grid container spacing={1} sx={{ width: "100%", mt: 3 }}>
+
             <Grid item xs={12}>
               <Paper
                 sx={{
                   p: 2,
                   pb: 2,
                   mt: 3,
-                  mb: 3,
-                  borderRadius: '10px',
-                  minHeight: '200px',
+
+                  mb: 2,
+                  borderRadius: "10px",
+                  minHeight: "200px",
+
                 }}
               >
                 <Typography
@@ -164,25 +171,31 @@ const Game = () => {
             </Grid>
             {answers.length &&
               answers.map((answer) => (
-                <Grid key={answer.id} item xs={12} sm={6}>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    // disabled={clicked}
-                    sx={{
-                      minWidth: '150px',
-                      borderRadius: 10,
 
-                      backgroundColor: 'secondary.main',
-                      '&:hover': {
-                        backgroundColor: 'secondary.dark',
-                        // opacity: [0.9, 0.8, 0.7],
-                      },
-                    }}
-                    onClick={() => handleAnswer(answer.text)}
-                  >
-                    {answer.text}
-                  </Button>
+                <Grid item xs={12} sm={6}>
+                  <Stack justifyContent="center" alignItems="center">
+                    <Button
+                      variant="contained"
+                      size="large"
+                      // disabled={clicked}
+                      sx={{
+                        minWidth: "130px",
+                        borderRadius: 10,
+                        ml: 1,
+                        fontSize: "0.9rem",
+
+                        backgroundColor: "secondary.main",
+                        "&:hover": {
+                          backgroundColor: "secondary.dark",
+                          // opacity: [0.9, 0.8, 0.7],
+                        },
+                      }}
+                      onClick={() => handleAnswer(answer.text)}
+                    >
+                      {answer.text}
+                    </Button>
+                  </Stack>
+
                 </Grid>
               ))}
           </Grid>
