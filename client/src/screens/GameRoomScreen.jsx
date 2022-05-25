@@ -1,16 +1,17 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState, useContext } from 'react'
+import { Grid, Button, Typography, Box, Paper, Stack } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useLocation } from 'react-router-dom'
 
-import { resetState } from "../features/quiz/quizSlice";
-import BetweenQuestionsModal from "../components/Game/BetweenQuestionsModal";
-import HelperModal from "../components/Game/HelperModal";
-import Timer from "../components/Timer";
-import Helps from "../components/Helps";
-import { WebSocketContext } from "../components/Websocket/WebSocket";
+import { resetState } from '../features/quiz/quizSlice'
+import BetweenQuestionsModal from '../components/Game/BetweenQuestionsModal'
+import HelperModal from '../components/Game/HelperModal'
+import Timer from '../components/Timer'
+import Helps from '../components/Helps'
+import { WebSocketContext } from '../components/Websocket/WebSocket'
 
 const GameRoomScreen = () => {
+
   const {
     quizPlayers,
     currentQuestion,
@@ -22,28 +23,32 @@ const GameRoomScreen = () => {
     (state) => state.game.gameOptions
   );
 
-  const [open, setOpen] = useState(false);
-  const [timeFinished, setTimeFinished] = useState(false);
 
-  const [gameFinished, setGameFinished] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [timeFinished, setTimeFinished] = useState(false)
+
+  const [gameFinished, setGameFinished] = useState(false)
+
 
   const [answers, setAnswers] = useState(currentQuestion?.answers || []);
   const [clicked, setClicked] = useState(false);
   const [helperOpen, setHelperOpen] = useState(false);
 
-  const ws = useContext(WebSocketContext);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isHalfAnswersUsed } = useSelector((state) => state.game.helpers);
 
-  const handleOpen = () => setOpen(true);
+  const ws = useContext(WebSocketContext)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { isHalfAnswersUsed } = useSelector((state) => state.game.helpers)
+
+  const handleOpen = () => setOpen(true)
 
   const delay = (timer, callback) => {
-    setTimeout(() => callback(), timer);
-  };
-  const handleClose = () => setOpen(false);
+    setTimeout(() => callback(), timer)
+  }
+  const handleClose = () => setOpen(false)
 
   const handleExitGame = () => {
+
     dispatch(resetState());
     ws.socket.current.disconnect();
     ws.socket.current.connect();
@@ -57,23 +62,25 @@ const GameRoomScreen = () => {
       setTimeout(() => {
         setOpen(false);
       }, 4000);
+
     }
-  };
+  }
 
   const moveToNextQuestion = () => {
-    console.log("MoveToNextQuestion");
-  };
+    console.log('MoveToNextQuestion')
+  }
 
   const handleAnswer = (answer) => {
     if (!clicked) {
-      setClicked(true);
-      ws.submitAnswer(answer);
+      setClicked(true)
+      ws.submitAnswer(answer)
     }
-  };
+  }
 
   useEffect(() => {
     if (currentAnswer) {
       setTimeout(() => {
+
         handleOpen();
       }, 1000);
     } else {
@@ -90,12 +97,14 @@ const GameRoomScreen = () => {
       ws.socket.current?.on("gameFinished", () => {
         setGameFinished(true);
       });
+
     }
-  }, [ws]);
+  }, [ws])
   useEffect(() => {
     if (gameFinished) {
-      setTimeout(() => navigate(`/endgamescreen`), 1500);
+      setTimeout(() => navigate(`/endgamescreen`), 1500)
     }
+
   }, [gameFinished]);
 
   if (waitTillNextQuestion) {
@@ -135,20 +144,16 @@ const GameRoomScreen = () => {
     );
   }
 
+
   return (
     <>
       {currentQuestion && (
         <>
-          {" "}
-          <Button
-            variant="contained"
-            color="success"
-            size="large"
-            sx={{ borderRadius: 10, mt: 5 }}
-            onClick={handleExitGame}
-          >
+          {' '}
+          <Button variant="contained" color="success" size="large" sx={{ borderRadius: 10, mt: 5 }} onClick={handleExitGame}>
             EXIT GAME
           </Button>
+
           <Box
             sx={{
               maxWidth: { xs: "350px", sm: "400px", md: "500px" },
@@ -156,19 +161,20 @@ const GameRoomScreen = () => {
               position: "relative",
             }}
           >
+
             <Typography
               variant="h6"
               sx={{
-                textAlign: "center",
+                textAlign: 'center',
 
-                fontWeight: "bold",
-                color: "##eeeeee",
-                position: "absolute",
+                fontWeight: 'bold',
+                color: '##eeeeee',
+                position: 'absolute',
                 top: 0,
                 right: 0,
               }}
             >
-              Time left :{" "}
+              Time left :{' '}
               <Timer
                 currentQuestion={currentQuestionNumber}
                 moveToNextQuestion={moveToNextQuestion}
@@ -180,11 +186,11 @@ const GameRoomScreen = () => {
             <Typography
               variant="h6"
               sx={{
-                textAlign: "center",
+                textAlign: 'center',
 
-                fontWeight: "bold",
-                color: "##eeeeee",
-                position: "absolute",
+                fontWeight: 'bold',
+                color: '##eeeeee',
+                position: 'absolute',
                 top: 0,
                 left: 0,
               }}
@@ -192,7 +198,7 @@ const GameRoomScreen = () => {
               Score : {score}
             </Typography>
             <Box>
-              <Grid container spacing={2} sx={{ width: "100%", mt: 3 }}>
+              <Grid container spacing={2} sx={{ width: '100%', mt: 3 }}>
                 <Grid item xs={12}>
                   <Paper
                     sx={{
@@ -200,33 +206,30 @@ const GameRoomScreen = () => {
                       pb: 2,
                       mt: 3,
                       mb: 3,
-                      borderRadius: "10px",
-                      minHeight: "200px",
+                      borderRadius: '10px',
+                      minHeight: '200px',
                     }}
                   >
                     <Typography
                       variant="h5"
                       sx={{
-                        textAlign: "center",
+                        textAlign: 'center',
 
-                        fontWeight: "bold",
-                        color: "##eeeeee",
+                        fontWeight: 'bold',
+                        color: '##eeeeee',
                         mb: 2,
                       }}
                     >
-                      Question{" "}
-                      <span className={{ fontSize: "15px", color: "red" }}>
-                        {currentQuestionNumber}
-                      </span>
+                      Question <span className={{ fontSize: '15px', color: 'red' }}>{currentQuestionNumber}</span>
                       /10
                     </Typography>
                     <Typography
                       variant="h6"
                       sx={{
-                        textAlign: "center",
+                        textAlign: 'center',
 
-                        fontWeight: "bold",
-                        color: "##eeeeee",
+                        fontWeight: 'bold',
+                        color: '##eeeeee',
                       }}
                     >
                       {currentQuestion.question}
@@ -236,6 +239,7 @@ const GameRoomScreen = () => {
                 {answers?.length &&
                   answers.map((answer) => (
                     <Grid item xs={12} sm={6}>
+
                       <Stack justifyContent="center" alignItems="center">
                         <Button
                           variant="contained"
@@ -248,7 +252,7 @@ const GameRoomScreen = () => {
                             backgroundColor: "secondary.main",
                             "&:hover": {
                               backgroundColor: "secondary.dark",
-                              // opacity: [0.9, 0.8, 0.7],
+                           
                             },
                           }}
                           onClick={() => handleAnswer(answer.text)}
@@ -256,30 +260,19 @@ const GameRoomScreen = () => {
                           {answer.text}
                         </Button>
                       </Stack>
+
                     </Grid>
                   ))}
               </Grid>
-              <Helps
-                answers={answers}
-                setAnswers={setAnswers}
-                setOpen={() => setHelperOpen(true)}
-              ></Helps>
+              <Helps answers={answers} setAnswers={setAnswers} setOpen={() => setHelperOpen(true)}></Helps>
             </Box>
           </Box>
-          <BetweenQuestionsModal
-            open={open}
-            handleClose={handleClose}
-            timeFinished={timeFinished}
-          />
-          <HelperModal
-            open={helperOpen}
-            handleClose={() => setHelperOpen(false)}
-            statisticAnswers={currentQuestion.statistics.perAnswer}
-          />
+          <BetweenQuestionsModal open={open} handleClose={handleClose} timeFinished={timeFinished} />
+          <HelperModal open={helperOpen} handleClose={() => setHelperOpen(false)} statisticAnswers={currentQuestion.statistics.perAnswer} />
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default GameRoomScreen;
+export default GameRoomScreen
