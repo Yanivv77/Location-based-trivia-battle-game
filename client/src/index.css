@@ -1,8 +1,9 @@
 
 
+@import '~react-cool-text/react-cool-text/output/theme';
 body {
   margin: 0;
-  font-family: -apple-system,  'Oxygen',
+  font-family:   apple-system,  'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -20,3 +21,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+fontMarker {font-family: 'Permanent Marker', cursive;}

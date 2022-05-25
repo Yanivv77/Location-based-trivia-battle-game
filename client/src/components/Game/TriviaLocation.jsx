@@ -3,6 +3,8 @@ import { Grid, Button, Typography, Box, Paper } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import NearByModal from '../Game/NearByModal'
 import { useTranslation } from 'react-i18next'
+import AnimatedText from 'react-animated-text-content'
+import { CoolText } from 'react-cool-text'
 
 const TriviaLocation = () => {
   const { t } = useTranslation(['Game/TriviaLocation'])
@@ -14,7 +16,7 @@ const TriviaLocation = () => {
   const handleClose = () => setOpen(false)
   return (
     <>
-      <Button
+      {/*<Button
         variant="contained"
         color="success"
         size="large"
@@ -24,36 +26,68 @@ const TriviaLocation = () => {
         }}
       >
         {t('go back')}
-      </Button>
-      <Box sx={{ maxWidth: '400px', m: '0 auto' }}>
+      </Button>*/}
+      <Box sx={{ maxWidth: '600px', m: '0 auto' }}>
         <Typography
-          variant="h4"
           sx={{
+            fontSize: 38,
             textAlign: 'center',
-            mt: 3,
-            mb: 3,
+            mt: 0,
+            mb: 0,
             fontWeight: 'bold',
-            fontFamily: 'Dollan',
-            color: '##eeeeee',
+            fontFamily: 'Helvetica Neue',
+            color: '#000000',
+            variant: 'h1',
+            display: { xs: 'block' },
           }}
         >
-          {t('to start the game please choose trivia location')}
+          <AnimatedText
+            type="words" // animate words or chars
+            animation={{
+              x: '200px',
+              y: '-20px',
+              scale: 1.7,
+              ease: 'ease-in-out',
+            }}
+            animationType="float"
+            interval={0.06}
+            duration={0.8}
+            tag="p"
+            className="animated-paragraph "
+            includeWhiteSpaces
+            threshold={0.1}
+            rootMargin="20%"
+          >
+            {t(' Hello Choose Trivia Question Location 😃')}
+          </AnimatedText>
         </Typography>
-        <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
+        <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
           <Grid item xs={12}>
             <Button variant="contained" size="large" color="secondary" sx={{ borderRadius: 10, mt: 5 }} onClick={handleOpen}>
               {t('near by location')}
             </Button>
           </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="secondary" size="large" sx={{ borderRadius: 10, mt: 5 }}>
-              {t('location on map')}
-            </Button>
+
+          <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
+            <Box sx={{ width: 300, height: 300, display: { xs: 'block', sm: 'none', md: 'block' } }}>
+              <lottie-player
+                src="https://assets8.lottiefiles.com/packages/lf20_tHEtXH.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+              ></lottie-player>
+            </Box>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="secondary" size="large" sx={{ borderRadius: 10, mt: 3 }}>
+            {/*<Button variant="contained" color="secondary" size="large" sx={{ borderRadius: 10, mt: 5 }}>
+              {t('location on map')}
+            </Button>*/}
+          </Grid>
+          <Grid item xs={12}>
+            {/*<Button variant="contained" color="secondary" size="large" sx={{ borderRadius: 10, mt: 3 }}>
               {t('location from list')}
-            </Button>
+            </Button>*/}
           </Grid>
         </Grid>
         <NearByModal open={open} handleClose={handleClose} />
