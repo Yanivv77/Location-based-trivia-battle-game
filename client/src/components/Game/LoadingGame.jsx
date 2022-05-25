@@ -1,27 +1,27 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { startGame } from "../../features/game/gameSlice";
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { startGame } from '../../features/game/gameSlice'
 
 const LoadingGame = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   useEffect(() => {
     // dispatch(fetchQuestions());
     // dispatch(createGame());
-    setTimeout(() => dispatch(startGame()), 3000);
-  }, []);
+    setTimeout(() => dispatch(startGame()), 3000)
+  }, [])
 
   return (
     <div className=" w-55 container d-flex justify-content-center">
       <lottie-player
-        src="https://assets4.lottiefiles.com/private_files/lf30_c7xcgjbt.json"
+        src="https://assets6.lottiefiles.com/packages/lf20_hzwndued.json"
         background="transparent"
-        speed="0.5"
+        speed="1"
         loop
         autoplay
       ></lottie-player>
     </div>
-  );
-};
+  )
+}
 
-export default LoadingGame;
+export default LoadingGame
