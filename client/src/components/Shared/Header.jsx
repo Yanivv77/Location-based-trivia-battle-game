@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
 import RainbowText from 'react-rainbow-text'
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
 const username = Cookies.get('username')
 
 function Header() {
@@ -22,7 +22,7 @@ function Header() {
 
   return (
     <>
-      <header className="mt-2">
+      <header className="mt-3">
         <div className="container d-flex justify-content-center ">
           <h1 className="display-2">
             <RainbowText lightness={0.4} saturation={1}>

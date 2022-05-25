@@ -27,13 +27,13 @@ const NavBar = (props) => {
 
   return (
     <header>
-      <AppBar position="static" sx={{ backgroundColor: 'secondary.dark' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#9C27B0' }}>
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             aria-label="menu"
-            sx={{ mr: 1, color: '#f9fbe7' }}
+            sx={{ color: '#f9fbe7' }}
             onClick={() => {
               props.setOpen(true)
             }}
@@ -45,21 +45,20 @@ const NavBar = (props) => {
             component="div"
             sx={{
               flexGrow: 1,
-              color: '#e65100',
+              color: '#f9fbe7',
               textAlign: 'center',
               fontSize: { xs: '15px', sm: '20px', md: '26px' },
               fontWeight: 'bold',
               fontFamily: "'Stone Age', sans-serif",
             }}
-          >
-            World Trivia Battle
-          </Typography>
+          ></Typography>
           {user && (
             <>
               <Typography
                 variant="h6"
                 component="div"
                 sx={{
+                  textAlign: 'center',
                   color: '#f9fbe7',
                   fontSize: { xs: '10px', sm: '16px' },
                   ml: { xs: 1 },
