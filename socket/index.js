@@ -2,23 +2,25 @@ const { Server } = require("socket.io");
 const express = require("express");
 const http = require("http");
 
-const cors = require('cors')
-const GameManager = require('./utils/gameManager')
-const { isValidString } = require('./utils/validate')
+const cors = require("cors");
+const GM = require("./utils/gameManager");
+const { isValidString } = require("./utils/validate");
 
-const port = process.env.PORT || 7001
-const app = express()
+const port = process.env.PORT || 7001;
+const app = express();
 
-const server = http.createServer(app)
+const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ['https://worldtrivia.herokuapp.com', 'https://triviasocket.herokuapp.com', 'http://localhost:3000'],
-
+    origin: [
+      "https://worldtrivia.herokuapp.com",
+      "https://triviasocket.herokuapp.com",
+      "http://localhost:3000",
+    ],
   },
 });
 const GameManager = new GM();
-
 
 io.on("connection", (socket) => {
   console.log(`${socket.id} connected!`);
@@ -32,14 +34,12 @@ io.on("connection", (socket) => {
     game.hostId = socket.id;
     GameManager.addGame(game);
 
-
     const host = {
-      role: 'host',
+      role: "host",
       ...game.host,
       roomId: game.gameId,
       socketId: socket.id,
       score: 0,
-
     };
     GameManager.addPlayer(host);
     socket.join(game.gameId);
@@ -48,7 +48,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("joinGame", (config, callback) => {
-
     const player = {
       ...config.user,
       socketId: socket.id,
@@ -111,7 +110,6 @@ io.on("connection", (socket) => {
         let roundStartedAt = GameManager.setRoundStartTime(gameId);
         io.to(gameId).emit("newQuestion", questionData);
 
-
         //    callback({ code: "success" });
       } else {
         //    callback({
@@ -122,19 +120,16 @@ io.on("connection", (socket) => {
     } else {
       // Add error handling!
     }
-
   });
 
   socket.on("getNextQuestion", (roomId) => {
     let remaining = GameManager.availableQuestions(roomId);
     console.log("remaining questions: ", remaining);
 
-
     if (remaining === 0) {
       const players = GameManager.getPlayersByRoom(roomId);
       const response = [];
       players.forEach((player) => {
-
         response.push(player);
       });
 
@@ -150,7 +145,6 @@ io.on("connection", (socket) => {
       console.log("next question", questionData.question);
 
       //  var res = setupQuestion(player.room);
-
 
       let roundStartedAt = GameManager.setRoundStartTime(roomId);
 
@@ -209,7 +203,6 @@ io.on("connection", (socket) => {
         let remaining = GameManager.availableQuestions(player.roomId);
         console.log("remaining questions: ", remaining);
 
-
         if (remaining === 0) {
           const players = GameManager.getPlayersByRoom(player.roomId);
           const response = [];
@@ -217,7 +210,6 @@ io.on("connection", (socket) => {
             response.push(player);
           });
           // io.to(player.room).emit("msg");
-
 
           io.to(player.roomId).emit("gameFinished", response);
           console.log(`${player.roomId} finished!`);
@@ -249,12 +241,10 @@ io.on("connection", (socket) => {
         }
       } else {
         console.log("Not all players answer yet");
-
       }
     } else {
-      console.log('player is not available')
+      console.log("player is not available");
     }
-
   });
 
   socket.on("disconnect", () => {
@@ -282,7 +272,6 @@ io.on("connection", (socket) => {
     }
 
     // game = GameManager.getGameByRoom(player.room);
-
 
     //       if (game.active) {
     //         if (players.length > 0) {

@@ -10,7 +10,7 @@ const ScoreResult = ({ score }) => {
     } else if (score >= 5) {
       setTitle("Not Bad !");
     } else {
-      setTitle("I think you can do better !");
+      setTitle("You can do better !");
     }
   }, []);
   return (
@@ -21,7 +21,6 @@ const ScoreResult = ({ score }) => {
           textAlign: "center",
           mt: 2,
 
-          fontWeight: "bold",
           color: "##eeeeee",
         }}
       >

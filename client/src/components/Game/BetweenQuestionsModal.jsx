@@ -113,7 +113,7 @@ const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
                     {currentAnswer && currentAnswer.isCorrect ? (
                       <h3>Verry Good !</h3>
                     ) : (
-                      <h3>Sorry your answer is not correct</h3>
+                      <h3>Oops! Not realy </h3>
                     )}
                     <h2 style={{ marginTop: "1opx" }}>The right answer is:</h2>
                   </div>

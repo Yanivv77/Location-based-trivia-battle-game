@@ -166,7 +166,9 @@ const MultiUsers = () => {
             sx={{ mt: 1, mb: 4 }}
           >
             <h6>You can copy a link to invite players : </h6>
-            <Copy joinGameId={`localhost:3000/waitingroom/${game.gameId}`} />
+            <Copy
+              joinGameId={`https://worldtrivia.herokuapp.com/waitingroom/${game.gameId}`}
+            />
           </Stack>
         )}
         <div
