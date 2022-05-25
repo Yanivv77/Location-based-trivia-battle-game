@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import NearByModal from '../Game/NearByModal'
 import { useTranslation } from 'react-i18next'
 import AnimatedText from 'react-animated-text-content'
-import { CoolText } from 'react-cool-text'
 
 const TriviaLocation = () => {
   const { t } = useTranslation(['Game/TriviaLocation'])
