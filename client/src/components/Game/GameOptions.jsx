@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Button, Typography, Box, Slider } from "@mui/material";
+import { Grid, Button, Typography, Box, Slider, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MultiUsers from "../Game/MultiUsers";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +28,6 @@ const GameOptions = () => {
             variant="h5"
             sx={{
               textAlign: "center",
-              mt: 2,
 
               fontWeight: "bold",
               color: "##eeeeee",
@@ -36,17 +35,7 @@ const GameOptions = () => {
           >
             Choose Game Options
           </Typography>
-          <Button
-            variant="contained"
-            color="success"
-            size="medium"
-            sx={{ borderRadius: 10, mb: 1 }}
-            onClick={() => {
-              dispatch(initGame());
-            }}
-          >
-            Go Back
-          </Button>
+
           <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
             <Grid
               container
@@ -76,20 +65,33 @@ const GameOptions = () => {
                   />
                 </Box>
               </Grid>
-              <Grid item xs={12}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  sx={{ borderRadius: 10, mt: 6, mb: 3 }}
-                  onClick={() => {
-                    // dispatch(fetchQuestions());
-                    dispatch(createGame());
-                    setMulti(true);
-                  }}
-                >
-                  Continue
-                </Button>
+              <Grid item xs={12} sx={{ mt: 8, mb: 3 }}>
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="large"
+                    sx={{ borderRadius: 10 }}
+                    onClick={() => {
+                      dispatch(initGame());
+                    }}
+                  >
+                    Go Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="large"
+                    sx={{ borderRadius: 10 }}
+                    onClick={() => {
+                      // dispatch(fetchQuestions());
+                      dispatch(createGame());
+                      setMulti(true);
+                    }}
+                  >
+                    Continue
+                  </Button>
+                </Stack>
               </Grid>
             </Grid>
           </Box>

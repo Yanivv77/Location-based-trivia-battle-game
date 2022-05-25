@@ -37,6 +37,7 @@ const WaitingRoomScreen = () => {
 
   const invitedPlayers = useSelector((state) => state.quiz.quizPlayers);
   const { user } = useSelector((state) => state.auth);
+  const { isActive } = useSelector((state) => state.game.gameOptions);
   const ws = useContext(WebSocketContext);
 
   const navigate = useNavigate();
@@ -75,10 +76,10 @@ const WaitingRoomScreen = () => {
     }
   }, [ws]);
   useEffect(() => {
-    if (gameStarted) {
+    if (gameStarted || isActive) {
       navigate(`/loadinggame/${params.id}`);
     }
-  }, [gameStarted]);
+  }, [gameStarted, isActive]);
 
   return (
     <>

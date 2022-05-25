@@ -12,7 +12,14 @@ import {
   setAnswer,
   setAllAnswers,
 } from "../../features/quiz/quizSlice";
-import { finishGame, createGamePlayer } from "../../features/game/gameSlice";
+import {
+  finishGame,
+  createGamePlayer,
+  setGameToActive,
+  setGameOptions,
+  setWait,
+  setTimer,
+} from "../../features/game/gameSlice";
 
 const WebSocketContext = createContext(null);
 
@@ -41,7 +48,9 @@ export default ({ children }) => {
   };
 
   const joinGame = (config) => {
-    socket.current.emit("joinGame", config);
+    socket.current.emit("joinGame", config, (msg) => {
+      console.log(msg);
+    });
     dispatch(createGamePlayer({ userName: user?.name || config.name }));
   };
 
@@ -53,7 +62,6 @@ export default ({ children }) => {
     socket.current.emit("getNextQuestion", game.gameId);
   };
 
-  useEffect(() => console.log("useEffect"), []);
   useEffect(() => {
     if (!socket.current) {
       socket.current = io("http://localhost:7001");
@@ -92,7 +100,7 @@ export default ({ children }) => {
 
       if (socket.current) {
         socket.current.on("newQuestion", (question) => {
-          console.log("new question: ", question);
+          console.log(`Question ${question.number} : ${question}`);
           if (question.number > 1) {
             setTimeout(() => {
               dispatch(setQuestion(question));
@@ -100,6 +108,7 @@ export default ({ children }) => {
           } else {
             dispatch(setQuestion(question));
           }
+          dispatch(setWait(false));
         });
       }
 
@@ -113,28 +122,27 @@ export default ({ children }) => {
         dispatch(setAllAnswers(data));
       });
 
-      socket.current.on("incorrectAnswer", (player) => {
-        // dispatch(setStroke(player, "red"));
+      socket.current.on("gameStarted", (gameOptions) => {
+        console.log(gameOptions);
+        dispatch(setTimer(gameOptions.secondsPerQuestion));
       });
 
-      socket.current.on("gameFinished", (scoreboard) => {
-        console.log(scoreboard);
-        setTimeout(() => dispatch(finishGame()), 1500);
+      socket.current.on("activeGame", (game) => {
+        console.log("activeGame:", game);
+        if (game.waitTillNextQuestion) {
+          dispatch(setWait(true));
+          dispatch(setGameToActive());
+          dispatch(setTimer(game.gameOptions.secondsPerQuestion));
+        }
       });
 
-      //  socket.current.on("newQuestion", (res) => {
-      //       if (res.wait === true) {
-      //         setTimeout(() => {
-      //               store.dispatch(setMessage(""));
-      //               store.dispatch(resetStroke());
-      //               store.dispatch(setQuestion(res.question));
-      //         }, 2000);
-      //       } else {
-      //           dispatch(setMessage(""));
-      //           dispatch(setStatus("active"));
-      //           dispatch(setQuestion(res.question));
-      //       }
-      //  });
+      socket.current.on("gameFinished", (allPlayers) => {
+        console.log(allPlayers);
+        setTimeout(() => {
+          dispatch(updatePlayers(allPlayers));
+          dispatch(finishGame());
+        }, 2500);
+      });
     }
   }, []);
 

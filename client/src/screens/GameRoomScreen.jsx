@@ -11,15 +11,23 @@ import Helps from "../components/Helps";
 import { WebSocketContext } from "../components/Websocket/WebSocket";
 
 const GameRoomScreen = () => {
-  const { currentQuestion, currentQuestionNumber, currentAnswer, score } =
-    useSelector((state) => state.quiz);
+  const {
+    quizPlayers,
+    currentQuestion,
+    currentQuestionNumber,
+    currentAnswer,
+    score,
+  } = useSelector((state) => state.quiz);
+  const { waitTillNextQuestion } = useSelector(
+    (state) => state.game.gameOptions
+  );
 
   const [open, setOpen] = useState(false);
   const [timeFinished, setTimeFinished] = useState(false);
 
   const [gameFinished, setGameFinished] = useState(false);
 
-  const [answers, setAnswers] = useState(currentQuestion.answers || []);
+  const [answers, setAnswers] = useState(currentQuestion?.answers || []);
   const [clicked, setClicked] = useState(false);
   const [helperOpen, setHelperOpen] = useState(false);
 
@@ -37,13 +45,18 @@ const GameRoomScreen = () => {
 
   const handleExitGame = () => {
     dispatch(resetState());
+    ws.socket.current.disconnect();
+    ws.socket.current.connect();
     navigate("/profile");
   };
 
   const handleTimeout = () => {
-    if (!currentAnswer) {
+    if (!clicked) {
       setTimeFinished(true);
       setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 4000);
     }
   };
 
@@ -62,18 +75,18 @@ const GameRoomScreen = () => {
     if (currentAnswer) {
       setTimeout(() => {
         handleOpen();
-      }, 1500);
+      }, 1000);
     } else {
-      setOpen(false);
+      setClicked(false);
+
       setTimeFinished(false);
       handleClose();
-      setAnswers(currentQuestion.answers);
+      setAnswers(currentQuestion?.answers);
     }
   }, [currentAnswer, currentQuestion]);
+
   useEffect(() => {
-    console.log(ws.socket.current);
     if (ws.socket.current) {
-      console.log(ws.socket.current.connected);
       ws.socket.current?.on("gameFinished", () => {
         setGameFinished(true);
       });
@@ -84,6 +97,44 @@ const GameRoomScreen = () => {
       setTimeout(() => navigate(`/endgamescreen`), 1500);
     }
   }, [gameFinished]);
+
+  if (waitTillNextQuestion) {
+    return (
+      <Box
+        sx={{
+          maxWidth: "400px",
+          m: "0 auto",
+
+          position: "relative",
+        }}
+      >
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          sx={{ m: 2, mb: 3, p: 1 }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: "center",
+            }}
+          >
+            Please wait till next question !
+          </Typography>
+        </Stack>
+        <div className=" w-55 container d-flex justify-content-center">
+          <lottie-player
+            src="https://assets4.lottiefiles.com/private_files/lf30_c7xcgjbt.json"
+            background="transparent"
+            speed="0.5"
+            loop
+            autoplay
+          ></lottie-player>
+        </div>
+      </Box>
+    );
+  }
+
   return (
     <>
       {currentQuestion && (
@@ -98,7 +149,13 @@ const GameRoomScreen = () => {
           >
             EXIT GAME
           </Button>
-          <Box sx={{ maxWidth: "400px", m: "0 auto", position: "relative" }}>
+          <Box
+            sx={{
+              maxWidth: { xs: "350px", sm: "400px", md: "500px" },
+              m: "0 auto",
+              position: "relative",
+            }}
+          >
             <Typography
               variant="h6"
               sx={{
@@ -117,6 +174,7 @@ const GameRoomScreen = () => {
                 moveToNextQuestion={moveToNextQuestion}
                 currentAnswer={currentAnswer}
                 handleTimeout={handleTimeout}
+                players={quizPlayers}
               />
             </Typography>
             <Typography
@@ -178,24 +236,26 @@ const GameRoomScreen = () => {
                 {answers?.length &&
                   answers.map((answer) => (
                     <Grid item xs={12} sm={6}>
-                      <Button
-                        variant="contained"
-                        size="large"
-                        //     disabled={clicked}
-                        sx={{
-                          minWidth: "150px",
-                          borderRadius: 10,
+                      <Stack justifyContent="center" alignItems="center">
+                        <Button
+                          variant="contained"
+                          size="large"
+                          //     disabled={clicked}
+                          sx={{
+                            minWidth: "150px",
+                            borderRadius: 10,
 
-                          backgroundColor: "secondary.main",
-                          "&:hover": {
-                            backgroundColor: "secondary.dark",
-                            // opacity: [0.9, 0.8, 0.7],
-                          },
-                        }}
-                        onClick={() => handleAnswer(answer.text)}
-                      >
-                        {answer.text}
-                      </Button>
+                            backgroundColor: "secondary.main",
+                            "&:hover": {
+                              backgroundColor: "secondary.dark",
+                              // opacity: [0.9, 0.8, 0.7],
+                            },
+                          }}
+                          onClick={() => handleAnswer(answer.text)}
+                        >
+                          {answer.text}
+                        </Button>
+                      </Stack>
                     </Grid>
                   ))}
               </Grid>

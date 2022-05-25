@@ -17,15 +17,15 @@ const TriviaLocation = () => {
       <Button
         variant="contained"
         color="success"
-        size="large"
-        sx={{ borderRadius: 10, mt: 5 }}
+        size="medium"
+        sx={{ borderRadius: 10, mt: 1 }}
         onClick={() => {
           navigate("/profile");
         }}
       >
         {t("go back")}
       </Button>
-      <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
+      <Box sx={{ maxWidth: "400px", m: "0 auto", mb: 4 }}>
         <Typography
           variant="h4"
           sx={{

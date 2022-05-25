@@ -10,10 +10,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import LeaderBoard from "../components/LeaderBoard";
+import ScoreResult from "../components/ScoreResult";
 import { resetState } from "../features/quiz/quizSlice";
 
 const EndGame = () => {
-  const { currentPlayersAnswers, score } = useSelector((state) => state.quiz);
+  const { quizPlayers, score } = useSelector((state) => state.quiz);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,32 +25,30 @@ const EndGame = () => {
 
   return (
     <>
-      <Box sx={{ m: "0 auto" }}>
-        <Typography
-          variant="h4"
-          sx={{
-            textAlign: "center",
-            mt: 2,
-            mb: 2,
-            fontWeight: "bold",
-            color: "##eeeeee",
-          }}
+      <Box
+        sx={{
+          m: "0 auto",
+          maxWidth: { xs: "350px", sm: "400px", md: "500px" },
+        }}
+      >
+        <ScoreResult score={score} />
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          sx={{ m: 2, mb: 3, borderRadius: 5, bgcolor: "#ab47bc", p: 1 }}
         >
-          Very good !
-        </Typography>
-        <Typography
-          variant="h5"
-          sx={{
-            textAlign: "center",
-            mt: 3,
-            mb: 3,
-            fontWeight: "bold",
-            color: "##eeeeee",
-          }}
-        >
-          Your score is {score}/10
-        </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: "center",
 
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            The WINNER is {quizPlayers[0].name} !
+          </Typography>
+        </Stack>
         <Stack
           direction="row"
           spacing={2}
@@ -67,7 +66,7 @@ const EndGame = () => {
             Go To Profile
           </Button>
         </Stack>
-        <LeaderBoard usersList={currentPlayersAnswers} />
+        <LeaderBoard usersList={quizPlayers} />
       </Box>
     </>
   );

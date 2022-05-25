@@ -15,9 +15,10 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "80%",
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "none",
+  borderRadius: "10px",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -63,7 +64,7 @@ const NearByModal = ({ open, handleClose }) => {
             </Typography>
             <Paper
               elevation={2}
-              sx={{ m: "0 auto", width: "90%", minHeight: "120px" }}
+              sx={{ m: "0 auto", width: "90%", minHeight: "120px", p: 2 }}
             >
               <Typography
                 id="transition-modal-title"
@@ -71,7 +72,8 @@ const NearByModal = ({ open, handleClose }) => {
                 component="p"
               >
                 {location.loaded
-                  ? `lat: ${location.coordinates.lat} , long: ${location.coordinates.lng}`
+                  ? `lat: ${location.coordinates.lat} ,
+                    long: ${location.coordinates.lng}`
                   : "Location not ready yet"}
                 {/* Your location is Nof Agalil */}
               </Typography>

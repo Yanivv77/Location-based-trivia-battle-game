@@ -51,7 +51,7 @@ const quizSlice = createSlice({
       );
     },
     updatePlayers(state, action) {
-      state.quizPlayers = action.payload;
+      state.quizPlayers = action.payload.sort((a, b) => b.score - a.score);
     },
     answerQuestion(state, action) {
       const currentQuestion = state.questions[state.currentQuestionIndex];
@@ -67,7 +67,6 @@ const quizSlice = createSlice({
       });
     },
     setQuestion(state, action) {
-      console.log(action.payload);
       if (state.currentQuestionNumber !== 10) {
         state.currentAnswer = null;
         state.currentPlayersAnswers = [];
@@ -83,10 +82,13 @@ const quizSlice = createSlice({
 
       state.playerAnswersData.push(action.payload);
 
-      state.score = action.payload.player.score;
+      state.score = action.payload.score;
     },
     setAllAnswers(state, action) {
       state.currentPlayersAnswers.push(action.payload);
+      state.currentPlayersAnswers = state.currentPlayersAnswers.sort(
+        (a, b) => b.score - a.score
+      );
       if (!state.allPlayersAnswersData[state.currentQuestionNumber - 1]) {
         state.allPlayersAnswersData[state.currentQuestionNumber - 1] = [];
       }

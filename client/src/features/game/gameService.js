@@ -7,11 +7,14 @@ import { v4 as uuid } from "uuid";
 const API_URL = "https://localhost:5000";
 
 // Create a new Game
-const createGame = async () => {
+const createGame = async (user) => {
+  console.log(user.name);
+  const host = { ...user, name: `${user.name} (host)` };
+  // user.name = `${user.name} (host)`;
   //   const response = await axios.post(API_URL, game);
   const newGame = {};
   newGame.id = uuid();
-  newGame.host = { id: uuid(), name: "Jakob(host)" };
+  newGame.host = host;
   newGame.gameId = uuid();
   newGame.questions = await quizService.getQuestions();
   newGame.currentQuestionNumber = 1;
