@@ -3,7 +3,7 @@ import express from "express";
 import {
   getAllQuestions,
   getSingleRandomQuestion,
-  getTenRandomQuestions,
+  getGameQuestions,
   addQuestion,
   deleteQuestion,
   deleteAllQuestion,
@@ -15,7 +15,7 @@ router.get("/", getAllQuestions);
 
 router.get("/randomQuestions/single", getSingleRandomQuestion);
 
-router.get("/randomQuestions/many", getTenRandomQuestions);
+router.get("/randomQuestions/:amount/:location", getGameQuestions);
 
 router.post("/", addQuestion);
 
