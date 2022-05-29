@@ -4,5 +4,6 @@
     "username": "Username",
     "email": "Email",
     "age": "Age",
-    "password": "Password"
+    "password": "Password",
+    "back": "Back"
 }

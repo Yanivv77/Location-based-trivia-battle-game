@@ -100,7 +100,7 @@ const Signup = () => {
               component={Link}
               to="/"
             >
-              back
+              {t("back")}
             </Button>
           </Box>
         </Paper>

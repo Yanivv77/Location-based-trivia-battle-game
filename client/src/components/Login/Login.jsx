@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { setUser } from '../../features/auth/authSlice'
 
 const Login = () => {
-  const { t } = useTranslation(['login'])
+  const { t } = useTranslation(['login']) 
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
