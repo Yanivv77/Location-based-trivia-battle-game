@@ -3,14 +3,30 @@
 import React, { createContext, useEffect, useRef } from 'react'
 import io from 'socket.io-client'
 // import { WS_BASE } from './config';
-import { useDispatch, useSelector } from 'react-redux'
 
-import { addPlayer, updatePlayers, removePlayer, setQuestion, setAnswer, setAllAnswers } from '../../features/quiz/quizSlice'
-import { finishGame, createGamePlayer, setGameToActive, setGameOptions, setWait, setTimer } from '../../features/game/gameSlice'
+import { useDispatch, useSelector } from "react-redux";
 
-const WebSocketContext = createContext(null)
+import {
+  addPlayer,
+  updatePlayers,
+  removePlayer,
+  setQuestion,
+  setAnswer,
+  setAllAnswers,
+} from "../../features/quiz/quizSlice";
+import {
+  finishGame,
+  createGamePlayer,
+  setGameToActive,
+  setWait,
+  setTimer,
+  setNumberOfQuestions,
+} from "../../features/game/gameSlice";
 
-export { WebSocketContext }
+const WebSocketContext = createContext(null);
+
+export { WebSocketContext };
+
 
 export default ({ children }) => {
   const { user } = useSelector((state) => state.auth)
@@ -112,17 +128,24 @@ export default ({ children }) => {
         dispatch(setAllAnswers(data))
       })
 
-      socket.current.on('gameStarted', (gameOptions) => {
-        console.log(gameOptions)
-        dispatch(setTimer(gameOptions.secondsPerQuestion))
-      })
+
+      socket.current.on("gameStarted", (gameOptions) => {
+        console.log(gameOptions);
+        //setNumberOfQuestions
+        dispatch(setTimer(gameOptions.secondsPerQuestion));
+        dispatch(setNumberOfQuestions(gameOptions.numberOfQuestions));
+      });
+
 
       socket.current.on('activeGame', (game) => {
         console.log('activeGame:', game)
         if (game.waitTillNextQuestion) {
-          dispatch(setWait(true))
-          dispatch(setGameToActive())
-          dispatch(setTimer(game.gameOptions.secondsPerQuestion))
+
+          dispatch(setWait(true));
+          dispatch(setGameToActive());
+          dispatch(setTimer(game.gameOptions.secondsPerQuestion));
+          dispatch(setNumberOfQuestions(game.gameOptions.numberOfQuestions));
+
         }
       })
 

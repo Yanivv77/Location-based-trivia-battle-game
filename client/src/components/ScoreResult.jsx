@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Typography, Stack } from "@mui/material";
 
 const ScoreResult = ({ score }) => {
   const [title, setTitle] = useState("");
+  const { numberOfQuestions } = useSelector((state) => state.game.gameOptions);
 
   useState(() => {
     if (score > 7) {
@@ -38,7 +40,8 @@ const ScoreResult = ({ score }) => {
         }}
       >
         Your score is{" "}
-        <span style={{ fontSize: "1.4rem", color: "red" }}>{score}</span> /10
+        <span style={{ fontSize: "1.4rem", color: "red" }}>{score}</span> /
+        {numberOfQuestions}
       </Typography>
     </Stack>
   );

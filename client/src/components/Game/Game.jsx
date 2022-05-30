@@ -18,6 +18,7 @@ const Game = () => {
     currentAnswer,
     score,
   } = useSelector((state) => state.quiz);
+  const { numberOfQuestions } = useSelector((state) => state.game.gameOptions);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("");
   const [timeFinished, setTimeFinished] = useState(false);
@@ -174,7 +175,7 @@ const Game = () => {
                   <span className={{ fontSize: "15px", color: "red" }}>
                     {currentQuestionNumber}
                   </span>
-                  /10
+                  /{numberOfQuestions}
                 </Typography>
                 <Typography
                   variant="h6"
