@@ -1,16 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
-import Input from "../Input";
+
 import { Button, TextField, Stack, Grid, Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { WebSocketContext } from "../Websocket/WebSocket";
 import Copy from "../Copy";
-import {
-  initGame,
-  loadGame,
-  addInvitedPlayer,
-} from "../../features/game/gameSlice";
-
-import MultipleUsersSelect from "../MultipleUsersSelect";
+import { loadGame, addInvitedPlayer } from "../../features/game/gameSlice";
 
 const MultiUsers = () => {
   const [invited, setInvited] = useState({ name: "", email: "" });
@@ -175,8 +169,8 @@ const MultiUsers = () => {
               You can copy a link to invite players :{" "}
             </Typography>
             <Copy
-              joinGameId={`http://localhost:3000/waitingroom/${game.gameId}`}
-              // joinGameId={`https://worldtrivia.herokuapp.com/waitingroom/${game.gameId}`}
+              // joinGameId={`http://localhost:3000/waitingroom/${game.gameId}`}
+              joinGameId={`https://worldtrivia.herokuapp.com/waitingroom/${game.gameId}`}
             />
           </Stack>
         )}
