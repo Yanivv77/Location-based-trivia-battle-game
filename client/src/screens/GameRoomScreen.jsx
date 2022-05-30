@@ -12,7 +12,6 @@ import Loading from "../components/Loading";
 import { WebSocketContext } from "../components/Websocket/WebSocket";
 
 const GameRoomScreen = () => {
-
   const {
     currentQuestion,
     currentQuestionNumber,
@@ -20,7 +19,8 @@ const GameRoomScreen = () => {
     score,
     quizPlayers,
   } = useSelector((state) => state.quiz);
-  const { waitTillNextQuestion } = useSelector(
+
+  const { waitTillNextQuestion, numberOfQuestions } = useSelector(
     (state) => state.game.gameOptions
   );
 
@@ -37,13 +37,11 @@ const GameRoomScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
 
   const handleExitGame = () => {
-
     dispatch(resetState());
     ws.socket.current.disconnect();
     ws.socket.current.connect();
@@ -57,7 +55,6 @@ const GameRoomScreen = () => {
       setTimeout(() => {
         setOpen(false);
       }, 4000);
-
     }
   };
 
@@ -75,7 +72,6 @@ const GameRoomScreen = () => {
   useEffect(() => {
     if (currentAnswer) {
       setTimeout(() => {
-
         handleOpen();
       }, 1000);
     } else {
@@ -91,19 +87,15 @@ const GameRoomScreen = () => {
   useEffect(() => {
     console.log(ws.socket.current);
     if (ws.socket.current) {
-
-   
       ws.socket.current?.on("gameFinished", () => {
         setGameFinished(true);
       });
-
     }
   }, [ws]);
   useEffect(() => {
     if (gameFinished) {
       setTimeout(() => navigate(`/endgamescreen`), 1500);
     }
-
   }, [gameFinished]);
 
   return (
@@ -120,7 +112,6 @@ const GameRoomScreen = () => {
               size="large"
               sx={{ borderRadius: 10, mt: 5 }}
               onClick={handleExitGame}
-
             >
               EXIT GAME
             </Button>
@@ -202,7 +193,7 @@ const GameRoomScreen = () => {
                         <span className={{ fontSize: "15px", color: "red" }}>
                           {currentQuestionNumber}
                         </span>
-                        /10
+                        /{numberOfQuestions}
                       </Typography>
                       <Typography
                         variant="h6"
@@ -253,7 +244,6 @@ const GameRoomScreen = () => {
                   setType={setType}
                 ></Helps>
               </Box>
-
             </Box>
             <BetweenQuestionsModal
               open={open}

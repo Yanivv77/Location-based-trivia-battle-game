@@ -1,37 +1,34 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { Grid, Button, Typography, Box, Paper, Stack } from '@mui/material'
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
 
-import { initGame } from '../../features/game/gameSlice'
+import { initGame } from "../../features/game/gameSlice";
 
-import LeaderBoard from '../LeaderBoard'
-import ScoreResult from '../ScoreResult'
-import { resetState } from '../../features/quiz/quizSlice'
+import LeaderBoard from "../LeaderBoard";
+import ScoreResult from "../ScoreResult";
+import { resetState } from "../../features/quiz/quizSlice";
 
 const EndGame = () => {
-  const { quizPlayers, score } = useSelector((state) => state.quiz)
+  const { quizPlayers, score } = useSelector((state) => state.quiz);
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleExitGame = () => {
-
     dispatch(resetState());
     navigate("/gamelobby");
   };
 
-
   const handleAgainButton = () => {
-    dispatch(resetState())
-    dispatch(initGame())
-  }
+    dispatch(resetState());
+    dispatch(initGame());
+  };
 
   return (
     <>
-      <Box sx={{ m: '0 auto' }}>
+      <Box sx={{ m: "0 auto" }}>
         <ScoreResult score={score} />
-
 
         <Stack
           justifyContent="center"
@@ -45,18 +42,15 @@ const EndGame = () => {
             p: 1,
           }}
         >
-
           <Typography
             variant="subtitle1"
             gutterBottom
             component="div"
             sx={{
-              textAlign: 'center',
-
+              textAlign: "center",
 
               fontWeight: "bold",
               color: "#6a1b9a",
-
             }}
           >
             The WINNER is{" "}
@@ -66,7 +60,6 @@ const EndGame = () => {
             !
           </Typography>
         </Stack>
-
 
         <Stack
           direction="row"
@@ -91,14 +84,13 @@ const EndGame = () => {
             sx={{ borderRadius: 10 }}
             onClick={handleExitGame}
           >
-
             Exit Game
           </Button>
         </Stack>
         <LeaderBoard usersList={quizPlayers} />
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default EndGame
+export default EndGame;
