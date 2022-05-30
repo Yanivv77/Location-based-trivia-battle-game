@@ -15,6 +15,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 
 import MenuItem from "@mui/material/MenuItem";
 
+
 const NavBar = (props) => {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -40,6 +41,7 @@ const NavBar = (props) => {
     handleClose();
     navigate("/admin");
   };
+
 
   return (
     <header>
@@ -80,7 +82,7 @@ const NavBar = (props) => {
                   ml: { xs: 1 },
                 }}
               >
-                Welcome {user.name}
+                {t("welcome")}  {user.name}
               </Typography>
               <Box>
                 <IconButton

@@ -1,10 +1,21 @@
 import express, { Request, Response } from "express";
 
-import { QuestionModel } from '../models/question';
-import { validate } from '../utils/validation';
+import { QuestionModel } from "../models/question";
+import { validate } from "../utils/validation";
 import "dotenv/config";
 
-const getRandomQuestions = async (numberOfRandomQuestions:number) => {
+const getRandomQuestions = async (
+  numberOfRandomQuestions: number,
+  location: string
+) => {
+  let randomQuestions = await QuestionModel.aggregate([
+    { $match: { "location.place": location } },
+    { $sample: { size: numberOfRandomQuestions } },
+  ]);
+  return randomQuestions;
+};
+
+const getRandomQuestions1 = async (numberOfRandomQuestions: number) => {
   let randomQuestions = await QuestionModel.aggregate([
     { $sample: { size: numberOfRandomQuestions } },
   ]);
@@ -17,13 +28,17 @@ const getAllQuestions = async (req: Request, res: Response) => {
 };
 
 const getSingleRandomQuestion = async (req: Request, res: Response) => {
-  return res.status(201).send(await getRandomQuestions(1));
+  let { location } = req.params;
+
+  return res.status(201).send(await getRandomQuestions(1, location));
 };
 
-const getTenRandomQuestions = async (req: Request, res: Response) => {
-  // number of questions in each game
-  const questions_per_game: any = process.env.QUESTIONS_PER_GAME;
-  return res.status(201).send(await getRandomQuestions(parseInt(questions_per_game)));
+const getGameQuestions = async (req: Request, res: Response) => {
+  let { amount,location} = req.params;
+
+  return res
+    .status(201)
+    .send(await getRandomQuestions(parseInt(amount), location));
 };
 
 const addQuestion = async (req: Request, res: Response) => {
@@ -50,7 +65,7 @@ const addQuestion = async (req: Request, res: Response) => {
     location,
     difficulty,
     question,
-    answers
+    answers,
   });
   let result = await newQuestion.save();
   return res.status(201).send(result);
@@ -69,7 +84,7 @@ const deleteAllQuestion = async (req: Request, res: Response) => {
 export {
   getAllQuestions,
   getSingleRandomQuestion,
-  getTenRandomQuestions,
+  getGameQuestions,
   addQuestion,
   deleteQuestion,
   deleteAllQuestion,

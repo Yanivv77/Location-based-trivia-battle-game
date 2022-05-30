@@ -59,7 +59,7 @@ const TriviaLocation = () => {
             threshold={0.1}
             rootMargin="20%"
           >
-            {t(" Hello Choose Trivia Question Location 😃")}
+            {t("hello choose trivia questions location")}
           </AnimatedText>
         </Typography>
         <Grid

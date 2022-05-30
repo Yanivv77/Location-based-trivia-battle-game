@@ -4,5 +4,6 @@
     "username": "שם משתמש",
     "email": "אימייל",
     "age": "גיל",
-    "password": "סיסמא"
+    "password": "סיסמא",
+    "back": "חזרה"
 }

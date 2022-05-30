@@ -1,8 +1,8 @@
 {
-    "to start the game please choose trivia location": "כדי להתחיל את המשחק אנא בחר מיקום ",
+    "hello choose trivia questions location": "שאלות מיקום בחר שלום 😃 טריוויה",
     "go back": "חזרה",
-    "near by location":"לפי מיקום",
-    "location on map":"מיקום על המפה",
-    "location from list":"מיקום מתוך רשימה"
-
+    "near by location": "לפי מיקום",
+    "location on map": "מיקום על המפה",
+    "location from list": "מיקום מתוך רשימה"
+    
 }

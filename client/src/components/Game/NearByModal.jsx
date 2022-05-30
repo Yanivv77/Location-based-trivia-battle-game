@@ -11,6 +11,7 @@ import { setGame } from "../../features/game/gameSlice";
 import useGeoLocation from "../../hooks/useGeoLocation";
 import Geocode from "react-geocode";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const style = {
   position: "absolute",
@@ -32,6 +33,8 @@ const style = {
 };
 
 const NearByModal = ({ open, handleClose }) => {
+  const { t } = useTranslation(["Game/NearByModal"]);
+
   const [city, setCity] = useState("");
 
   const dispatch = useDispatch();
@@ -87,7 +90,7 @@ const NearByModal = ({ open, handleClose }) => {
               component="h2"
               sx={{ textAlign: "center", mt: 2, mb: 3 }}
             >
-              Current Location
+              {t("current location")}
             </Typography>
 
             <Paper
@@ -109,7 +112,7 @@ const NearByModal = ({ open, handleClose }) => {
               sx={{ borderRadius: 5, mt: 5 }}
               onClick={handleNextButton}
             >
-              Next
+              {t("next")}
             </Button>
             <Button
               variant="contained"
@@ -118,7 +121,7 @@ const NearByModal = ({ open, handleClose }) => {
               sx={{ borderRadius: 5, mt: 5 }}
               onClick={handleClose}
             >
-              Go Back
+              {t("back")}
             </Button>
           </Box>
         </Fade>

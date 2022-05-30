@@ -1,21 +1,36 @@
-import Header from '../components/Shared/Header'
-import React, { useEffect } from 'react'
-import { Grid, Button } from '@mui/material'
-import { Link } from 'react-router-dom'
-import Confetti from 'react-confetti'
-import { useWindowSize } from '@react-hook/window-size'
+import Header from "../components/Shared/Header";
+import React, { useEffect } from "react";
+import { Grid, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import Confetti from "react-confetti";
+import { useWindowSize } from "@react-hook/window-size";
+import { useTranslation } from "react-i18next";
 
 function HomeScreen() {
-  const [width, height] = useWindowSize()
+  const { t } = useTranslation(["HomeScreen"]);
+
+  const [width, height] = useWindowSize();
   useEffect(() => {
-    document.body.style.overflow = 'hidden'
-  }, [])
+    document.body.style.overflow = "hidden";
+  }, []);
   return (
     <>
-      <Confetti width={width} height={height} numberOfPieces={120} opacity={0.5} />
+      <Confetti
+        width={width}
+        height={height}
+        numberOfPieces={120}
+        opacity={0.5}
+      />
       <Header />
       <div>
-        <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
+        <Grid
+          container
+          spacing={1}
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ width: "100%" }}
+        >
           <Grid item xs={12}>
             <Button
               variant="contained"
@@ -25,7 +40,7 @@ function HomeScreen() {
               component={Link}
               to="/login"
             >
-              Login to Play
+              {t("login to play")}
             </Button>
           </Grid>
           <Grid item xs={12}>
@@ -37,7 +52,7 @@ function HomeScreen() {
               component={Link}
               to="/signup"
             >
-              Create New User
+              {t("create new user")}
             </Button>
           </Grid>
         </Grid>
@@ -53,7 +68,7 @@ function HomeScreen() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default HomeScreen
+export default HomeScreen;

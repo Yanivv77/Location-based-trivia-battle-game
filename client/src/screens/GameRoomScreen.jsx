@@ -12,6 +12,7 @@ import Loading from "../components/Loading";
 import { WebSocketContext } from "../components/Websocket/WebSocket";
 
 const GameRoomScreen = () => {
+
   const {
     currentQuestion,
     currentQuestionNumber,
@@ -36,11 +37,13 @@ const GameRoomScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
 
   const handleExitGame = () => {
+
     dispatch(resetState());
     ws.socket.current.disconnect();
     ws.socket.current.connect();
@@ -54,6 +57,7 @@ const GameRoomScreen = () => {
       setTimeout(() => {
         setOpen(false);
       }, 4000);
+
     }
   };
 
@@ -71,6 +75,7 @@ const GameRoomScreen = () => {
   useEffect(() => {
     if (currentAnswer) {
       setTimeout(() => {
+
         handleOpen();
       }, 1000);
     } else {
@@ -82,19 +87,23 @@ const GameRoomScreen = () => {
       setAnswers(currentQuestion?.answers);
     }
   }, [currentAnswer, currentQuestion]);
+
   useEffect(() => {
     console.log(ws.socket.current);
     if (ws.socket.current) {
-      console.log(ws.socket.current.connected);
+
+   
       ws.socket.current?.on("gameFinished", () => {
         setGameFinished(true);
       });
+
     }
   }, [ws]);
   useEffect(() => {
     if (gameFinished) {
       setTimeout(() => navigate(`/endgamescreen`), 1500);
     }
+
   }, [gameFinished]);
 
   return (
@@ -111,6 +120,7 @@ const GameRoomScreen = () => {
               size="large"
               sx={{ borderRadius: 10, mt: 5 }}
               onClick={handleExitGame}
+
             >
               EXIT GAME
             </Button>
@@ -235,6 +245,7 @@ const GameRoomScreen = () => {
                       </Grid>
                     ))}
                 </Grid>
+
                 <Helps
                   answers={answers}
                   setAnswers={setAnswers}
@@ -242,6 +253,7 @@ const GameRoomScreen = () => {
                   setType={setType}
                 ></Helps>
               </Box>
+
             </Box>
             <BetweenQuestionsModal
               open={open}
