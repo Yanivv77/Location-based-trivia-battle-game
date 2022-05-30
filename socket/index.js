@@ -13,6 +13,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
+
     origin: "*",
   },
 });
@@ -49,8 +50,13 @@ io.on("connection", (socket) => {
       socketId: socket.id,
       score: 0,
 
+x
+      role: 'player ',
+    }
+
       role: "player",
     };
+
 
     let currentGame = GameManager.getGameByRoom(config.room);
     console.log(currentGame);
