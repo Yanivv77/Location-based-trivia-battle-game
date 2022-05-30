@@ -13,7 +13,10 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: ['https://worldtrivia.herokuapp.com ', 'https://triviasocket.herokuapp.com', 'http://localhost:3000'],
+    origin: ['https://worldtrivia.herokuapp.com', 'https://triviasocket.herokuapp.com/'],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['my-custom-header'],
+    credentials: true,
   },
 })
 const GameManager = new GM()
@@ -49,7 +52,7 @@ io.on('connection', (socket) => {
       socketId: socket.id,
       score: 0,
 
-      role: 'player',
+      role: 'player ',
     }
 
     let currentGame = GameManager.getGameByRoom(config.room)
