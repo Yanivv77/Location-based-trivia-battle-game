@@ -12,12 +12,14 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 import MenuItem from "@mui/material/MenuItem";
 import { useTranslation } from 'react-i18next';
 
-
 const NavBar = (props) => {
+ 
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
@@ -43,7 +45,6 @@ const NavBar = (props) => {
     handleClose();
     navigate("/admin");
   };
-
 
   return (
     <header>
@@ -84,7 +85,7 @@ const NavBar = (props) => {
                   ml: { xs: 1 },
                 }}
               >
-                {t("welcome")}  {user.name}
+                Welcome, {user.name}
               </Typography>
               <Box>
                 <IconButton

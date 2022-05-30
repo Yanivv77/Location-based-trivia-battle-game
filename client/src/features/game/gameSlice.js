@@ -18,6 +18,7 @@ export const createGame = createAsyncThunk(
       return await gameService.createGame({
         user: auth.user,
         invitedPlayers: game.gameOptions.invitedPlayers,
+        amount: game.gameOptions.numberOfQuestions,
       });
     } catch (error) {
       const message =
@@ -104,8 +105,8 @@ const gameState = createSlice({
     setTimer(state, action) {
       state.gameOptions.secondsPerQuestion = action.payload;
     },
-    setNumberOfQuestions(state, action){
-state.gameOptions.numberOfQuestions = action.payload;
+    setNumberOfQuestions(state, action) {
+      state.gameOptions.numberOfQuestions = action.payload;
     },
     setUpdatedTimer(state, action) {
       state.gameOptions.updatedSecondsPerQuestion = action.payload;
@@ -169,7 +170,7 @@ export const {
   setGameToActive,
   setUpdatedTimer,
   setWait,
-  setNumberOfQuestions
+  setNumberOfQuestions,
 } = gameState.actions;
 
 export default gameState.reducer;

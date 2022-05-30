@@ -3,12 +3,11 @@ import axios from "axios";
 //Base URL to Quiz Service
 const API_URL =
   "https://opentdb.com/api.php?amount=10&category=22&type=multiple";
-const API_TRIVIA_URL =
-  "http://localhost:5000/api/questions/randomQuestions/many";
+const API_TRIVIA_URL = "api/questions/randomQuestions";
 //?amount=${amount}&location=${location}
 // Fetch Questions
-const getQuestions = async (amount = 5, location = "tel-aviv") => {
-  const response = await axios.get(`${API_TRIVIA_URL}`);
+const getQuestions = async (amount = 5, location = "Tel Aviv") => {
+  const response = await axios.get(`${API_TRIVIA_URL}/${amount}/${location}`);
   console.log(response);
   // return response.data.results;
   const questions = addStatistics(response.data);
