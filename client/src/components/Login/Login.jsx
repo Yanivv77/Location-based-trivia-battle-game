@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { setUser } from '../../features/auth/authSlice'
 
 const Login = () => {
-  const { t } = useTranslation(['login']) 
+  const { t } = useTranslation(['login'])
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
@@ -19,7 +19,7 @@ const Login = () => {
   // const [user, setUser] = useState("");
 
   const { doRequest, errors } = useRequest({
-    url: 'http://localhost:5000/api/users/login',
+    url: 'https://worldtrivia.herokuapp.com/api/users/login',
     method: 'post',
     body: {
       email,
@@ -33,17 +33,20 @@ const Login = () => {
     event.preventDefault()
 
     const user = await doRequest()
-    user.name = user.username
-    console.log(user)
-    dispatch(setUser(user))
-    localStorage.setItem('user', JSON.stringify(user))
-    await delay(1000)
-    await navigate('/gamelobby')
+    if (user) {
+      user.name = user.username
+
+      console.log(user)
+      dispatch(setUser(user))
+      localStorage.setItem('user', JSON.stringify(user))
+      await delay(1000)
+      await navigate('/gamelobby')
+    }
   }
 
   const paperStyle = {
     padding: '30px 20px',
-    height: '76vh',
+
     width: 300,
     margin: '20px auto',
   }
@@ -55,9 +58,15 @@ const Login = () => {
     }
   })
 
+  useEffect(() => {
+    document.body.style.overflow = 'auto'
+  }, [])
+
   return (
     <>
       <Grid>
+        <br />
+        {errors}
         <Paper elevation={13} style={paperStyle}>
           <Grid align="center">
             <div className=" w-50 h-75 container d-flex justify-content-center width">
@@ -113,10 +122,7 @@ const Login = () => {
               width: '74vh',
               margin: '4',
             }}
-          >
-            <br />
-            {errors}
-          </div>
+          ></div>
         </div>
       </Grid>
     </>

@@ -14,7 +14,7 @@ const ExpertApplication = () => {
   const [application, setApplication] = useState('')
 
   const { doRequest, errors } = useRequest({
-    url: 'http://localhost:5000/api/users/signup',
+    url: 'https://worldtrivia.herokuapp.com/api/users/signup',
     method: 'post',
     body: {},
     onSuccess: () => navigate('/'),

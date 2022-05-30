@@ -1,4 +1,4 @@
-import React from 'react'
+import { React, useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useRequest from '../../hooks/use-request'
@@ -16,7 +16,7 @@ const Signup = () => {
   const [password, setPassword] = useState('')
   const [age, setAge] = useState('')
   const { doRequest, errors } = useRequest({
-    url: 'http://localhost:5000/api/users/signup',
+    url: 'https://worldtrivia.herokuapp.com/api/users/signup',
     method: 'post',
     body: {
       username,
@@ -33,90 +33,88 @@ const Signup = () => {
     await doRequest()
   }
 
-  const divStyle = {}
+  const divStyle = { overflow: 'scroll' }
   const paperStyle = {
     padding: '30px 20px',
-    height: '76vh',
+
     width: 300,
     margin: '20px auto',
+    overflow: 'scroll',
   }
   const headerStyle = { margin: 0 }
 
-  return (
-    <div style={divStyle}>
-      <Grid>
-        <Paper elevation={22} style={paperStyle}>
-          <Grid align="center">
-            <div className=" w-50 h-75 container d-flex justify-content-center width">
-              <lottie-player
-                src="https://assets10.lottiefiles.com/packages/lf20_ymbzgxgc.json"
-                background="transparent"
-                speed="1"
-                loop
-                autoplay
-              ></lottie-player>
-            </div>
-            <h2 style={headerStyle}>{t('sign up')}</h2>
-            <Typography variant="caption" gutterBottom>
-              {t('please fill this form to create an account')}
-            </Typography>
-          </Grid>
-          <form onSubmit={onSubmit}>
-            <TextField
-              fullWidth
-              label={t('username')}
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              label={t('email')}
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField fullWidth label={t('age')} placeholder="Enter your age" value={age} onChange={(e) => setAge(e.target.value)} />
-            <TextField
-              fullWidth
-              label={t('password')}
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-            />
+  useEffect(() => {
+    document.body.style.overflow = 'auto'
+  }, [])
 
-            <Button className="my-3" type="submit" variant="contained" color="primary">
-              {t('sign up')}
-            </Button>
-          </form>
-          <Box container spacing={5} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
-            <Button
-              className="my-7 mr-4"
-              variant="contained"
-              color="secondary"
-              size="medium"
-              sx={{ borderRadius: 10, mb: 0, p: 0 }}
-              component={Link}
-              to="/"
-            >
-              {t("back")}
-            </Button>
-          </Box>
-        </Paper>
-        <div className="d-flex justify-content-center">
-          <div
-            style={{
-              width: '80vh',
-              margin: '14',
-            }}
-          >
-            <br />
-            {errors}
+  return (
+    <Grid>
+      <br />
+      {errors}
+      <Paper elevation={22} style={paperStyle}>
+        <Grid align="center">
+          <div className=" w-50 h-75 container d-flex justify-content-center width">
+            <lottie-player
+              src="https://assets10.lottiefiles.com/packages/lf20_ymbzgxgc.json"
+              background="transparent"
+              speed="1"
+              loop
+              autoplay
+            ></lottie-player>
           </div>
+          <h2 style={headerStyle}>{t('sign up')}</h2>
+          <Typography variant="caption" gutterBottom>
+            {t('please fill this form to create an account')}
+          </Typography>
+        </Grid>
+        <form onSubmit={onSubmit}>
+          <TextField
+            fullWidth
+            label={t('username')}
+            placeholder="Enter your username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField fullWidth label={t('email')} placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <TextField fullWidth label={t('age')} placeholder="Enter your age" value={age} onChange={(e) => setAge(e.target.value)} />
+          <TextField
+            fullWidth
+            label={t('password')}
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+          />
+
+          <Button className="my-3" type="submit" variant="contained" color="primary">
+            {t('sign up')}
+          </Button>
+        </form>
+        <Box container spacing={5} direction="column" justifyContent="center" alignItems="center" sx={{ width: '100%' }}>
+          <Button
+            className="my-7 mr-4"
+            variant="contained"
+            color="secondary"
+            size="medium"
+            sx={{ borderRadius: 10, mb: 0, p: 0 }}
+            component={Link}
+            to="/"
+          >
+            {t('back')}
+          </Button>
+        </Box>
+      </Paper>
+      <div className="d-flex justify-content-center">
+        <div
+          style={{
+            width: '40vh',
+            margin: '14',
+          }}
+        >
+          <br />
         </div>
-      </Grid>
-    </div>
+      </div>
+    </Grid>
   )
 }
 
