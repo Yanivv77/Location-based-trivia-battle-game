@@ -28,6 +28,8 @@ const TriviaLocation = () => {
       </Button>
       <Box sx={{ maxWidth: "400px", m: "0 auto", mb: 4 }}>
         <Typography
+          component="div"
+          variant="h1"
           sx={{
             fontSize: 38,
             textAlign: "center",
@@ -36,7 +38,7 @@ const TriviaLocation = () => {
             fontWeight: "bold",
             fontFamily: "Helvetica Neue",
             color: "#000000",
-            variant: "h1",
+
             display: { xs: "block" },
           }}
         >

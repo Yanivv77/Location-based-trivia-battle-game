@@ -17,7 +17,7 @@ const EndGame = () => {
 
   const handleExitGame = () => {
     dispatch(resetState());
-    navigate("/profile");
+    navigate("/gamelobby");
   };
 
   const handleAgainButton = () => {
@@ -33,18 +33,31 @@ const EndGame = () => {
         <Stack
           justifyContent="center"
           alignItems="center"
-          sx={{ m: 2, mb: 3, borderRadius: 5, bgcolor: "#ab47bc", p: 1 }}
+          sx={{
+            m: 1,
+            mb: 3,
+            borderRadius: 5,
+            border: "3px solid green",
+            color: "",
+            p: 1,
+          }}
         >
           <Typography
-            variant="h6"
+            variant="subtitle1"
+            gutterBottom
+            component="div"
             sx={{
               textAlign: "center",
 
               fontWeight: "bold",
-              color: "white",
+              color: "#6a1b9a",
             }}
           >
-            The WINNER is {quizPlayers[0].name} !
+            The WINNER is{" "}
+            <span style={{ fontSize: "1.2rem", color: "#4a148c" }}>
+              {quizPlayers[0].name}
+            </span>{" "}
+            !
           </Typography>
         </Stack>
 
@@ -58,16 +71,16 @@ const EndGame = () => {
           <Button
             variant="contained"
             color="success"
-            size="large"
+            size="medium"
             sx={{ borderRadius: 10 }}
             onClick={handleAgainButton}
           >
-            Play Again !
+            Play Again
           </Button>
           <Button
             variant="contained"
             color="success"
-            size="large"
+            size="medium"
             sx={{ borderRadius: 10 }}
             onClick={handleExitGame}
           >

@@ -6,6 +6,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
   user: user ? user : null,
+  guestUser: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -60,6 +61,9 @@ export const authSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
+    setGuestUser(state, action) {
+      state.guestUser = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -97,5 +101,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { reset, setUser } = authSlice.actions;
+export const { reset, setUser, setGuestUser } = authSlice.actions;
 export default authSlice.reducer;

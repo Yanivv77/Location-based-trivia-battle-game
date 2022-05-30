@@ -1,41 +1,57 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { AppBar, Typography, IconButton, Menu, Box, Toolbar } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
-import AccountCircle from '@mui/icons-material/AccountCircle'
+import {
+  AppBar,
+  Typography,
+  IconButton,
+  Menu,
+  Box,
+  Toolbar,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
-import MenuItem from '@mui/material/MenuItem'
+import MenuItem from "@mui/material/MenuItem";
 
 const NavBar = (props) => {
-  const [auth, setAuth] = useState(true)
-  const [anchorEl, setAnchorEl] = useState(null)
-  const navigate = useNavigate()
+  const [auth, setAuth] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
-  const { user } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth);
 
   const handleClose = () => {
-    console.log('close')
-  }
-  const handleMenu = () => {
-    // props.setOpen(true);
-  }
-  useEffect(() => {
-    console.log(user)
-  }, [user])
+    setAnchorEl(null);
+  };
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleProfile = () => {
+    handleClose();
+    navigate("/profile");
+  };
+  const handleQuestions = () => {
+    handleClose();
+    navigate("/sugest");
+  };
+  const handleAdmin = () => {
+    handleClose();
+    navigate("/admin");
+  };
 
   return (
     <header>
-      <AppBar position="static" sx={{ backgroundColor: '#9C27B0' }}>
+      <AppBar position="static" sx={{ backgroundColor: "#9C27B0" }}>
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             aria-label="menu"
-            sx={{ color: '#f9fbe7' }}
+            sx={{ color: "#f9fbe7" }}
             onClick={() => {
-              props.setOpen(true)
+              props.setOpen(true);
             }}
           >
             <MenuIcon />
@@ -45,10 +61,10 @@ const NavBar = (props) => {
             component="div"
             sx={{
               flexGrow: 1,
-              color: '#f9fbe7',
-              textAlign: 'center',
-              fontSize: { xs: '15px', sm: '20px', md: '26px' },
-              fontWeight: 'bold',
+              color: "#f9fbe7",
+              textAlign: "center",
+              fontSize: { xs: "15px", sm: "20px", md: "26px" },
+              fontWeight: "bold",
               fontFamily: "'Stone Age', sans-serif",
             }}
           ></Typography>
@@ -58,9 +74,9 @@ const NavBar = (props) => {
                 variant="h6"
                 component="div"
                 sx={{
-                  textAlign: 'center',
-                  color: '#f9fbe7',
-                  fontSize: { xs: '10px', sm: '16px' },
+                  textAlign: "center",
+                  color: "#f9fbe7",
+                  fontSize: { xs: "10px", sm: "16px" },
                   ml: { xs: 1 },
                 }}
               >
@@ -81,19 +97,20 @@ const NavBar = (props) => {
                   id="menu-appbar"
                   anchorEl={anchorEl}
                   anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
+                    vertical: "top",
+                    horizontal: "right",
                   }}
                   keepMounted
                   transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
+                    vertical: "top",
+                    horizontal: "right",
                   }}
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                  <MenuItem onClick={handleQuestions}>Questions</MenuItem>
+                  <MenuItem onClick={handleAdmin}>Admin Dashboard</MenuItem>
                 </Menu>
               </Box>
             </>
@@ -101,7 +118,7 @@ const NavBar = (props) => {
         </Toolbar>
       </AppBar>
     </header>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;

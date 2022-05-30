@@ -11,7 +11,7 @@ export default function Timer({
 }) {
   const { secondsPerQuestion } = useSelector((state) => state.game.gameOptions);
   const [timer, setTimer] = useState(secondsPerQuestion || 30);
-
+  const [next, setNext] = useState(true);
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => prev - 1);
@@ -21,7 +21,7 @@ export default function Timer({
       clearInterval(interval);
     }
 
-    if (timer === 0) {
+    if (timer === 0 && next) {
       clearInterval(interval);
 
       setTimeout(() => {
@@ -31,6 +31,7 @@ export default function Timer({
       setTimeout(() => {
         console.log(" timeout next question");
         moveToNextQuestion();
+        setNext(false);
       }, 2000);
       // if (currentAnswer) {
       //   setTimeout(() => {
@@ -46,6 +47,7 @@ export default function Timer({
 
   useEffect(() => {
     setTimer(secondsPerQuestion || 30);
+    setNext(true);
   }, [currentQuestion]);
 
   return timer;

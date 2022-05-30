@@ -24,7 +24,10 @@ function LeaderBoardItem(props) {
               <div className="user">{index + 1})</div>
               {user.name}
               <div className="points">
-                {user.score} {t("pt")}
+                <span style={{ fontSize: "1.1rem", color: "red" }}>
+                  {user.score}
+                </span>{" "}
+                {t("pt")}
               </div>
             </div>
           );

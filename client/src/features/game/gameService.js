@@ -1,5 +1,5 @@
 import axios from "axios";
-import { game } from "../../data/data";
+
 import quizService from "../quiz/quizService";
 import { v4 as uuid } from "uuid";
 
@@ -7,8 +7,7 @@ import { v4 as uuid } from "uuid";
 const API_URL = "https://localhost:5000";
 
 // Create a new Game
-const createGame = async (user) => {
-  console.log(user.name);
+const createGame = async ({ user, invitedPlayers }) => {
   const host = { ...user, name: `${user.name} (host)` };
   // user.name = `${user.name} (host)`;
   //   const response = await axios.post(API_URL, game);
@@ -20,10 +19,12 @@ const createGame = async (user) => {
   newGame.currentQuestionNumber = 1;
   newGame.isActive = false;
   newGame.isFinished = false;
-  newGame.invitedPlayers = [
-    { id: 676767, name: "Yaniv", email: "yaniv@mail.com" },
-    { id: 676768, name: "Sharon", email: "sharon@mail.com" },
-  ];
+  newGame.invitedPlayers = invitedPlayers?.length
+    ? invitedPlayers
+    : [
+        { id: uuid(), name: "Yaniv", email: "yaniv@mail.com" },
+        { id: uuid(), name: "Sharon", email: "sharon@mail.com" },
+      ];
   return newGame;
 };
 

@@ -14,8 +14,8 @@ function LeaderBoard({ usersList }) {
           textAlign: "center",
         }}
       >
-        <h1>{t("leader board")}</h1>
-        <br />
+        <h2>{t("leader board")}</h2>
+
         <LeaderBoardItem usersList={usersList}></LeaderBoardItem>
       </div>
     </div>
