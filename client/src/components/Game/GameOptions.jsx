@@ -72,8 +72,7 @@ const GameOptions = () => {
                       color: "##eeeeee",
                     }}
                   >
-                    {secondsPerQuestion}
-                    {t(" seconds per question")}
+                    {t("seconds per question")} {secondsPerQuestion}
                   </Typography>
                   <Slider
                     value={secondsPerQuestion}
@@ -99,7 +98,7 @@ const GameOptions = () => {
                       color: "##eeeeee",
                     }}
                   >
-                    {numberOfQuestions} {t("questions")}
+                  {t("questions")}  {numberOfQuestions}
                   </Typography>
                   <Slider
                     value={numberOfQuestions}
