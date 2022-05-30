@@ -9,6 +9,7 @@ import {
   setTimer,
   setNumberOfQuestions,
 } from "../../features/game/gameSlice";
+import { useTranslation } from "react-i18next";
 
 const GameOptions = () => {
   const { secondsPerQuestion, numberOfQuestions } = useSelector(
@@ -16,6 +17,7 @@ const GameOptions = () => {
   );
   const [multi, setMulti] = useState(false);
   const [value, setValue] = useState(secondsPerQuestion || 30);
+  const { t } = useTranslation(["Game/GameOptions"]);
 
   const dispatch = useDispatch();
 
@@ -44,7 +46,7 @@ const GameOptions = () => {
               color: "##eeeeee",
             }}
           >
-            Choose Game Options
+            {t("choose game options")}
           </Typography>
 
           <Box sx={{ maxWidth: "400px", m: "0 auto" }}>
@@ -70,7 +72,8 @@ const GameOptions = () => {
                       color: "##eeeeee",
                     }}
                   >
-                    {secondsPerQuestion} Seconds Per Question
+                    {secondsPerQuestion}
+                    {t(" seconds per question")}
                   </Typography>
                   <Slider
                     value={secondsPerQuestion}
@@ -96,7 +99,7 @@ const GameOptions = () => {
                       color: "##eeeeee",
                     }}
                   >
-                    {numberOfQuestions} Questions
+                    {numberOfQuestions} {t("questions")}
                   </Typography>
                   <Slider
                     value={numberOfQuestions}
@@ -122,7 +125,7 @@ const GameOptions = () => {
                       dispatch(initGame());
                     }}
                   >
-                    Go Back
+                    {t("go back")}
                   </Button>
                   <Button
                     variant="contained"
@@ -135,7 +138,7 @@ const GameOptions = () => {
                       setMulti(true);
                     }}
                   >
-                    Continue
+                    {t("continue")}
                   </Button>
                 </Stack>
               </Grid>
