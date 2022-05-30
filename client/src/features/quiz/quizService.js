@@ -3,7 +3,7 @@ import axios from "axios";
 //Base URL to Quiz Service
 const API_URL =
   "https://opentdb.com/api.php?amount=10&category=22&type=multiple";
-const API_TRIVIA_URL = "http://localhost:5000/api/questions/randomQuestions";
+const API_TRIVIA_URL = "/api/questions/randomQuestions";
 // const API_TRIVIA_URL = "api/questions/randomQuestions";
 //?amount=${amount}&location=${location}
 // Fetch Questions
