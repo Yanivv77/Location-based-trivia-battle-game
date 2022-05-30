@@ -84,7 +84,7 @@ const NavBar = (props) => {
                   ml: { xs: 1 },
                 }}
               >
-                Welcome, {user.name}
+                {t("welcome")}  {user.name}
               </Typography>
               <Box>
                 <IconButton
