@@ -14,12 +14,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 import MenuItem from "@mui/material/MenuItem";
+import { useTranslation } from 'react-i18next';
 
 
 const NavBar = (props) => {
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
+  const { t } = useTranslation(['NavBar']) 
 
   const { user } = useSelector((state) => state.auth);
 
