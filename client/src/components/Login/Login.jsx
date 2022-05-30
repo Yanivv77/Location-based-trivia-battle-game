@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { setUser } from '../../features/auth/authSlice'
 
 const Login = () => {
-  const { t } = useTranslation(['login']) 
+  const { t } = useTranslation(['login'])
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
@@ -19,7 +19,7 @@ const Login = () => {
   // const [user, setUser] = useState("");
 
   const { doRequest, errors } = useRequest({
-    url: 'http://localhost:5000/api/users/login',
+    url: 'https://worldtrivia.herokuapp.com/api/users/login',
     method: 'post',
     body: {
       email,

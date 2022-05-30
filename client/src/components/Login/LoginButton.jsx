@@ -42,7 +42,7 @@ export default function LoginButton() {
     localStorage.setItem('user', JSON.stringify(user))
     axios({
       method: 'POST',
-      url: 'http://localhost:5000/api/users/googlelogin',
+      url: 'https://worldtrivia.herokuapp.com/api/users/googlelogin',
       data: { tokenId: response.clientId },
     }).then((response) => {
       console.log(response)

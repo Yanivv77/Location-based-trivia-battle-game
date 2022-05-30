@@ -16,7 +16,7 @@ const Signup = () => {
   const [password, setPassword] = useState('')
   const [age, setAge] = useState('')
   const { doRequest, errors } = useRequest({
-    url: 'http://localhost:5000/api/users/signup',
+    url: 'https://worldtrivia.herokuapp.com/api/users/signup',
     method: 'post',
     body: {
       username,
@@ -100,7 +100,7 @@ const Signup = () => {
               component={Link}
               to="/"
             >
-              {t("back")}
+              {t('back')}
             </Button>
           </Box>
         </Paper>
