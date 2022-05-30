@@ -8,13 +8,12 @@ const { isValidString } = require("./utils/validate");
 
 const port = process.env.PORT || 7001;
 const app = express();
-
+app.use(cors());
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  allowRequest: (req, callback) => {
-    const noOriginHeader = req.headers.origin === undefined;
-    callback(null, noOriginHeader);
+  cors: {
+    origin: "*",
   },
 });
 const GameManager = new GM();
