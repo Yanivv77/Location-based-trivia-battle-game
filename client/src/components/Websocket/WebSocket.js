@@ -15,9 +15,9 @@ import {
   finishGame,
   createGamePlayer,
   setGameToActive,
-  setGameOptions,
   setWait,
   setTimer,
+  setNumberOfQuestions,
 } from "../../features/game/gameSlice";
 
 const WebSocketContext = createContext(null);
@@ -126,7 +126,9 @@ export default ({ children }) => {
 
       socket.current.on("gameStarted", (gameOptions) => {
         console.log(gameOptions);
+        //setNumberOfQuestions
         dispatch(setTimer(gameOptions.secondsPerQuestion));
+        dispatch(setNumberOfQuestions(gameOptions.numberOfQuestions));
       });
 
       socket.current.on("activeGame", (game) => {
@@ -135,6 +137,7 @@ export default ({ children }) => {
           dispatch(setWait(true));
           dispatch(setGameToActive());
           dispatch(setTimer(game.gameOptions.secondsPerQuestion));
+          dispatch(setNumberOfQuestions(game.gameOptions.numberOfQuestions));
         }
       });
 
