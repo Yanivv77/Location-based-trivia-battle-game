@@ -56,8 +56,8 @@ const MultiUsers = () => {
             <h6> Send invitation link to friends and family to play with</h6>
             <Grid
               container
-              justifyContent="center"
-              alignItems="center"
+              // justifyContent="center"
+              // alignItems="center"
               spacing={2}
               sx={{ mt: 1 }}
             >
@@ -85,15 +85,21 @@ const MultiUsers = () => {
                   />
                 </Stack>
               </Grid>
-              <Grid item xs={4}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  onClick={handleSend}
+              <Grid item xs={4} justifyContent="center" alignItems="center">
+                <Stack
+                  sx={{ width: "100%", height: "100%" }}
+                  justifyContent="center"
+                  alignItems="center"
                 >
-                  Send
-                </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={handleSend}
+                  >
+                    Send
+                  </Button>
+                </Stack>
               </Grid>
             </Grid>
           </div>
@@ -163,24 +169,27 @@ const MultiUsers = () => {
           <Stack
             justifyContent="center"
             alignItems="center"
-            sx={{ mt: 1, mb: 4 }}
+            sx={{ mt: 2, mb: 4 }}
           >
-            <h6>You can copy a link to invite players : </h6>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              You can copy a link to invite players :{" "}
+            </Typography>
             <Copy
-              joinGameId={`https://worldtrivia.herokuapp.com/waitingroom/${game.gameId}`}
+              joinGameId={`http://localhost:3000/waitingroom/${game.gameId}`}
+              // joinGameId={`https://worldtrivia.herokuapp.com/waitingroom/${game.gameId}`}
             />
           </Stack>
         )}
         <div
           className="options-buttons"
-          style={{ margin: "auto", width: "50%" }}
+          style={{ margin: "auto", width: "90%" }}
         >
           <Button
             variant="contained"
             color="primary"
             size="small"
             style={{
-              width: "70%",
+              width: "60%",
               display: "block",
               margin: "auto",
               marginBottom: "20px",
@@ -195,7 +204,7 @@ const MultiUsers = () => {
             color="primary"
             size="small"
             style={{
-              width: "70%",
+              width: "60%",
               display: "block",
               margin: "auto",
               marginBottom: "10px",

@@ -4,14 +4,16 @@ import { Button, Grid, Avatar, Stack } from "@mui/material";
 import {
   changeHalfHelper,
   changeStatisticsHelper,
+  changeFollowHelper,
 } from "../features/game/gameSlice";
 
-function Helps({ answers, setAnswers, setOpen }) {
+function Helps({ answers, setAnswers, setOpen, setType }) {
   const dispatch = useDispatch();
   const helpOptions = useSelector((state) => state.game.helpers);
 
   const helpStatistics = () => {
     if (!helpOptions.isStatisticsUsed) {
+      setType("statistics");
       setOpen();
       dispatch(changeStatisticsHelper());
     }
@@ -29,7 +31,9 @@ function Helps({ answers, setAnswers, setOpen }) {
     }
   };
   const helpFollow = () => {
-    console.log("help follow");
+    setType("follow");
+    setOpen();
+    dispatch(changeFollowHelper());
   };
 
   return (
@@ -75,20 +79,22 @@ function Helps({ answers, setAnswers, setOpen }) {
           </Button>
         )}
 
-        <Button
-          onClick={() => helpFollow()}
-          sx={{ width: "20vh", fontSize: "0.8rem", bgcolor: "#ab47bc" }}
-          variant="contained"
-          color="secondary"
-          startIcon={
-            <Avatar
-              sx={{ width: 35, height: 35 }}
-              src={"https://cdn-icons-png.flaticon.com/512/1177/1177444.png"}
-            />
-          }
-        >
-          Follow
-        </Button>
+        {!helpOptions.isFollowUsed && (
+          <Button
+            onClick={() => helpFollow()}
+            sx={{ width: "20vh", fontSize: "0.8rem", bgcolor: "#ab47bc" }}
+            variant="contained"
+            color="secondary"
+            startIcon={
+              <Avatar
+                sx={{ width: 35, height: 35 }}
+                src={"https://cdn-icons-png.flaticon.com/512/1177/1177444.png"}
+              />
+            }
+          >
+            Follow
+          </Button>
+        )}
       </Stack>
     </>
   );

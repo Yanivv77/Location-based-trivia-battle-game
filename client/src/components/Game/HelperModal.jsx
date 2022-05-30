@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Chart from "../Chart";
+import Follow from "../Follow";
 
 import { useSelector } from "react-redux";
 
@@ -15,7 +16,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "70%",
+  width: "90%",
   bgcolor: "background.paper",
   filter: " opacity(85%)",
   border: "none",
@@ -30,12 +31,21 @@ const style = {
   p: 4,
 };
 
-const HelperModal = ({ open, handleClose, statisticAnswers }) => {
+const HelperModal = ({
+  open,
+  handleClose,
+  statisticAnswers,
+  type,
+  handleAnswer,
+}) => {
   useEffect(() => {
     if (open) {
-      setTimeout(() => handleClose(), 4000);
+      // setTimeout(() => handleClose(), 6000);
     }
   }, [open]);
+  useEffect(() => {
+    console.log(type);
+  }, [type]);
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -50,7 +60,11 @@ const HelperModal = ({ open, handleClose, statisticAnswers }) => {
     >
       <Fade in={open}>
         <Box sx={style}>
-          <Chart answers={statisticAnswers} />
+          {type === "statistics" ? (
+            <Chart answers={statisticAnswers} />
+          ) : type === "follow" ? (
+            <Follow handleAnswer={handleAnswer} handleClose={handleClose} />
+          ) : null}
         </Box>
       </Fade>
     </Modal>

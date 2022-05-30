@@ -3,12 +3,8 @@ import { Grid, Button, Typography, Box, Paper, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { WebSocketContext } from "../Websocket/WebSocket";
-import { finishGame } from "../../features/game/gameSlice";
-import {
-  answerQuestion,
-  nextQuestion,
-  resetState,
-} from "../../features/quiz/quizSlice";
+
+import { resetState } from "../../features/quiz/quizSlice";
 import BetweenQuestionsModal from "../Game/BetweenQuestionsModal";
 import HelperModal from "../Game/HelperModal";
 import Timer from "../Timer";
@@ -23,6 +19,7 @@ const Game = () => {
     score,
   } = useSelector((state) => state.quiz);
   const [open, setOpen] = useState(false);
+  const [type, setType] = useState("");
   const [timeFinished, setTimeFinished] = useState(false);
   const [answers, setAnswers] = useState(currentQuestion?.answers || []);
   const [clicked, setClicked] = useState(false);
@@ -40,10 +37,11 @@ const Game = () => {
     dispatch(resetState());
     ws.socket.current.disconnect();
     ws.socket.current.connect();
-    navigate("/profile");
+    navigate("/gamelobby");
   };
 
   const moveToNextQuestion = () => {
+    console.log("moveToNextQuestion");
     ws.nextQuestion();
   };
 
@@ -98,41 +96,55 @@ const Game = () => {
           position: "relative",
         }}
       >
-        <Typography
-          variant="h6"
+        <Box
           sx={{
             textAlign: "center",
+            width: "35px",
+            height: "35px",
 
             fontWeight: "bold",
-            color: "##eeeeee",
+            borderRadius: "50%",
+            border: "2px solid #7b1fa2",
+
+            color: "#7b1fa2",
             position: "absolute",
-            top: 0,
+            top: -5,
             right: 10,
           }}
         >
-          Time left :{" "}
-          <Timer
-            currentQuestion={currentQuestionNumber}
-            moveToNextQuestion={moveToNextQuestion}
-            currentAnswer={currentAnswer}
-            handleTimeout={handleTimeout}
-            clicked={clicked}
-            players={quizPlayers}
-          />
-        </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: "center",
+
+              fontWeight: "bold",
+              color: "#6a1b9a",
+            }}
+          >
+            <Timer
+              currentQuestion={currentQuestionNumber}
+              moveToNextQuestion={moveToNextQuestion}
+              currentAnswer={currentAnswer}
+              handleTimeout={handleTimeout}
+              clicked={clicked}
+              players={quizPlayers}
+            />
+          </Typography>
+        </Box>
         <Typography
           variant="h6"
+          component="div"
           sx={{
             textAlign: "center",
 
             fontWeight: "bold",
-            color: "##eeeeee",
+            color: "#7b1fa2",
             position: "absolute",
-            top: 0,
+            top: -2,
             left: 0,
           }}
         >
-          Score : {score}
+          Score : <span style={{ color: "#6a1b9a " }}> {score}</span>
         </Typography>
         <Box>
           <Grid container spacing={1} sx={{ width: "100%", mt: 3 }}>
@@ -178,8 +190,8 @@ const Game = () => {
               </Paper>
             </Grid>
             {answers.length &&
-              answers.map((answer) => (
-                <Grid item xs={12} sm={6}>
+              answers.map((answer, i) => (
+                <Grid item xs={12} sm={6} key={i + 1}>
                   <Stack justifyContent="center" alignItems="center">
                     <Button
                       variant="contained"
@@ -209,6 +221,7 @@ const Game = () => {
             answers={answers}
             setAnswers={setAnswers}
             setOpen={() => setHelperOpen(true)}
+            setType={setType}
           ></Helps>
         </Box>
       </Box>
@@ -219,6 +232,8 @@ const Game = () => {
       />
       <HelperModal
         open={helperOpen}
+        type={type}
+        handleAnswer={handleAnswer}
         handleClose={() => setHelperOpen(false)}
         statisticAnswers={currentQuestion.statistics.perAnswer}
       />

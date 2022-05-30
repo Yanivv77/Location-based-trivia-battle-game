@@ -54,7 +54,7 @@ const NearByModal = ({ open, handleClose }) => {
       },
       (error) => {
         console.error(error);
-        setCity(error);
+        setCity(error.toString());
       }
     );
   };

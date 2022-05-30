@@ -14,11 +14,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 import MenuItem from "@mui/material/MenuItem";
-import { useTranslation } from "react-i18next";
+
 
 const NavBar = (props) => {
-  const { t } = useTranslation(["NavBar"]);
-
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
@@ -26,14 +24,24 @@ const NavBar = (props) => {
   const { user } = useSelector((state) => state.auth);
 
   const handleClose = () => {
-    console.log("close");
+    setAnchorEl(null);
   };
-  const handleMenu = () => {
-    // props.setOpen(true);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
   };
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const handleProfile = () => {
+    handleClose();
+    navigate("/profile");
+  };
+  const handleQuestions = () => {
+    handleClose();
+    navigate("/sugest");
+  };
+  const handleAdmin = () => {
+    handleClose();
+    navigate("/admin");
+  };
+
 
   return (
     <header>
@@ -102,8 +110,9 @@ const NavBar = (props) => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                  <MenuItem onClick={handleQuestions}>Questions</MenuItem>
+                  <MenuItem onClick={handleAdmin}>Admin Dashboard</MenuItem>
                 </Menu>
               </Box>
             </>

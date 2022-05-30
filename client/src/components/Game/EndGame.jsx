@@ -16,9 +16,11 @@ const EndGame = () => {
   const dispatch = useDispatch()
 
   const handleExitGame = () => {
-    dispatch(resetState())
-    navigate('/gamelobby')
-  }
+
+    dispatch(resetState());
+    navigate("/gamelobby");
+  };
+
 
   const handleAgainButton = () => {
     dispatch(resetState())
@@ -30,25 +32,66 @@ const EndGame = () => {
       <Box sx={{ m: '0 auto' }}>
         <ScoreResult score={score} />
 
-        <Stack justifyContent="center" alignItems="center" sx={{ m: 2, mb: 3, borderRadius: 5, bgcolor: '#ab47bc', p: 1 }}>
+
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            m: 1,
+            mb: 3,
+            borderRadius: 5,
+            border: "3px solid green",
+            color: "",
+            p: 1,
+          }}
+        >
+
           <Typography
-            variant="h6"
+            variant="subtitle1"
+            gutterBottom
+            component="div"
             sx={{
               textAlign: 'center',
 
-              fontWeight: 'bold',
-              color: 'white',
+
+              fontWeight: "bold",
+              color: "#6a1b9a",
+
             }}
           >
-            The WINNER is {quizPlayers[0].name} !
+            The WINNER is{" "}
+            <span style={{ fontSize: "1.2rem", color: "#4a148c" }}>
+              {quizPlayers[0].name}
+            </span>{" "}
+            !
           </Typography>
         </Stack>
 
-        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{ mb: 2 }}>
-          <Button variant="contained" color="success" size="large" sx={{ borderRadius: 10 }} onClick={handleAgainButton}>
-            Play Again !
+
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+          sx={{ mb: 2 }}
+        >
+          <Button
+            variant="contained"
+            color="success"
+            size="medium"
+            sx={{ borderRadius: 10 }}
+            onClick={handleAgainButton}
+          >
+            Play Again
           </Button>
-          <Button variant="contained" color="success" size="large" sx={{ borderRadius: 10 }} onClick={handleExitGame}>
+          <Button
+            variant="contained"
+            color="success"
+            size="medium"
+            sx={{ borderRadius: 10 }}
+            onClick={handleExitGame}
+          >
+
             Exit Game
           </Button>
         </Stack>

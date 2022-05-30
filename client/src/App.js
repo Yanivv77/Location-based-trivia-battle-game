@@ -14,6 +14,7 @@ import LoadingGameScreen from "./screens/LoadingGameScreen";
 import EndGame from "./screens/EndGame";
 import EndGameScreen from "./screens/EndGameScreen";
 import ExpertApplication from "./components/ExpertApplication";
+import SugestQuestion from "./screens/SugestQuestion";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/endGame" element={<EndGame />} />
             <Route path="/endGamescreen" element={<EndGameScreen />} />
             <Route path="/ExpertApplication" element={<ExpertApplication />} />
+            <Route path="/sugest" element={<SugestQuestion />} />
           </Routes>
         </div>
       </Router>

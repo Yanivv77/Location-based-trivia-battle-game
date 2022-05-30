@@ -20,7 +20,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "70%",
+  width: "80%",
   bgcolor: "#f0f4c3",
   filter: " opacity(95%)",
   border: "none",
@@ -80,20 +80,8 @@ const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
                     marginBottom: "40px",
                   }}
                 >
-                  <h1>Sorry the time is up!</h1>
+                  <h2>Sorry the time is up!</h2>
                 </div>
-
-                {/* <div
-                className="random-fact"
-                style={{
-                  backgroundColor: "white",
-                  width: "50%",
-                  margin: "auto",
-                  textAlign: "center",
-                }}
-              >
-                {currentAnswer?.correctAnswer.text}
-              </div> */}
               </div>
             ) : (
               <>
@@ -111,18 +99,18 @@ const BetweenQuestionsModal = ({ open, handleClose, timeFinished }) => {
                     }}
                   >
                     {currentAnswer && currentAnswer.isCorrect ? (
-                      <h3>Verry Good !</h3>
+                      <h4 style={{ color: "green" }}>Verry Good !</h4>
                     ) : (
-                      <h3>Oops! Not realy </h3>
+                      <h4 style={{ color: "red" }}>Oops! Not realy </h4>
                     )}
-                    <h2 style={{ marginTop: "1opx" }}>The right answer is:</h2>
+                    <h2 style={{ marginTop: "10px" }}>The right answer is:</h2>
                   </div>
 
                   <div
                     className="random-fact"
                     style={{
                       backgroundColor: "white",
-                      width: "50%",
+                      width: "80%",
                       margin: "auto",
                       textAlign: "center",
                     }}

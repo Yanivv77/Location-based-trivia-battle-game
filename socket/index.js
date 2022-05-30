@@ -183,6 +183,7 @@ io.on("connection", (socket) => {
         score: player.score,
         question,
         isCorrect,
+        answer,
       });
       io.to(player.roomId).emit("otherAnswersResult", {
         name: player.name,
@@ -190,6 +191,7 @@ io.on("connection", (socket) => {
         score: player.score,
         question,
         isCorrect,
+        answer,
       });
 
       let waiting = GameManager.getWaiting(player.roomId);

@@ -1,13 +1,9 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { Grid, Button, Typography, Box, Paper, Stack } from '@mui/material'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
+
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Button, Typography, Box, Paper, Stack } from "@mui/material";
+
 
 import LeaderBoard from '../components/LeaderBoard'
 import ScoreResult from '../components/ScoreResult'
@@ -19,9 +15,11 @@ const EndGame = () => {
   const dispatch = useDispatch()
 
   const handleButtonClick = () => {
+
     dispatch(resetState())
     navigate('/gamelobby')
   }
+
 
   return (
     <>
@@ -32,17 +30,38 @@ const EndGame = () => {
         }}
       >
         <ScoreResult score={score} />
-        <Stack justifyContent="center" alignItems="center" sx={{ m: 2, mb: 3, borderRadius: 5, bgcolor: '#ab47bc', p: 1 }}>
+
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            m: 1,
+            mb: 3,
+            borderRadius: 5,
+            border: "3px solid green",
+            color: "",
+            p: 1,
+          }}
+        >
+
           <Typography
-            variant="h6"
+            variant="subtitle1"
+            gutterBottom
+            component="div"
             sx={{
               textAlign: 'center',
 
-              fontWeight: 'bold',
-              color: 'white',
+
+              fontWeight: "bold",
+              color: "#6a1b9a",
+
             }}
           >
-            The WINNER is {quizPlayers[0].name} !
+            The WINNER is{" "}
+            <span style={{ fontSize: "1.2rem", color: "#4a148c" }}>
+              {quizPlayers[0].name}
+            </span>{" "}
+            !
           </Typography>
         </Stack>
         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{ mb: 2 }}>

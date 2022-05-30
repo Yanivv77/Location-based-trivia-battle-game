@@ -23,6 +23,9 @@ function ProfileScreen() {
   const handleStartGame = () => {
     navigate("/gamelobby");
   };
+  const handleSugest = () => {
+    navigate("/sugest");
+  };
 
   useEffect(() => {
     if (isError) {
@@ -65,7 +68,7 @@ function ProfileScreen() {
               {t("start new game")}
             </Button>
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Button
               variant="contained"
               color="success"
@@ -84,12 +87,13 @@ function ProfileScreen() {
             >
               {t("suggest a fact")}
             </Button>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             <Button
               variant="contained"
               color="success"
               sx={{ borderRadius: 10, mt: 3 }}
+              onClick={handleSugest}
             >
               {t("suggest a question")}
             </Button>

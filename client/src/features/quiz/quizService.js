@@ -1,23 +1,19 @@
 import axios from "axios";
-import { questions } from "../../data/data";
 
 //Base URL to Quiz Service
 const API_URL =
   "https://opentdb.com/api.php?amount=10&category=22&type=multiple";
-
+const API_TRIVIA_URL =
+  "http://localhost:5000/api/questions/randomQuestions/many";
+//?amount=${amount}&location=${location}
 // Fetch Questions
-const getQuestions = async () => {
-  const response = await axios.get(API_URL);
-
+const getQuestions = async (amount = 5, location = "tel-aviv") => {
+  const response = await axios.get(`${API_TRIVIA_URL}`);
+  console.log(response);
   // return response.data.results;
-  const questions = changeQuestions(response.data.results);
-  console.log(questions);
+  const questions = addStatistics(response.data);
 
   return questions;
-};
-
-const quizService = {
-  getQuestions,
 };
 
 const changeQuestions = (questions) => {
@@ -55,6 +51,42 @@ const changeQuestions = (questions) => {
     return question;
   });
   return newQuestions;
+};
+
+const randomInteger = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const addStatistics = (questions) => {
+  const newQuestions = questions.map((q) => {
+    const statistics = {
+      total: { " correctAnswers": 100, notCorrectAnswers: 30 },
+      perAnswer: [],
+    };
+    q.answers.forEach((ans) => {
+      if (ans.isCorrect) {
+        statistics.perAnswer.push({
+          text: ans.text,
+          count: randomInteger(25, 45),
+        });
+      } else {
+        statistics.perAnswer.push({
+          text: ans.text,
+          count: randomInteger(0, 12),
+        });
+      }
+    });
+    const question = {
+      ...q,
+      statistics,
+    };
+    return question;
+  });
+  return newQuestions;
+};
+
+const quizService = {
+  getQuestions,
 };
 
 export default quizService;

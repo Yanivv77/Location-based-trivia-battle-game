@@ -16,10 +16,11 @@ const ScoreResult = ({ score }) => {
   return (
     <Stack>
       <Typography
-        variant="h4"
+        variant="h5"
         sx={{
           textAlign: "center",
           mt: 2,
+          fontWeight: "bold",
 
           color: "##eeeeee",
         }}
@@ -27,7 +28,7 @@ const ScoreResult = ({ score }) => {
         {title}
       </Typography>
       <Typography
-        variant="h5"
+        variant="h6"
         sx={{
           textAlign: "center",
           mt: 1,
@@ -36,7 +37,8 @@ const ScoreResult = ({ score }) => {
           color: "##eeeeee",
         }}
       >
-        Your score is {score}/10
+        Your score is{" "}
+        <span style={{ fontSize: "1.4rem", color: "red" }}>{score}</span> /10
       </Typography>
     </Stack>
   );
