@@ -33,13 +33,12 @@ const Signup = () => {
     await doRequest()
   }
 
-  const divStyle = { overflow: 'scroll' }
+  const divStyle = {}
   const paperStyle = {
     padding: '30px 20px',
 
     width: 300,
     margin: '20px auto',
-    overflow: 'scroll',
   }
   const headerStyle = { margin: 0 }
 
