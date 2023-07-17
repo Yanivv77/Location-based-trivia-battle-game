@@ -13,8 +13,10 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-
-    origin: "*",
+    origin: "*", // Update the origin value according to your requirements
+    methods: ["GET", "POST"], // Add allowed HTTP methods
+    allowedHeaders: ["Authorization", "Content-Type"], // Add allowed headers
+    credentials: true, // Enable CORS credentials
   },
 });
 const GameManager = new GM();
