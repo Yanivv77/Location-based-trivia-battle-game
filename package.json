@@ -16,7 +16,7 @@
     "dev": "concurrently \"npm run backend\" \"npm run client\" \"npm run socket\"   ",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --legacy-peer-deps --prefix client && npm run build --prefix client",
     "test": "jest --watchAll --no-cache",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "jest": {
     "preset": "ts-jest",
